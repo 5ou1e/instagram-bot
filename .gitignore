@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pem
+.env
+venv/
+.idea/
+*static/
+*.log
+**/logs/
+migrations
+reverse
+data

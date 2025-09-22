@@ -1,0 +1,76 @@
+# ----------------- Uvicorn -----------------
+
+uvicorn src.api.main:app --reload
+uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
+
+uvicorn src.execution_service.api.main:app --host 127.0.0.1 --port 8001 --reload
+
+# ----------------- PIP -----------------
+
+pip freeze > requirements.txt
+
+
+# ----------------- Alembic -----------------
+
+alembic revision --autogenerate
+alembic upgrade head
+
+
+# ----------------- Линтеры -----------------
+
+autoflake --remove-all-unused-imports --in-place --recursive src/
+isort .
+black .
+
+# ----------------- Cli commands -----------------
+python manage.py tools cloc src
+python manage.py tools lint src
+python manage.py run consumer
+
+# ----------------- mitm -----------------
+mitmweb --listen-host 192.168.31.181 -p 8080
+mitmweb -w flows.dump
+
+mitmweb -w flows.dump --set view_filter='instagram\.com' --set save_stream_filter='instagram\.com'
+
+
+
+
+Фильтры
+~d instagram.com & !~d cdninstagram.com
+
+adb shell
+su
+pkill frida-server
+/data/local/tmp/frida-server &
+
+frida-ps -U
+
+
+frida -U -l .\frida_scripts\instagram-ssl-pinning-bypass-370plus-alt.js -f com.instagram.android
+
+
+# Если фрида отвалится - юзать вот это
+adb shell
+su
+pm uninstall com.google.android.art
+reboot
+
+
+
+mitmproxy2swagger -i flows -o spec.yml -p "https://i.instagram.com" -f flow
+mitmproxy2swagger -i flows -o spec.yml -p "https://i.instagram.com" -f flow --examples
+
+
+
+# ----------------- SQL -----------------
+
+UPDATE task SET work_state = 'IDLE';
+UPDATE task_account SET work_state = 'IDLE';
+
+
+SELECT state, COUNT(*)
+FROM pg_stat_activity
+WHERE datname = 'insta'
+GROUP BY state;
+
