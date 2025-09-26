@@ -24,10 +24,8 @@ from src.application.common.validators import (
 )
 from src.domain.account.entities.account import Account, AccountActionStatistics
 from src.domain.account.vallue_objects import Email
-from src.domain.android_device.entities import (
-    AndroidDevice,
-    AndroidDeviceInstagramAppData,
-)
+from src.domain.android_device_hardware.entities.android_device import AndroidDevice, \
+    AndroidDeviceInstagramAppData
 from src.domain.shared.interfaces.instagram.version import InstagramAppVersion
 from src.domain.shared.utils import (
     generate_android_id_from_guid,

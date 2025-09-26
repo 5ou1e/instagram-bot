@@ -10,24 +10,55 @@ from src.application.common.interfaces.working_group_reader import WorkingGroupR
 from src.domain.working_group.entities.config.working_group_config import (
     WorkingGroupConfig,
 )
-from src.domain.working_group.entities.worker.work_state import AccountWorkerWorkState
+from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
+from src.domain.working_group.entities.worker_task.base import AccountWorkerTask
 from src.domain.working_group.entities.working_group.entity import WorkingGroup
 from src.domain.working_group.entities.working_group.work_state import (
     WorkingGroupWorkState,
 )
+from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.infrastructure.database.repositories.models import AccountWorkerModel
+from src.infrastructure.database.repositories.models import AccountWorkerModel, \
+    AccountWorkerTaskModel
 from src.infrastructure.database.repositories.models.working_group import (
     WorkingGroupModel,
 )
-from src.infrastructure.database.repositories.working_group_worker import (
+from src.infrastructure.database.repositories.account_worker import (
     convert_account_worker_entity_to_model,
     convert_account_worker_model_to_entity,
 )
-from src.infrastructure.database.repositories.working_group_worker_task import (
-    convert_worker_task_entity_to_model,
-    convert_worker_task_model_to_entity,
-)
+
+
+def convert_worker_task_entity_to_model(
+        entity: AccountWorkerTask,
+) -> AccountWorkerTaskModel:
+    return AccountWorkerTaskModel(
+        id=entity.id,
+        type=entity.type,
+        name=entity.name,
+        enabled=entity.enabled,
+        index=entity.index,
+        config=entity.config,
+        working_group_id=entity.working_group_id,
+        created_at=entity.created_at,
+        updated_at=entity.updated_at,
+    )
+
+
+def convert_worker_task_model_to_entity(
+        model: AccountWorkerTaskModel,
+) -> AccountWorkerTask:
+    return AccountWorkerTask(
+        id=model.id,
+        type=model.type,
+        name=model.name,
+        enabled=model.enabled,
+        index=model.index,
+        config=model.config or {},
+        working_group_id=model.working_group_id,
+        created_at=model.created_at,
+        updated_at=model.updated_at,
+    )
 
 
 def convert_working_group_entity_to_model(entity: WorkingGroup) -> WorkingGroupModel:
@@ -97,7 +128,12 @@ class PostgresWorkingGroupRepository(WorkingGroupRepository):
         result = await self._session.execute(stmt)
         model = result.unique().scalar_one_or_none()
 
-        return convert_working_group_model_to_entity(model) if model else None
+        if not model:
+            raise WorkingGroupIdDoesNotExistError(
+                working_group_id=working_group_id
+            )
+
+        return convert_working_group_model_to_entity(model)
 
     async def get_by_name(self, name: str) -> WorkingGroup | None:
         stmt = select(WorkingGroupModel).where(WorkingGroupModel.name == name)
@@ -129,7 +165,12 @@ class PostgresWorkingGroupRepository(WorkingGroupRepository):
 
         model = result.scalars().unique().one_or_none()
 
-        return convert_working_group_model_to_entity(model) if model else None
+        if not model:
+            raise WorkingGroupIdDoesNotExistError(
+                working_group_id=working_group_id
+            )
+
+        return convert_working_group_model_to_entity(model)
 
     async def create(self, entity: WorkingGroup) -> WorkingGroup:
         model = convert_working_group_entity_to_model(entity)
@@ -162,8 +203,11 @@ class PostgresWorkingGroupReader(WorkingGroupReader):
 
         result = await self._session.execute(stmt)
         model = result.scalars().unique().one_or_none()
-        if model is None:
-            return None
+
+        if not model:
+            raise WorkingGroupIdDoesNotExistError(
+                working_group_id=working_group_id
+            )
 
         # Группировка по состояниям воркеров
         count_stmt = select(

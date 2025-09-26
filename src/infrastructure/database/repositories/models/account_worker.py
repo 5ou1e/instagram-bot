@@ -6,7 +6,7 @@ from sqlalchemy import Enum as SaEnum
 from sqlalchemy import ForeignKey, Index, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.domain.working_group.entities.worker.work_state import AccountWorkerWorkState
+from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
 from src.infrastructure.database.repositories.models.common import (
     Base,
     TimestampsMixin,

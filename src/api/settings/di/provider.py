@@ -72,23 +72,22 @@ from src.application.features.working_group.worker_task.update_worker_task impor
 from src.domain.shared.interfaces.uow import Uow
 from src.infrastructure.database.repositories.account import PostgresAccountRepository
 from src.infrastructure.database.repositories.android_device import (
-    PostgresAndroidDeviceHardwareRepository,
     PostgresAndroidDeviceRepository,
 )
+from src.infrastructure.database.repositories.android_device_hardware import \
+    PostgresAndroidDeviceHardwareRepository
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
-from src.infrastructure.database.repositories.log import PostgresLogRepository
+from src.infrastructure.database.repositories.account_worker_log import PostgresAccountWorkerLogRepository
 from src.infrastructure.database.repositories.proxy import PostgresProxyRepository
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,
 )
-from src.infrastructure.database.repositories.working_group_worker import (
+from src.infrastructure.database.repositories.account_worker import (
     PostgresAccountWorkerReader,
     PostgresAccountWorkerRepository,
 )
-from src.infrastructure.database.repositories.working_group_worker_task import (
-    PostgresAccountWorkerTaskRepository,
-)
+
 from src.infrastructure.database.uow import SQLAlchemyUoW
 
 
@@ -136,12 +135,12 @@ class AppProvider(Provider):
         WithParents[PostgresAndroidDeviceRepository],
         WithParents[PostgresAndroidDeviceHardwareRepository],
         WithParents[PostgresIMAPRepository],
-        WithParents[PostgresLogRepository],
+        WithParents[PostgresAccountWorkerLogRepository],
         WithParents[PostgresWorkingGroupRepository],
         WithParents[PostgresAccountWorkerRepository],
         WithParents[PostgresAccountWorkerReader],
         WithParents[PostgresWorkingGroupReader],
-        WithParents[PostgresAccountWorkerTaskRepository],
+
         scope=Scope.REQUEST,
     )
 

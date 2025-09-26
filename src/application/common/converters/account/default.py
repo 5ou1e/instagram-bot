@@ -20,7 +20,7 @@ def convert_account_string_to_entity_default(string: str):
 
 
 def convert_account_entity_to_string_default(entity: Account):
-    fields = ["username", "password", "email", "android_device", "proxy"]
+    fields = ["username", "password", "email"]
     account_dict = entity.to_dict()
 
     for field in account_dict.copy().keys():

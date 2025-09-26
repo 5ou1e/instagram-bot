@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from src.api.settings.config import Config, config
+from src.execution_service.settings.config import Config, config
 from src.domain.shared.interfaces.uow import Uow
 from src.execution_service.handlers.start_worker import StartWorkersCommandHandler
 from src.execution_service.handlers.stop_worker import StopWorkersCommandHandler

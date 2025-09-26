@@ -1,4 +1,4 @@
-from src.domain.account.entities.account_log import AccountWorkerLogType
+from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogType
 from src.domain.shared.interfaces.instagram.mobile_client.builder import (
     MobileInstagramClientBuilder,
 )

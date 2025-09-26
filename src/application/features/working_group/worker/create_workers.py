@@ -10,16 +10,15 @@ from src.application.features.working_group.worker.converters.worker_string_conv
 )
 from src.domain.account.entities.account import Account
 from src.domain.account.repositories.account import AccountRepository
-from src.domain.android_device.entities import AndroidDeviceHardware
-from src.domain.android_device.repository import (
+from src.domain.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
+from src.domain.android_device_hardware.repositories.android_device_hardware import (
     AndroidDeviceHardwareRepository,
-    AndroidDeviceRepository,
 )
+from src.domain.android_device_hardware.repositories.android_device import AndroidDeviceRepository
 from src.domain.proxy.entities import Proxy
 from src.domain.proxy.repository import ProxyRepository
 from src.domain.shared.interfaces.uow import Uow
-from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
-from src.domain.working_group.repositories.account_worker import AccountWorkerRepository
+from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
 
 logger = logging.getLogger(__name__)
@@ -56,12 +55,9 @@ class CreateWorkingGroupWorkersCommandHandler:
         account_worker_strings: list[str],
     ) -> CreateWorkingGroupWorkersCommandCommandResult:
         async with self._uow:
-            # 1. Проверяем существование группы
             working_group = await self._working_group_repository.get_by_id(
                 working_group_id
             )
-            if not working_group:
-                raise WorkingGroupIdDoesNotExistError(working_group_id=working_group_id)
 
             # 2. Парсим строки в DTO
             account_worker_dtos = [
@@ -69,7 +65,7 @@ class CreateWorkingGroupWorkersCommandHandler:
                 for s in account_worker_strings
             ]
 
-            # 3. Конвертируем DTO в сущности (dict с worker, account, proxy, android_device)
+            # 3. Конвертируем DTO в сущности (dict с worker, account, proxy, android_device_hardware)
             workers_data = [
                 convert_worker_create_dto_to_entity(
                     dto=dto, working_group_id=working_group_id
@@ -84,7 +80,7 @@ class CreateWorkingGroupWorkersCommandHandler:
         # Собираем вложенные объекты
         accounts = [w["account"] for w in workers_data]
         proxies = [w["proxy"] for w in workers_data if w["proxy"]]
-        devices = [w["android_device"] for w in workers_data if w["android_device"]]
+        devices = [w["android_device_hardware"] for w in workers_data if w["android_device_hardware"]]
         workers = [w["worker"] for w in workers_data]
 
         # 1. Proxies
@@ -128,8 +124,8 @@ class CreateWorkingGroupWorkersCommandHandler:
                         worker.proxy = proxy_map[worker.proxy.unique_key]
 
             # android device
-            if w_data["android_device"]:
-                worker.android_device = device_map.get(w_data["android_device"].id)
+            if w_data["android_device_hardware"]:
+                worker.android_device = device_map.get(w_data["android_device_hardware"].id)
 
         print(workers)
 

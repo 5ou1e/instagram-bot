@@ -204,7 +204,7 @@ async def start_workers(
     wg_id: UUID,
     worker_ids: list[UUID] = Body(embed=True),
 ) -> ApiResponse:
-    SERVICE_URL = "http://127.0.0.1:8001/executions/start_workers"
+    SERVICE_URL = "http://localhost:8001/executions/start_workers"
 
     data = {"worker_ids": [str(w_id) for w_id in worker_ids]}
 
@@ -293,12 +293,12 @@ async def create_working_group_account_worker_task(
 async def delete_working_group_account_worker_task(
     handler: FromDishka[DeleteWorkingGroupWorkerTaskCommandHandler],
     wg_id: UUID,
-    subtask_id: UUID,
+    task_id: UUID,
 ) -> ApiResponse:
     result = await handler(
         command=DeleteWorkingGroupWorkerTaskCommand(
             working_group_id=wg_id,
-            subtask_id=subtask_id,
+            task_id=task_id,
         ),
     )
     return ApiResponse(result=result)

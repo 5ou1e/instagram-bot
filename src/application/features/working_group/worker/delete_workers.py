@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from src.domain.shared.interfaces.uow import Uow
-from src.domain.working_group.repositories.account_worker import AccountWorkerRepository
+from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
 
 DeleteWorkingGroupWorkersCommandResult = type(None)

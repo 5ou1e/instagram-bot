@@ -6,7 +6,7 @@ from src.application.common.converters.android_device_hardware import (
     android_device_hardware_from_user_agent_string,
 )
 from src.application.common.exceptions import IncorrectAndroidUserAgentString
-from src.domain.android_device.repository import AndroidDeviceHardwareRepository
+from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

@@ -6,11 +6,9 @@ from uuid import UUID
 from mashumaro import DataClassDictMixin
 
 from src.domain.account.vallue_objects import Email
-from src.domain.android_device.entities import AndroidDevice
-from src.domain.proxy.entities import Proxy
 from src.domain.shared.utils import current_datetime
-from src.domain.working_group.entities.worker.entity import AccountWorker
-from src.domain.working_group.entities.worker.work_state import AccountWorkerWorkState
+from src.domain.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
 
 AccountID = NewType("AccountID", UUID)
 
@@ -30,10 +28,6 @@ class Account(DataClassDictMixin):
     email: Email | None = None
     user_id: int | None = None
 
-    android_device: AndroidDevice | None = None
-
-    proxy: Proxy | None = None
-
     action_statistics: AccountActionStatistics = field(
         default_factory=AccountActionStatistics
     )
@@ -47,20 +41,14 @@ class Account(DataClassDictMixin):
     created_at: datetime | None = field(default_factory=current_datetime)
     updated_at: datetime | None = field(default_factory=current_datetime)
 
-    def set_user_id(self, user_id: int):
-        self.user_id = user_id
-
-    def set_android_device(self, device: AndroidDevice) -> None:
-        self.android_device = device
-
-    def set_email(self, email: Email) -> None:
-        self.email = email
-
     def set_password(self, password: str) -> None:
         self.password = password
 
-    def set_proxy(self, proxy: Proxy | None) -> None:
-        self.proxy = proxy
+    def set_user_id(self, user_id: int):
+        self.user_id = user_id
+
+    def set_email(self, email: Email) -> None:
+        self.email = email
 
     def may_delete(self) -> bool:
         if self.worker.work_state != AccountWorkerWorkState.IDLE:

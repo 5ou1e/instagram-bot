@@ -6,12 +6,12 @@ from uuid import UUID
 
 from uuid6 import uuid7
 
-from src.domain.account.entities.account_log import (
+from src.domain.account_worker.entities.account_worker_log import (
     AccountWorkerLog,
     AccountWorkerLogLevel,
     AccountWorkerLogType,
 )
-from src.domain.account.repositories.account_log import LogRepository
+from src.domain.account_worker.repositories.account_worker_log import AccountWorkerLogRepository
 from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory, Logger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.utils import current_datetime
@@ -29,7 +29,7 @@ class PostgresLogsWriter:
         self,
         uow: Uow,
         queue: asyncio.Queue,
-        repository: LogRepository,
+        repository: AccountWorkerLogRepository,
         interval: float = 1.0,
         batch_size: int | None = None,
     ):

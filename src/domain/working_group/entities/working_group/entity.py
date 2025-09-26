@@ -9,8 +9,8 @@ from src.domain.shared.exceptions import DomainError, InvalidStateTransitionErro
 from src.domain.working_group.entities.config.working_group_config import (
     WorkingGroupConfig,
 )
-from src.domain.working_group.entities.worker.entity import AccountWorker
-from src.domain.working_group.entities.worker.work_state import AccountWorkerWorkState
+from src.domain.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
 from src.domain.working_group.entities.worker_task.base import AccountWorkerTask
 from src.domain.working_group.entities.working_group.work_state import (
     WorkingGroupWorkState,
@@ -52,6 +52,10 @@ class WorkingGroup:
             working_group_id=self.id,
             task_id=task_id,
         )
+
+    def delete_worker_task(self, task_id: uuid.UUID):
+        task = self.get_account_worker_task_by_id(task_id)
+        self.worker_tasks.remove(task)
 
     def update_account_worker_task_name(self, task_id: uuid.UUID, name: str):
         task = self.get_account_worker_task_by_id(task_id)

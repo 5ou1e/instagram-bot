@@ -2,7 +2,7 @@ import logging
 import logging.config
 from pathlib import Path
 
-from src.api.settings.config import config
+from src.execution_service.settings.config import config
 
 LOGS_ROOT_DIR = Path(config.logs.root_dir)
 LOGS_ROOT_DIR.mkdir(parents=True, exist_ok=True)

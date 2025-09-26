@@ -5,7 +5,7 @@ from sqlalchemy import Enum as SQLEnum
 from sqlalchemy import ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.domain.account.entities.account_log import AccountWorkerLogLevel
+from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogLevel
 from src.infrastructure.database.repositories.models.common import (
     Base,
     TimestampsMixin,

@@ -1,21 +1,15 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.application.features.working_group.delete_working_group import (
-    DeleteWorkingGroupCommandResult,
-)
 from src.domain.shared.interfaces.uow import Uow
-from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
-from src.domain.working_group.repositories.account_worker_task import (
-    AccountWorkerTaskRepository,
-)
+
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
 
 
 @dataclass
 class DeleteWorkingGroupWorkerTaskCommand:
     working_group_id: UUID
-    subtask_id: UUID
+    task_id: UUID
 
 
 class DeleteWorkingGroupWorkerTaskCommandHandler:
@@ -24,24 +18,19 @@ class DeleteWorkingGroupWorkerTaskCommandHandler:
     def __init__(
         self,
         uow: Uow,
-        repository: WorkingGroupRepository,
-        account_worker_task_repository: AccountWorkerTaskRepository,
+        working_group_repository: WorkingGroupRepository,
     ):
         self._uow = uow
-        self._repository = repository
-        self._account_worker_task_repository = account_worker_task_repository
+        self._working_group_repository = working_group_repository
 
     async def __call__(
         self,
         command: DeleteWorkingGroupWorkerTaskCommand,
-    ) -> DeleteWorkingGroupCommandResult:
+    ) -> None:
         async with self._uow:
-            task = await self._repository.acquire_by_id(
+            working_group = await self._working_group_repository.acquire_by_id(
                 working_group_id=command.working_group_id
             )
-            if not task:
-                raise WorkingGroupIdDoesNotExistError(
-                    working_group_id=command.working_group_id
-                )
+            working_group.delete_worker_task(command.task_id)
+            await self._working_group_repository.update(working_group)
 
-            await self._account_worker_task_repository.delete(command.subtask_id)

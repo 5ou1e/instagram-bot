@@ -38,10 +38,6 @@ class UpdateWorkingGroupConfigCommandHandler:
             working_group = await self._working_group_repository.get_by_id(
                 command.working_group_id
             )
-            if not working_group:
-                raise WorkingGroupIdDoesNotExistError(
-                    working_group_id=command.working_group_id
-                )
 
             current = working_group.config.model_dump()
             patch_data = command.data

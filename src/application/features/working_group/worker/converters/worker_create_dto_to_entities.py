@@ -11,9 +11,10 @@ from src.application.features.working_group.worker.dto import (
 )
 from src.domain.account.entities.account import Account, AccountActionStatistics
 from src.domain.account.vallue_objects import Email
-from src.domain.android_device.entities import AndroidDevice, AndroidDeviceHardware
+from src.domain.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
+from src.domain.android_device_hardware.entities.android_device import AndroidDevice
 from src.domain.proxy.entities import Proxy
-from src.domain.working_group.entities.worker.entity import AccountWorker
+from src.domain.account_worker.entities.account_worker.entity import AccountWorker
 
 
 def map_account(dto: AccountWorkerCreateAccountDTO) -> Account:
@@ -96,5 +97,5 @@ def convert_worker_create_dto_to_entity(
         "worker": worker,
         "account": account,
         "proxy": proxy,
-        "android_device": android_device,
+        "android_device_hardware": android_device,
     }

@@ -40,10 +40,6 @@ class UpdateWorkingGroupAccountWorkerTaskCommandHandler:
             working_group = await self._working_group_repository.acquire_by_id(
                 command.working_group_id
             )
-            if not working_group:
-                raise WorkingGroupIdDoesNotExistError(
-                    working_group_id=command.working_group_id
-                )
 
             if command.name is not UNSET:
                 working_group.update_account_worker_task_name(

@@ -5,7 +5,6 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 
-from src.api.settings.config import config
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +27,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 def setup_middlewares(app) -> None:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=config.api.cors.allowed_hosts,
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

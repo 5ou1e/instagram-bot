@@ -14,7 +14,7 @@ from src.application.features.log.get_logs import (
     GetLogsQueryHandler,
     GetLogsQueryResult,
 )
-from src.domain.account.entities.account_log import AccountWorkerLogType
+from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogType
 
 logger = logging.getLogger(__name__)
 

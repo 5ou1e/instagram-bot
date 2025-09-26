@@ -10,7 +10,7 @@ working_group_work_state_machine = Machine(
     model_attribute="work_state",
 )
 
-# Транзиции
+# Переходы
 working_group_work_state_machine.add_transition(
     "start", WorkingGroupWorkState.IDLE, WorkingGroupWorkState.STARTING
 )

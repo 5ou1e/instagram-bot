@@ -4,6 +4,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid6 import UUID
+from sqlalchemy.orm import aliased
 
 from src.domain.account.entities.account import Account, AccountActionStatistics
 from src.domain.account.repositories.account import AccountRepository
@@ -51,8 +52,6 @@ class PostgresAccountRepository(AccountRepository):
         self._session = session
 
     async def acquire_by_id(self, id: UUID, skip_locked=False) -> Account | None:
-        from sqlalchemy.orm import aliased
-
         ta_alias = aliased(AccountWorkerModel)
 
         stmt = (

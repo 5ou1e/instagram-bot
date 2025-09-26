@@ -18,7 +18,8 @@ from src.domain.shared.interfaces.instagram.mobile_client import \
 from src.domain.shared.interfaces.instagram.exceptions import UserIdNotFound
 from src.domain.shared.interfaces.instagram.mobile_client import \
     MobileInstagramClientNetworkConfig
-from src.domain.android_device.entities import AndroidDeviceInstagramAppData, AndroidDevice
+from src.domain.android_device_hardware.entities.android_device import AndroidDevice, \
+    AndroidDeviceInstagramAppData
 
 from src.infrastructure.account_logger import PostgresAccountWorkerLoggerFactory
 from src.infrastructure.instagram.mobile_client.builder import \
@@ -60,7 +61,7 @@ async def do_follows(account, count_follow):
         )
 
     # account.proxy = None
-    # account.android_device.profile.timezone = "Europe/Moscow"
+    # account.android_device_hardware.profile.timezone = "Europe/Moscow"
 
     print(f"Аккаунт: {account}")
     print(f"Device: {account.android_device}")

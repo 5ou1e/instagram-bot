@@ -2,11 +2,11 @@ import logging
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.domain.account.entities.account_log import (
+from src.domain.account_worker.entities.account_worker_log import (
     AccountWorkerLog,
     AccountWorkerLogType,
 )
-from src.domain.account.repositories.account_log import LogRepository
+from src.domain.account_worker.repositories.account_worker_log import AccountWorkerLogRepository
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class GetLogsQueryHandler:
 
     def __init__(
         self,
-        repository: LogRepository,
+        repository: AccountWorkerLogRepository,
     ):
         self._repository = repository
 

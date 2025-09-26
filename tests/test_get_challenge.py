@@ -13,7 +13,7 @@ from src.domain.shared.interfaces.instagram.mobile_client import \
     MobileInstagramClientNetworkConfig
 from src.domain.shared.entities.account import AccountIgAppSessionData
 from src.domain.shared.entities.android_device import (AndroidDeviceProfile)
-from src.domain.android_device.entities import AndroidDevice
+from src.domain.android_device_hardware.entities.android_device import AndroidDevice
 from src.domain.shared.exceptions23 import NetworkError
 from src.infrastructure.account_logger import PostgresAccountWorkerLoggerFactory
 from src.infrastructure.instagram.bloks_utils.utils import find_action

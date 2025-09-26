@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from src.domain.account.entities.account_log import AccountWorkerLogLevel
+from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogLevel
 
 
 class WorkingGroupLoggingConfig(BaseModel):

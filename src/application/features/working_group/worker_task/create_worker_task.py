@@ -46,15 +46,11 @@ class CreateWorkerTaskCommandHandler:
             working_group = await self._working_group_repository.acquire_by_id(
                 command.working_group_id
             )
-            if not working_group:
-                raise WorkingGroupIdDoesNotExistError(
-                    working_group_id=command.working_group_id
-                )
 
             name = command.name
 
-            for subtask in working_group.worker_tasks:
-                if subtask.name == name:
+            for task in working_group.worker_tasks:
+                if task.name == name:
                     raise WorkerTaskNameAlreadyExistsError(name=name)
 
             if command.index is None:
@@ -67,7 +63,7 @@ class CreateWorkerTaskCommandHandler:
             else:
                 index = command.index
 
-            subtask = AccountWorkerTask(
+            task = AccountWorkerTask(
                 id=uuid7(),
                 type=command.type,
                 name=name,
@@ -79,6 +75,6 @@ class CreateWorkerTaskCommandHandler:
                 updated_at=current_datetime(),
             )
 
-            working_group.worker_tasks.append(subtask)
+            working_group.worker_tasks.append(task)
 
             await self._working_group_repository.update(working_group)

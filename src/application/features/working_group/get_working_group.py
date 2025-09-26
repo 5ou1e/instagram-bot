@@ -20,8 +20,5 @@ class GetWorkingGroupQueryHandler:
         self,
         working_group_id: UUID,
     ) -> WorkingGroupDTO:
-        dto = await self._reader.get_working_group_by_id(working_group_id)
+        return await self._reader.get_working_group_by_id(working_group_id)
 
-        if dto is None:
-            raise WorkingGroupIdDoesNotExistError(working_group_id=working_group_id)
-        return dto

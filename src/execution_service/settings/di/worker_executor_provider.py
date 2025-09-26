@@ -9,25 +9,23 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from src.api.settings.config import Config, config
+from src.execution_service.settings.config import Config, config
 from src.domain.account.repositories.account import AccountRepository
-from src.domain.android_device.repository import AndroidDeviceHardwareRepository
+from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
 from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.services.email_service import EmailServiceFactory
-from src.domain.working_group.repositories.account_worker import AccountWorkerRepository
-from src.domain.working_group.repositories.account_worker_task import (
-    AccountWorkerTaskRepository,
-)
+from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
+
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.domain.working_group.services.providers.proxy_provider import ProxyProvider
-from src.domain.working_group.services.task_executors.executor_factory import (
+from src.domain.account_worker.services.providers.proxy_provider import ProxyProvider
+from src.domain.account_worker.services.working_group_workflow.tasks.executor_factory import (
     AccountWorkerTaskExecutorFactory,
 )
-from src.domain.working_group.services.worker_prepare_service import (
+from src.domain.account_worker.services.working_group_workflow.worker_prepare_service import (
     AccountWorkerPrepareBeforeWorkService,
 )
-from src.domain.working_group.services.worker_workflow_executor import (
+from src.domain.account_worker.services.working_group_workflow.worker_workflow_executor import (
     AccountWorkerWorkflowExecutor,
 )
 from src.infrastructure.account_worker_logger import (
@@ -35,23 +33,20 @@ from src.infrastructure.account_worker_logger import (
     PostgresLogsWriter,
 )
 from src.infrastructure.database.repositories.account import PostgresAccountRepository
-from src.infrastructure.database.repositories.android_device import (
-    PostgresAndroidDeviceHardwareRepository,
-)
+from src.infrastructure.database.repositories.android_device_hardware import \
+    PostgresAndroidDeviceHardwareRepository
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
-from src.infrastructure.database.repositories.log import PostgresLogRepository
+from src.infrastructure.database.repositories.account_worker_log import PostgresAccountWorkerLogRepository
 from src.infrastructure.database.repositories.proxy import PostgresProxyRepository
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,
 )
-from src.infrastructure.database.repositories.working_group_worker import (
+from src.infrastructure.database.repositories.account_worker import (
     PostgresAccountWorkerReader,
     PostgresAccountWorkerRepository,
 )
-from src.infrastructure.database.repositories.working_group_worker_task import (
-    PostgresAccountWorkerTaskRepository,
-)
+
 from src.infrastructure.database.uow import SQLAlchemyUoW
 from src.infrastructure.files.file import File
 from src.infrastructure.files.file_writer import (
@@ -108,7 +103,6 @@ class TaskWorkerProvider(Provider):
         WithParents[PostgresAccountWorkerRepository],
         WithParents[PostgresAccountWorkerReader],
         WithParents[PostgresWorkingGroupReader],
-        WithParents[PostgresAccountWorkerTaskRepository],
         WithParents[PostgresAndroidDeviceHardwareRepository],
         scope=Scope.REQUEST,
     )
@@ -137,7 +131,7 @@ class TaskWorkerProvider(Provider):
     ) -> PostgresLogsWriter:
         async with sessionmaker() as session:
             uow = SQLAlchemyUoW(session)
-            repository = PostgresLogRepository(session)
+            repository = PostgresAccountWorkerLogRepository(session)
             return PostgresLogsWriter(
                 uow=uow,
                 repository=repository,
@@ -169,7 +163,6 @@ class TaskWorkerProvider(Provider):
         account_worker_repository: AccountWorkerRepository,
         account_repository: AccountRepository,
         working_group_repository: WorkingGroupRepository,
-        account_worker_task_repository: AccountWorkerTaskRepository,
         android_device_hardware_repository: AndroidDeviceHardwareRepository,
         email_service_factory: EmailServiceFactory,
         proxy_provider: ProxyProvider,
@@ -187,7 +180,6 @@ class TaskWorkerProvider(Provider):
         account_worker_task_executor_factory = AccountWorkerTaskExecutorFactory(
             uow=uow,
             account_repository=account_repository,
-            account_worker_task_repository=account_worker_task_repository,
             working_group_repository=working_group_repository,
             email_service_factory=email_service_factory,
             proxy_provider=proxy_provider,

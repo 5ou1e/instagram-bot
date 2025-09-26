@@ -1,6 +1,6 @@
 from dishka import AsyncContainer, make_async_container
 
-from src.api.settings.config import Config, config
+from src.execution_service.settings.config import Config, config
 from src.api.settings.di.provider import AppProvider
 from src.execution_service.settings.di.execution_service_provider import (
     ExecutionServiceProvider,
