@@ -12,9 +12,9 @@ from src.domain.shared.interfaces.logger import Logger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
-from src.domain.account_worker.services.flows.change_proxy import (
+from src.domain.account_worker.services.actions_old.change_proxy import (
     ChangeProxyActionContext,
-    ChangeProxyActionHandler,
+    AccountWorkerChangeProxyActionExecutor,
 )
 from src.domain.account_worker.services.providers.proxy_provider import ProxyProvider
 
@@ -81,7 +81,7 @@ class InstagramActionWrapper:
                     await self._sync_and_save_instagram_local_data(worker, client)
 
     async def _change_proxy(self, worker: AccountWorker) -> None:
-        action = ChangeProxyActionHandler(
+        action = AccountWorkerChangeProxyActionExecutor(
             ChangeProxyActionContext(
                 uow=self._uow,
                 logger=self._logger,

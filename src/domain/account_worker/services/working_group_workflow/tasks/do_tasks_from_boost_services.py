@@ -3,6 +3,8 @@ import random
 from uuid import UUID
 
 from src.domain.account.repositories.account import AccountRepository
+from src.domain.account_worker.services.actions_old.instagram.authorized.follow_user import \
+    FollowUserFlow, FollowUserFlowContext, FollowUserFlowConfig
 from src.domain.shared.interfaces.boost_services.exceptions import VenroNoTasks
 from src.domain.shared.interfaces.instagram.exceptions import (
     UserIdNotFound,
@@ -17,11 +19,7 @@ from src.domain.account_worker.entities.account_worker.entity import AccountWork
 from src.domain.working_group.entities.working_group.entity import WorkingGroup
 
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.domain.account_worker.services.flows.authorized.follow_user import (
-    FollowUserFlow,
-    FollowUserFlowConfig,
-    FollowUserFlowContext,
-)
+
 from src.domain.account_worker.services.providers.proxy_provider import ProxyProvider
 from src.domain.account_worker.services.working_group_workflow.tasks.base import (
     AccountWorkerTaskExecutor,
@@ -37,7 +35,6 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         uow: Uow,
         account_repository: AccountRepository,
         proxy_provider: ProxyProvider,
-
         working_group_repository: WorkingGroupRepository,
         logger: Logger,
     ):
@@ -46,17 +43,17 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         self._proxy_provider = proxy_provider
         self._account_repository = account_repository
         self._working_group_repository = working_group_repository
-        self._logger = logger
+        self._worker_logger = logger
 
     async def execute(self, worker: AccountWorker, stop_event: asyncio.Event):
 
         async with self._uow:
             account = await self._account_repository.get_by_id(worker.account_id)
-            task: WorkingGroup = await self._working_group_repository.get_by_id(
-                subtask.working_group_id
+            working_group: WorkingGroup = await self._working_group_repository.get_by_id(
+                worker.working_group_id
             )
 
-        task_config: WorkingGroupConfig = task.config
+        working_group_config: WorkingGroupConfig = working_group.config
 
         venro_client = VenroClientImpl()
 
@@ -70,30 +67,30 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
             if stop_event.is_set():
                 return
             try:
-                await self._logger.error(f"Получаю задание с Venro...")
+                await self._worker_logger.error(f"Получаю задание с Venro...")
                 venro_task = await venro_client.get_task_follow(
                     api_key,
                     bot_id,
                     service_id,
                 )
-                await self._logger.error(f"Получил задание")
+                await self._worker_logger.error(f"Получил задание")
             except VenroNoTasks as e:
-                await self._logger.error(f"Нету заданий на Venro")
+                await self._worker_logger.error(f"Нету заданий на Venro")
                 await asyncio.sleep(10)
                 continue
             except Exception as e:
-                await self._logger.error(f"Не удалось получить задание с Venro: {e}")
+                await self._worker_logger.error(f"Не удалось получить задание с Venro: {e}")
                 raise
 
             follow_flow = FollowUserFlow(
                 ctx=FollowUserFlowContext(
                     uow=self._uow,
                     account_repository=self._account_repository,
-                    logger=self._logger,
+                    logger=self._worker_logger,
                     proxy_provider=self._proxy_provider,
                 ),
                 config=FollowUserFlowConfig(
-                    instagram_network_config=task_config.instagram_network_config,
+                    instagram_network_config=working_group_config.instagram_network_config,
                 ),
                 authorization_flow=None,
             )
@@ -106,16 +103,16 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
                 continue
 
             try:
-                await self._logger.error(f"Отправляю задание на проверку Venro ...")
+                await self._worker_logger.info(f"Отправляю задание на проверку Venro ...")
                 await venro_client.send_task_done(
                     api_key,
                     venro_task.id,
                     account.user_id,
                     account.username,
                 )
-                await self._logger.error(f"Отправил задание на проверку")
+                await self._worker_logger.error(f"Отправил задание на проверку")
             except Exception as e:
-                await self._logger.error(
+                await self._worker_logger.error(
                     f"Не удалось отправить результат выполнения задания на Venro: {e}"
                 )
                 raise

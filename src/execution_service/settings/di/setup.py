@@ -6,7 +6,7 @@ from src.execution_service.settings.di.execution_service_provider import (
     ExecutionServiceProvider,
 )
 from src.execution_service.settings.di.worker_executor_provider import (
-    TaskWorkerProvider,
+    AccountWorkerWorkflowExecutorProvider,
 )
 
 
@@ -33,6 +33,6 @@ def create_workers_manager_container() -> AsyncContainer:
     """
 
     return make_async_container(
-        TaskWorkerProvider(),
+        AccountWorkerWorkflowExecutorProvider(),
         context={Config: config},
     )

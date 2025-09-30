@@ -33,5 +33,6 @@ class DeleteAccountsCommandHandler:
 
             to_delete_ids = [account.id for account in accounts if account.may_delete()]
 
-        await self._repository.bulk_delete(to_delete_ids)
-        await self._uow.commit()
+        async with self._uow:
+            await self._repository.bulk_delete(to_delete_ids)
+

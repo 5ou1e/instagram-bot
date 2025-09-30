@@ -3,9 +3,8 @@ import logging
 import traceback
 from uuid import UUID
 
-from src.domain.account.repositories.account import AccountRepository
 from src.domain.shared.exceptions import DomainError
-from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory
+from src.domain.shared.interfaces.logger import AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
@@ -26,48 +25,40 @@ class AccountWorkerWorkflowExecutor:
         self,
         uow: Uow,
         account_worker_repository: AccountWorkerRepository,
-        account_repository: AccountRepository,
         working_group_repository: WorkingGroupRepository,
-        logger_factory: AccountWorkerLoggerFactory,
+        worker_logger: AccountWorkerLogger,
         worker_prepare_service: AccountWorkerPrepareBeforeWorkService,
         account_worker_task_executor_factory: AccountWorkerTaskExecutorFactory,
     ):
         self._uow = uow
-        self._account_repository = account_repository
         self._account_worker_repository = account_worker_repository
-        self._account_worker_task_executor_factory = (
-            account_worker_task_executor_factory
-        )
+        self._account_worker_task_executor_factory = account_worker_task_executor_factory
         self._worker_prepare_service = worker_prepare_service
         self._working_group_repository = working_group_repository
-        self._logger_factory = logger_factory
+        self._worker_logger = worker_logger
 
     async def execute(
         self,
         worker_id: UUID,
         stop_event: asyncio.Event,
     ) -> None:
-
         try:
             async with self._uow:
                 worker = await self._account_worker_repository.acquire_by_id(worker_id)
+
+                self._worker_logger.set_account_id(worker.account_id)
+
                 working_group = await self._working_group_repository.get_by_id(
                     worker.working_group_id
                 )
                 tasks = working_group.get_enabled_worker_tasks()
-                account_id = worker.account_id
-                worker_logger = self._logger_factory.create(account_id)
 
-            await self._worker_prepare_service.prepare(worker, worker_logger)
+            await self._worker_prepare_service.prepare(worker)
 
-            await worker_logger.info("Начал работу")
+            await self._worker_logger.info("Начал работу")
 
             for task in tasks:
-                task_executor = self._account_worker_task_executor_factory.create(
-                    task,
-                    worker_logger,
-                )
-
+                task_executor = self._account_worker_task_executor_factory.create(task)
                 await task_executor.execute(
                     worker=worker,
                     stop_event=stop_event,
@@ -78,7 +69,7 @@ class AccountWorkerWorkflowExecutor:
                 pass
             else:
                 tb = "".join(traceback.format_exception(type(e), e, e.__traceback__))
-                await worker_logger.error(tb)
+                await self._worker_logger.error(tb)
             raise e
         finally:
             async with self._uow:

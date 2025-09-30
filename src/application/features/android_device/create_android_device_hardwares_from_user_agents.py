@@ -33,33 +33,33 @@ class CreateAndroidDeviceHardwaresFromUserAgentsCommandHandler:
         data: list[str],
     ) -> CreateAndroidDeviceHardwaresFromUserAgentsCommandResult:
         """Создает AndroidDeviceHardware из списка user-agent строк"""
+        specs = []
+        parse_errors = 0
+
+        for ua_string in data:
+            try:
+                spec = android_device_hardware_from_user_agent_string(ua_string)
+                specs.append(spec)
+            except IncorrectAndroidUserAgentString as e:
+                logger.warning(
+                    f"Failed to parse user-agent: {ua_string}. Error: {e}"
+                )
+                parse_errors += 1
+                continue
+
+        # Убираем дубликаты по unique_key перед отправкой в БД
+        unique_specs = list({spec.unique_key: spec for spec in specs}.values())
+
         async with self._uow:
-            specs = []
-            parse_errors = 0
-
-            for ua_string in data:
-                try:
-                    spec = android_device_hardware_from_user_agent_string(ua_string)
-                    specs.append(spec)
-                except IncorrectAndroidUserAgentString as e:
-                    logger.warning(
-                        f"Failed to parse user-agent: {ua_string}. Error: {e}"
-                    )
-                    parse_errors += 1
-                    continue
-
-            # Убираем дубликаты по unique_key перед отправкой в БД
-            unique_specs = list({spec.unique_key: spec for spec in specs}.values())
-
             created_specs = await self._repository.bulk_create(
                 unique_specs,
                 on_conflict_do_nothing=True,
             )
 
-            skipped_count = len(unique_specs) - len(created_specs) + parse_errors
+        skipped_count = len(unique_specs) - len(created_specs) + parse_errors
 
-            return CreateAndroidDeviceHardwaresFromUserAgentsCommandResult(
-                created_ids=[spec.id for spec in created_specs],
-                created_count=len(created_specs),
-                skipped_count=skipped_count,
-            )
+        return CreateAndroidDeviceHardwaresFromUserAgentsCommandResult(
+            created_ids=[spec.id for spec in created_specs],
+            created_count=len(created_specs),
+            skipped_count=skipped_count,
+        )

@@ -12,7 +12,7 @@ from src.domain.working_group.entities.config.working_group_config import (
 from src.domain.working_group.entities.working_group.entity import WorkingGroup
 
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.domain.account_worker.services.flows.unauthorized.reset_password_by_email import (
+from src.domain.account_worker.services.actions_old.instagram.unauthorized.reset_password_by_email import (
     ResetPasswordByEmailFlow,
     ResetPasswordByEmailFlowConfig,
     ResetPasswordByEmailFlowContext,
@@ -44,7 +44,7 @@ class AccountWorkerResetPasswordByEmailTaskExecutor(AccountWorkerTaskExecutor):
         self._working_group_repository = working_group_repository
         self._account_repository = account_repository
         self._email_service = email_service
-        self._logger = logger
+        self._worker_logger = logger
         self._success_writer = success_writer
         self._failed_writer = failed_writer
 
@@ -62,7 +62,7 @@ class AccountWorkerResetPasswordByEmailTaskExecutor(AccountWorkerTaskExecutor):
 
         try:
             new_password = generate_random_password()
-            await self._logger.info(f"Сгенерирован новый пароль: {new_password}")
+            await self._worker_logger.info(f"Сгенерирован новый пароль: {new_password}")
 
             reset_password_flow = self._create_action_flow(task_config)
             await reset_password_flow.execute(account, new_password)
@@ -80,7 +80,7 @@ class AccountWorkerResetPasswordByEmailTaskExecutor(AccountWorkerTaskExecutor):
                 uow=self._uow,
                 account_repository=self._account_repository,
                 email_service=self._email_service,
-                logger=self._logger,
+                logger=self._worker_logger,
             ),
             config=ResetPasswordByEmailFlowConfig(
                 instagram_network_config=task_config.instagram_network_config,

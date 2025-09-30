@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from src.domain.account_worker.services.flows.authorized.base import (
+from src.domain.account_worker.services.actions_old.instagram.authorized.base import (
     AuthorizedFlow,
     AuthorizedFlowConfig,
     AuthorizedFlowContext,

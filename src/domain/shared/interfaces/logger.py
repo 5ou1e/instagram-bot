@@ -14,9 +14,9 @@ class Logger(Protocol):
 
 
 class AccountWorkerLogger(Logger):
-    pass
+    def set_account_id(self, account_id: UUID) -> None:...
 
 
 class AccountWorkerLoggerFactory(Protocol):
 
-    def create(self, account_id: UUID) -> Logger: ...
+    def create(self, account_id: UUID | None = None) -> AccountWorkerLogger: ...

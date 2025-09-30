@@ -29,8 +29,10 @@ class CreateIMAPsCommandHandler:
         data: list[str],
     ) -> CreateIMAPsCommandResult:
         """Добавляем в БД"""
+
+        imaps = [convert_imap_line_to_entity(line) for line in data]
+
         async with self._uow:
-            imaps = [convert_imap_line_to_entity(line) for line in data]
             created_ids = await self._repository.bulk_create(
                 imaps,
                 on_conflict_do_nothing=True,

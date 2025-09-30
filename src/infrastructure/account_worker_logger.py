@@ -12,7 +12,8 @@ from src.domain.account_worker.entities.account_worker_log import (
     AccountWorkerLogType,
 )
 from src.domain.account_worker.repositories.account_worker_log import AccountWorkerLogRepository
-from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory, Logger
+from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory, Logger, \
+    AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.utils import current_datetime
 
@@ -102,10 +103,10 @@ class SeqNumber:
         self.value += 1
 
 
-class PostgresLogger(Logger):
+class PostgresAccountWorkerLogger(AccountWorkerLogger):
     def __init__(
         self,
-        account_id: UUID,
+        account_id: UUID | None,
         queue: asyncio.Queue,
         logs_type: AccountWorkerLogType | None = None,
     ):
@@ -114,6 +115,9 @@ class PostgresLogger(Logger):
         self._logger = logging.getLogger(f"account.{account_id}")
         self._logs_type = logs_type or AccountWorkerLogType.DEFAULT
         self._seq_number = SeqNumber()
+
+    def set_account_id(self, account_id: UUID) -> None:
+        self._account_id = account_id
 
     async def _log(self, level: str, log_func, msg: str, *args, **kwargs):
         msg = str(msg)
@@ -150,14 +154,10 @@ class PostgresLogger(Logger):
         await self._log("WARNING", self._logger.warning, msg, *args, **kwargs)
 
 
-class PostgresAccountLogger(PostgresLogger):
-    pass
-
-
 class PostgresAccountWorkerLoggerFactory(AccountWorkerLoggerFactory):
 
     def __init__(self, queue: asyncio.Queue):
         self._queue: asyncio.Queue[AccountWorkerLog] = queue
 
-    def create(self, account_id: UUID) -> Logger:
-        return PostgresLogger(account_id, self._queue)
+    def create(self, account_id: UUID | None = None) -> AccountWorkerLogger:
+        return PostgresAccountWorkerLogger(account_id, self._queue)

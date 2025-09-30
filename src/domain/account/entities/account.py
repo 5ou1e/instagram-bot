@@ -7,7 +7,6 @@ from mashumaro import DataClassDictMixin
 
 from src.domain.account.vallue_objects import Email
 from src.domain.shared.utils import current_datetime
-from src.domain.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
 
 AccountID = NewType("AccountID", UUID)
@@ -35,8 +34,6 @@ class Account(DataClassDictMixin):
     status: str | None = None
     last_action_time: datetime | None = None
     password_changed_datetime: datetime | None = None
-
-    worker: AccountWorker = None
 
     created_at: datetime | None = field(default_factory=current_datetime)
     updated_at: datetime | None = field(default_factory=current_datetime)

@@ -9,10 +9,11 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
+from src.domain.account_worker.entities.account_worker.entity import AccountWorkerID
 from src.execution_service.settings.config import Config, config
 from src.domain.account.repositories.account import AccountRepository
 from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
-from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory
+from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory, AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.services.email_service import EmailServiceFactory
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
@@ -55,13 +56,12 @@ from src.infrastructure.files.file_writer import (
 )
 
 
-class TaskWorkerProvider(Provider):
+class AccountWorkerWorkflowExecutorProvider(Provider):
 
     scope = Scope.APP
 
     config = from_context(provides=Config, scope=Scope.APP)
 
-    # Db
     @provide(scope=Scope.APP)
     def provide_engine(
         self,
@@ -119,12 +119,23 @@ class TaskWorkerProvider(Provider):
             File(config.files.accounts_reset_pass_failed_filepath)
         )
 
+    email_service_factory = provide(EmailServiceFactory, scope=Scope.REQUEST)
+
+    @provide(scope=Scope.APP)
+    def proxy_provider(
+            self,
+            sessionmaker: async_sessionmaker[AsyncSession],
+    ) -> ProxyProvider:
+        return ProxyProvider(
+            session_factory=sessionmaker,
+        )
+
     @provide(scope=Scope.APP)
     async def asyncio_queue(self) -> asyncio.Queue:
         return asyncio.Queue()
 
     @provide(scope=Scope.APP)
-    async def account_logs_writer(
+    async def account_worker_logs_writer(
         self,
         queue: asyncio.Queue,
         sessionmaker: async_sessionmaker[AsyncSession],
@@ -139,26 +150,25 @@ class TaskWorkerProvider(Provider):
             )
 
     @provide(scope=Scope.APP)
-    async def account_logger_factory(
+    async def account_worker_logger_factory(
         self, queue: asyncio.Queue
     ) -> AccountWorkerLoggerFactory:
         return PostgresAccountWorkerLoggerFactory(queue=queue)
 
-    email_service_factory = provide(EmailServiceFactory, scope=Scope.REQUEST)
-
-    @provide(scope=Scope.APP)
-    def proxy_provider(
-        self,
-        sessionmaker: async_sessionmaker[AsyncSession],
-    ) -> ProxyProvider:
-        return ProxyProvider(
-            session_factory=sessionmaker,
-        )
+    account_worker_id = from_context(provides=AccountWorkerID, scope=Scope.REQUEST)
 
     @provide(scope=Scope.REQUEST)
-    async def worker_workflow_executor(
+    async def account_worker_logger(
         self,
-        logger_factory: AccountWorkerLoggerFactory,
+        account_worker_logger_factory: AccountWorkerLoggerFactory,
+        account_worker_id: AccountWorkerID,
+    ) -> AccountWorkerLogger:
+        # TODO сделать чтобы логгеру можно было установить worker-id
+        return account_worker_logger_factory.create()
+
+    @provide(scope=Scope.REQUEST)
+    async def account_worker_workflow_executor(
+        self,
         uow: Uow,
         account_worker_repository: AccountWorkerRepository,
         account_repository: AccountRepository,
@@ -168,6 +178,7 @@ class TaskWorkerProvider(Provider):
         proxy_provider: ProxyProvider,
         account_reset_password_success_writer: AccountResetPassSuccessResultFileWriter,
         account_reset_password_failed_writer: AccountResetPassFailedResultFileWriter,
+        worker_logger: AccountWorkerLogger,
     ) -> AccountWorkerWorkflowExecutor:
 
         worker_prepare_service = AccountWorkerPrepareBeforeWorkService(
@@ -175,6 +186,7 @@ class TaskWorkerProvider(Provider):
             proxy_provider=proxy_provider,
             android_device_hardware_repository=android_device_hardware_repository,
             account_worker_repository=account_worker_repository,
+            worker_logger=worker_logger,
         )
 
         account_worker_task_executor_factory = AccountWorkerTaskExecutorFactory(
@@ -186,15 +198,14 @@ class TaskWorkerProvider(Provider):
             account_reset_password_success_writer=account_reset_password_success_writer,
             account_reset_password_failed_writer=account_reset_password_failed_writer,
             account_worker_repository=account_worker_repository,
+            worker_logger=worker_logger,
         )
 
-        # MockWorkerWorkflowExecutor
-        return AccountWorkerWorkflowExecutor(  # noqa
+        return AccountWorkerWorkflowExecutor(
             uow=uow,
             account_worker_repository=account_worker_repository,
-            account_repository=account_repository,
             working_group_repository=working_group_repository,
-            logger_factory=logger_factory,
             account_worker_task_executor_factory=account_worker_task_executor_factory,
             worker_prepare_service=worker_prepare_service,
+            worker_logger=worker_logger,
         )

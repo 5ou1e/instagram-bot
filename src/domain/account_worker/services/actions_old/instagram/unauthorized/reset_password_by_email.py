@@ -10,7 +10,7 @@ from src.domain.shared.services.email_service import EmailService
 from src.domain.shared.utils import current_datetime
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.working_group.exceptions import AccountDoesNotHaveEmailError
-from src.domain.account_worker.services.flows.unauthorized.base import (
+from src.domain.account_worker.services.actions_old.instagram.unauthorized.base import (
     UnauthorizedFlow,
     UnauthorizedFlowConfig,
     UnauthorizedFlowContext,

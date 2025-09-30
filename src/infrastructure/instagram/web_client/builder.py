@@ -15,7 +15,7 @@ from src.domain.shared.interfaces.instagram.web_client.config import (
     WebInstagramClientConfig,
 )
 from src.domain.shared.interfaces.logger import Logger
-from src.infrastructure.account_worker_logger import PostgresLogger
+from src.infrastructure.account_worker_logger import PostgresAccountWorkerLogger
 from src.infrastructure.instagram.web_client import WebInstagramClientImpl
 from src.infrastructure.instagram.web_client.apis.graphql_api.api import (
     InstagramGraphQL,
@@ -46,7 +46,7 @@ class WebInstagramClientBuilderImpl(WebInstagramClientBuilder):
         timeout = ClientTimeout(total=network_config.max_network_wait_time)
         session = ClientSession(timeout=timeout)
 
-        client_logger = PostgresLogger(
+        client_logger = PostgresAccountWorkerLogger(
             queue=logger._queue,
             account_id=logger._account_id,
             logs_type=AccountWorkerLogType.INSTAGRAM_CLIENT,

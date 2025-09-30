@@ -10,7 +10,7 @@ from src.domain.shared.interfaces.instagram.mobile_client.config import (
 )
 from src.domain.shared.interfaces.instagram.version import InstagramAppVersion
 from src.domain.shared.interfaces.logger import Logger
-from src.infrastructure.account_worker_logger import PostgresLogger
+from src.infrastructure.account_worker_logger import PostgresAccountWorkerLogger
 from src.infrastructure.instagram.mobile_client.client import MobileInstagramClientImpl
 
 
@@ -62,9 +62,9 @@ class MobileInstagramClientBuilderImpl(MobileInstagramClientBuilder):
             logger=self.logger,
         )
 
-    def _create_logger(self, logger: PostgresLogger) -> Logger:
+    def _create_logger(self, logger: PostgresAccountWorkerLogger) -> Logger:
         """Создаем логгер клиента из логгера аккаунта"""
-        instagram_logger = PostgresLogger(
+        instagram_logger = PostgresAccountWorkerLogger(
             queue=logger._queue,
             account_id=logger._account_id,
             logs_type=AccountWorkerLogType.INSTAGRAM_CLIENT,

@@ -161,7 +161,7 @@ class RequestHandler:
         """Логирует детали исходящего запроса"""
 
         await self.logger.debug(
-            "\nRequest: \n%s %s\nHeaders: %s\nCookies: %s\nData: %s\nProxy: %s",
+            "Request: \n%s %s\nHeaders: %s\nCookies: %s\nData: %s\nProxy: %s",
             request.method,
             request.url,
             request.headers,

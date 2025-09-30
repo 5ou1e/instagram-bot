@@ -21,7 +21,7 @@ from src.domain.shared.interfaces.logger import Logger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
-from src.domain.account_worker.services.flows.instagram_action_wrapper import (
+from src.domain.account_worker.services.actions_old.instagram.instagram_action_wrapper import (
     InstagramActionWrapper,
 )
 from src.domain.account_worker.services.providers.proxy_provider import ProxyProvider

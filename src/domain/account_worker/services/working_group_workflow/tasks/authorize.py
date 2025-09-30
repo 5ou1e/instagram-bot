@@ -2,7 +2,7 @@ import asyncio
 from uuid import UUID
 
 from src.domain.account.repositories.account import AccountRepository
-from src.domain.shared.interfaces.logger import Logger
+from src.domain.shared.interfaces.logger import Logger, AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.services.email_service import EmailService
 from src.domain.working_group.entities.config.working_group_config import (
@@ -13,12 +13,12 @@ from src.domain.working_group.entities.working_group.entity import WorkingGroup
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
 
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.domain.account_worker.services.flows.auth.authorize_account import (
+from src.domain.account_worker.services.actions_old.instagram.auth.authorize_account import (
     AuthorizationFlow,
     AuthorizationFlowConfig,
     AuthorizationFlowContext,
 )
-from src.domain.account_worker.services.flows.unauthorized.reset_password_by_email import (
+from src.domain.account_worker.services.actions_old.instagram.unauthorized.reset_password_by_email import (
     ResetPasswordByEmailFlow,
     ResetPasswordByEmailFlowConfig,
     ResetPasswordByEmailFlowContext,
@@ -36,11 +36,10 @@ class AccountWorkerAuthorizeAccountTaskExecutor(AccountWorkerTaskExecutor):
         task_id: UUID,
         uow: Uow,
         account_worker_repository: AccountWorkerRepository,
-
         proxy_provider: ProxyProvider,
         working_group_repository: WorkingGroupRepository,
         account_repository: AccountRepository,
-        logger: Logger,
+        logger: AccountWorkerLogger,
         email_service: EmailService,
     ):
         self._task_id = task_id
@@ -49,7 +48,7 @@ class AccountWorkerAuthorizeAccountTaskExecutor(AccountWorkerTaskExecutor):
         self._account_worker_repository = account_worker_repository
         self._working_group_repository = working_group_repository
         self._account_repository = account_repository
-        self._logger = logger
+        self._worker_logger = logger
         self._email_service = email_service
 
     async def execute(self, worker: AccountWorker, stop_event: asyncio.Event):
@@ -67,7 +66,7 @@ class AccountWorkerAuthorizeAccountTaskExecutor(AccountWorkerTaskExecutor):
                 uow=self._uow,
                 account_repository=self._account_repository,
                 email_service=self._email_service,
-                logger=self._logger,
+                logger=self._worker_logger,
                 proxy_provider=self._proxy_provider,
                 account_worker_repository=self._account_worker_repository,
             ),
@@ -80,7 +79,7 @@ class AccountWorkerAuthorizeAccountTaskExecutor(AccountWorkerTaskExecutor):
             ctx=AuthorizationFlowContext(
                 uow=self._uow,
                 account_repository=self._account_repository,
-                logger=self._logger,
+                logger=self._worker_logger,
                 proxy_provider=self._proxy_provider,
                 account_worker_repository=self._account_worker_repository,
             ),
@@ -112,7 +111,7 @@ class FlowExecutorFactory:
         self._account_repository = account_repository
         self._email_service = email_service
         self._proxy_provider = proxy_provider
-        self._logger = logger
+        self._worker_logger = logger
 
     def create_authorization_flow(
         self,
@@ -123,7 +122,7 @@ class FlowExecutorFactory:
             ctx=AuthorizationFlowContext(
                 uow=self._uow,
                 account_repository=self._account_repository,
-                logger=self._logger,
+                logger=self._worker_logger,
                 proxy_provider=self._proxy_provider,
                 account_worker_repository=self._account_worker_repository,
             ),
@@ -140,7 +139,7 @@ class FlowExecutorFactory:
                 uow=self._uow,
                 account_repository=self._account_repository,
                 email_service=self._email_service,
-                logger=self._logger,
+                logger=self._worker_logger,
                 proxy_provider=self._proxy_provider,
                 account_worker_repository=self._account_worker_repository,
             ),

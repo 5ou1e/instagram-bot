@@ -4,7 +4,7 @@ from typing import Any
 from src.domain.shared.interfaces.instagram.exceptions import FeedbackRequiredError
 from src.domain.shared.utils import current_datetime
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.account_worker.services.flows.authorized.base import (
+from src.domain.account_worker.services.actions_old.instagram.authorized.base import (
     AuthorizedFlow,
     AuthorizedFlowConfig,
     AuthorizedFlowContext,

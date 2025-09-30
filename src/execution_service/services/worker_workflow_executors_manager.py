@@ -5,6 +5,7 @@ from functools import partial
 from typing import Any
 from uuid import UUID
 
+from src.domain.account_worker.entities.account_worker.entity import AccountWorkerID
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
 from src.domain.working_group.exceptions import AccountWorkerIdDoesNotExistError
@@ -43,9 +44,9 @@ class WorkerWorkflowExecutorsManager:
         pause_event = asyncio.Event()
 
         async def _wrapper():
-            async with self.container() as request_container:
+            async with self.container(context={AccountWorkerID: account_worker_id},) as request_container:
                 executor: AccountWorkerWorkflowExecutor = await request_container.get(
-                    AccountWorkerWorkflowExecutor
+                    AccountWorkerWorkflowExecutor,
                 )
 
                 await executor.execute(
@@ -177,42 +178,3 @@ class WorkerWorkflowExecutorsManager:
 
                 await account_worker_repository.update(account_worker)
 
-    # async def _start_processes(self, count):
-    #     logger.info(f"Запускаем {count} процессов обработки аккаунтов...")
-    #
-    #     for _ in range(count):
-    #         stop_event = multiprocessing.Event()
-    #
-    #         commands_queue = multiprocessing.Queue()
-    #
-    #         p = multiprocessing.get_context("spawn").Process(
-    #             target=spawn_worker,
-    #             args=(
-    #                 commands_queue,
-    #                 stop_event,
-    #             ),
-    #         )
-    #
-    #         p.start()
-    #
-    #         self._processes.append(
-    #             {
-    #                 "process": p,
-    #                 "commands_queue": commands_queue,
-    #                 "stop_event": stop_event,
-    #             }
-    #         )
-    #
-    #     logger.info("Процессы обработки аккаунтов запущены")
-    #
-    # def start_account(self, worker_id: UUID):
-    #     self._processes[0]["commands_queue"].put(
-    #         WorkerWorkflowExecutorsSupervisorStartAccountCommand(
-    #             worker_id=worker_id,
-    #         ))
-    #
-    # def stop_account(self, worker_id: UUID):
-    #     self._processes[0]["commands_queue"].put(
-    #         WorkerWorkflowExecutorsSupervisorStopAccountCommand(
-    #             worker_id=worker_id,
-    #         ))

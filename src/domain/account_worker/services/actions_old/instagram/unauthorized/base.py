@@ -5,7 +5,7 @@ from typing import Any, Generic, TypeVar
 
 from src.domain.account.entities.account import Account
 from src.domain.shared.interfaces.instagram.exceptions import ChallengeRequired
-from src.domain.account_worker.services.flows.base import Flow, FlowConfig, FlowContext
+from src.domain.account_worker.services.actions_old.instagram.base import Flow, FlowConfig, FlowContext
 
 
 @dataclass
@@ -28,7 +28,7 @@ class UnauthorizedFlow(
     Generic[TContext, TConfig],
     ABC,
 ):
-    """Базовый класс для неавторизованных flows"""
+    """Базовый класс для неавторизованных actions_old"""
 
     def __init__(
         self,

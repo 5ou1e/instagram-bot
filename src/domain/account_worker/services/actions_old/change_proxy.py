@@ -18,7 +18,7 @@ class ChangeProxyActionContext:
     account_worker_repository: AccountWorkerRepository
 
 
-class ChangeProxyActionHandler:
+class AccountWorkerChangeProxyActionExecutor:
     def __init__(self, ctx: ChangeProxyActionContext):
         self.ctx = ctx
         self.logger = ctx.logger

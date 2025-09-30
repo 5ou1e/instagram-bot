@@ -14,9 +14,12 @@ from src.domain.account_worker.entities.account_worker.work_state import (
 )
 
 
+AccountWorkerID = type(uuid.UUID)
+
+
 @dataclass(kw_only=True, slots=True)
 class AccountWorker:
-    id: uuid.UUID
+    id: AccountWorkerID
     working_group_id: uuid.UUID
     account_id: uuid.UUID
     proxy: Proxy | None = None

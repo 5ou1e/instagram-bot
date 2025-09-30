@@ -11,9 +11,9 @@ from src.domain.shared.interfaces.instagram.mobile_client.converters import (
 )
 from src.domain.shared.utils import current_datetime, generate_random_password
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.account_worker.services.flows.base import Flow, FlowConfig, FlowContext
-from src.domain.account_worker.services.flows.challenge_resolver import ChallengeResolver
-from src.domain.account_worker.services.flows.unauthorized.reset_password_by_email import (
+from src.domain.account_worker.services.actions_old.instagram.base import Flow, FlowConfig, FlowContext
+from src.domain.account_worker.services.actions_old.instagram.challenge_resolver import ChallengeResolver
+from src.domain.account_worker.services.actions_old.instagram.unauthorized.reset_password_by_email import (
     ResetPasswordByEmailFlow,
 )
 
@@ -45,7 +45,6 @@ class AuthorizationFlow(
         reset_password_flow: ResetPasswordByEmailFlow,
     ):
         super().__init__(ctx, config)
-
         self._reset_password_flow = reset_password_flow
         self._challenge_resolver = ChallengeResolver()
 

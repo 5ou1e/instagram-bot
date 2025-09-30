@@ -8,7 +8,7 @@ from src.domain.android_device_hardware.entities.android_device import AndroidDe
     AndroidDeviceInstagramAppData
 from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
 from src.domain.proxy.exceptions import NoAvailableProxyError
-from src.domain.shared.interfaces.logger import Logger
+from src.domain.shared.interfaces.logger import Logger, AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
@@ -24,21 +24,21 @@ class AccountWorkerPrepareBeforeWorkService:
         proxy_provider: ProxyProvider,
         android_device_hardware_repository: AndroidDeviceHardwareRepository,
         account_worker_repository: AccountWorkerRepository,
+        worker_logger: AccountWorkerLogger,
     ):
         self._uow = uow
         self._proxy_provider = proxy_provider
         self._android_device_hardware_repository = android_device_hardware_repository
         self._account_worker_repository = account_worker_repository
-        # self._working_group_config_provider = working_group_config_provider
+        self._worker_logger = worker_logger
 
-    async def prepare(self, worker: AccountWorker, account_logger):
-        await self._ensure_android_device(worker, account_logger)
-        await self._ensure_proxy(worker, account_logger)
+    async def prepare(self, worker: AccountWorker):
+        await self._ensure_android_device(worker)
+        await self._ensure_proxy(worker)
 
     async def _ensure_android_device(
         self,
         worker: AccountWorker,
-        account_logger: Logger,
     ):
         if not worker.android_device:
 
@@ -63,7 +63,7 @@ class AccountWorkerPrepareBeforeWorkService:
                 )
             )
 
-            await account_logger.info(
+            await self._worker_logger.info(
                 f"Установил новый андроид-девайс: {worker.android_device}"
             )
             async with self._uow:
@@ -75,24 +75,24 @@ class AccountWorkerPrepareBeforeWorkService:
             android_hardware = hardwares[0]
 
             worker.set_android_device_hardware(android_hardware)
-            await account_logger.info(
+            await self._worker_logger.info(
                 f"Установил новые параметры железа для девайса: {worker.android_device}"
             )
             async with self._uow:
                 await self._account_worker_repository.update(worker)
         else:
-            await account_logger.info(
+            await self._worker_logger.info(
                 f"Работаю через андроид-девайс: {worker.android_device}"
             )
 
-    async def _ensure_proxy(self, worker: AccountWorker, account_logger: Logger):
+    async def _ensure_proxy(self, worker: AccountWorker):
 
         if not worker.proxy:
 
             while True:
                 proxy = await self._proxy_provider.acquire()
                 if not proxy:
-                    await account_logger.info("Нету доступного прокси")
+                    await self._worker_logger.info("Нету доступного прокси")
                     raise NoAvailableProxyError()
                     # await asyncio.sleep(5)
                     # continue
@@ -100,8 +100,8 @@ class AccountWorkerPrepareBeforeWorkService:
 
                 async with self._uow:
                     await self._account_worker_repository.update(worker)
-                await account_logger.info(f"Взял новый прокси: {proxy}")
+                await self._worker_logger.info(f"Взял новый прокси: {proxy}")
 
                 return
         else:
-            await account_logger.info(f"Работаю с прокси: {worker.proxy}")
+            await self._worker_logger.info(f"Работаю с прокси: {worker.proxy.url if worker.proxy else None}")

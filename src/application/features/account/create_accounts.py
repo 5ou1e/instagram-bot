@@ -34,14 +34,13 @@ class CreateAccountsCommandHandler:
 
         accounts = [convert_account_string_to_entity(line) for line in data]
 
-        created = await self._account_repository.bulk_create(
-            accounts,
-            on_conflict_do_nothing=True,
-            return_inserted_ids=True,
-        )
+        async with self._uow:
+            created = await self._account_repository.bulk_create(
+                accounts,
+                on_conflict_do_nothing=True,
+                return_inserted_ids=True,
+            )
 
-        await self._uow.commit()
-
-        return CreateAccountsCommandResult(
-            ids=[acc.id for acc in created],
-        )
+            return CreateAccountsCommandResult(
+                ids=[acc.id for acc in created],
+            )

@@ -8,10 +8,10 @@ from src.domain.shared.interfaces.instagram.exceptions import (
     UnauthorizedError,
 )
 from src.domain.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.account_worker.services.flows.auth.authorize_account import (
+from src.domain.account_worker.services.actions_old.instagram.auth.authorize_account import (
     AuthorizationFlow,
 )
-from src.domain.account_worker.services.flows.base import Flow, FlowConfig, FlowContext
+from src.domain.account_worker.services.actions_old.instagram.base import Flow, FlowConfig, FlowContext
 
 
 @dataclass
@@ -34,7 +34,7 @@ class AuthorizedFlow(
     Generic[TContext, TConfig],
     ABC,
 ):
-    """Базовый класс для всех flows с авторизацией"""
+    """Базовый класс для всех actions_old с авторизацией"""
 
     def __init__(
         self,
