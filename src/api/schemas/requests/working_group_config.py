@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogLevel
+from src.domain.account_worker.entities.account_worker_log import LogLevel
 
 
 # === AccountOnStartWorkConfigPatch ===
@@ -98,7 +98,7 @@ class WorkingGroupNetworkConfigPatch(BaseModel):
 # === LoggingConfigPatch ===
 class WorkingGroupLoggingConfigPatch(BaseModel):
     enabled: Optional[bool] = None
-    level: Optional[AccountWorkerLogLevel] = None
+    level: Optional[LogLevel] = None
 
 
 # === Root WorkingGroupConfig Patch ===

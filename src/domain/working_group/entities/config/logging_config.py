@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogLevel
+from src.domain.account_worker.entities.account_worker_log import LogLevel
 
 
 class WorkingGroupLoggingConfig(BaseModel):
@@ -9,8 +9,8 @@ class WorkingGroupLoggingConfig(BaseModel):
         title="Включить логирование",
         description="Включить или выключить логирование задачи",
     )
-    level: AccountWorkerLogLevel = Field(
-        default=AccountWorkerLogLevel.DEBUG,
+    level: LogLevel = Field(
+        default=LogLevel.DEBUG,
         title="Уровень логирования",
         description="""
             "DEBUG": "DEBUG: Все сообщения включая отладочную информацию",

@@ -1,11 +1,11 @@
 import uuid
 
 from sqlalchemy import UUID
-from sqlalchemy import Enum as SQLEnum
+from sqlalchemy import Enum as SaEnum
 from sqlalchemy import ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.domain.account_worker.entities.account_worker_log import AccountWorkerLogLevel
+from src.domain.account_worker.entities.account_worker_log import LogLevel
 from src.infrastructure.database.repositories.models.common import (
     Base,
     TimestampsMixin,
@@ -13,11 +13,13 @@ from src.infrastructure.database.repositories.models.common import (
 )
 
 
-class LogModel(Base, UUIDIDMixin, TimestampsMixin):
-    __tablename__ = "log"
+class AccountWorkerLogModel(Base, UUIDIDMixin, TimestampsMixin):
+    __tablename__ = "account_worker_log"
 
-    level: Mapped[AccountWorkerLogLevel] = mapped_column(
-        SQLEnum(AccountWorkerLogLevel), nullable=False
+    level: Mapped[LogLevel] = mapped_column(
+        SaEnum(LogLevel),
+        nullable=False,
+        name="log_level"
     )
     type: Mapped[str] = mapped_column(String(25), nullable=False)
     seq: Mapped[int] = mapped_column(Integer, nullable=False)

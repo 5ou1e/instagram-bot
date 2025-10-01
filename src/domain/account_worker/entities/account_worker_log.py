@@ -4,12 +4,7 @@ from enum import Enum
 from uuid import UUID
 
 
-class AccountWorkerLogType(Enum):
-    DEFAULT = "default"
-    INSTAGRAM_CLIENT = "instagram_client"
-
-
-class AccountWorkerLogLevel(Enum):
+class LogLevel(Enum):
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -23,11 +18,16 @@ class AccountWorkerLogLevel(Enum):
         return self._order
 
 
+class AccountWorkerLogType(Enum):
+    DEFAULT = "default"
+    INSTAGRAM_CLIENT = "instagram_client"
+
+
 @dataclass(kw_only=True, slots=True)
 class AccountWorkerLog:
     id: UUID
     account_id: UUID
-    level: AccountWorkerLogLevel
+    level: LogLevel
     type: AccountWorkerLogType = AccountWorkerLogType.DEFAULT
     seq: int  # Sequence number для упорядочивания
     message: str

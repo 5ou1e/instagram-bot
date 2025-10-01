@@ -3,7 +3,7 @@ from .account_worker import AccountWorkerModel
 from .account_worker_task import AccountWorkerTaskModel
 from .android_device import AndroidDeviceHardwareModel, AndroidDeviceModel
 from .imap import IMAPModel
-from .log import LogModel
+from .log import AccountWorkerLogModel
 from .proxy import ProxyModel
 from .working_group import WorkingGroupModel
 
@@ -12,7 +12,7 @@ __all__ = [
     "ProxyModel",
     "AndroidDeviceModel",
     "AndroidDeviceHardwareModel",
-    "LogModel",
+    "AccountWorkerLogModel",
     "IMAPModel",
     "WorkingGroupModel",
     "AccountWorkerModel",

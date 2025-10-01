@@ -8,7 +8,7 @@ from uuid6 import uuid7
 
 from src.domain.account_worker.entities.account_worker_log import (
     AccountWorkerLog,
-    AccountWorkerLogLevel,
+    LogLevel,
     AccountWorkerLogType,
 )
 from src.domain.account_worker.repositories.account_worker_log import AccountWorkerLogRepository
@@ -41,9 +41,9 @@ class PostgresLogsWriter:
         self._batch_size = batch_size
         self._task: asyncio.Task | None = None
         self._running = False
-        self._level = AccountWorkerLogLevel.DEBUG
+        self._level = LogLevel.DEBUG
 
-    def start(self, level: AccountWorkerLogLevel = AccountWorkerLogLevel.DEBUG) -> None:
+    def start(self, level: LogLevel = LogLevel.DEBUG) -> None:
         self._level = level
         """Запустить фоновую задачу"""
         if not self._running:
@@ -128,7 +128,7 @@ class PostgresAccountWorkerLogger(AccountWorkerLogger):
 
         log = AccountWorkerLog(
             id=uuid7(),
-            level=AccountWorkerLogLevel(level),
+            level=LogLevel(level),
             type=self._logs_type,
             message=formatted,
             account_id=self._account_id,
