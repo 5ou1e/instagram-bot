@@ -178,7 +178,7 @@ class RequestHandler:
         safe_body = "".join(c for c in body_str if ord(c) < 128)
 
         await self.logger.debug(
-            "\nResponse: \nStatus: %s\nHeaders: %s\nSet-Cookie: %s\nBody: %s",
+            "Response: \nStatus: %s\nHeaders: %s\nSet-Cookie: %s\nBody: %s",
             resp.status,
             resp.headers,
             resp.headers.get("Set-Cookie"),
