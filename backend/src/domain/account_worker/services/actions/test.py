@@ -1,6 +1,5 @@
-from src.domain.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.account_worker.services.actions.base import AccountWorkerActionExecutor
-
+from backend.src.domain.account_worker.entities.account_worker.entity import AccountWorker
+from backend.src.domain.account_worker.services.actions.base import AccountWorkerActionExecutor
 
 
 class AuthorizeAccountActionExecutor(AccountWorkerActionExecutor):
@@ -85,13 +84,13 @@ def with_timeout(seconds: float) -> Middleware:
     return mw
 
 
-def pipeline():
-    auth = AuthorizeAccountActionExecutor()
-    change_proxy = ChangeProxyActionExecutor()
-    follow = FollowUserActionExecutor()
-
-    try:
-        follow.execute()
-    except
-    except Unauthorized as e:
-        auth.execute()
+# def pipeline():
+#     auth = AuthorizeAccountActionExecutor()
+#     change_proxy = ChangeProxyActionExecutor()
+#     follow = FollowUserActionExecutor()
+#
+#     try:
+#         follow.execute()
+#     except
+#     except Unauthorized as e:
+#         auth.execute()

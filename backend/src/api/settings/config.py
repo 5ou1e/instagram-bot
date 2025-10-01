@@ -31,7 +31,6 @@ class ApiV1Config(BaseModel):
 
 
 class ApiConfig(BaseModel):
-    url: str
     prefix: str = "/api"
     v1: ApiV1Config = ApiV1Config()
     cors: CORSConfig
