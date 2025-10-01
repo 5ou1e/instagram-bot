@@ -74,3 +74,38 @@ FROM pg_stat_activity
 WHERE datname = 'insta'
 GROUP BY state;
 
+
+
+# ------------------- Почистить бд -------------------
+
+DO $$
+DECLARE r RECORD;
+BEGIN
+  FOR r IN
+    SELECT format('%I.%I', schemaname, tablename) AS fqtn
+    FROM pg_tables
+    WHERE schemaname = 'public'
+  LOOP
+    EXECUTE format('DROP TABLE IF EXISTS %s CASCADE;', r.fqtn);
+  END LOOP;
+END$$;
+
+
+--------------------------------------
+
+DO $$
+DECLARE r RECORD;
+BEGIN
+  FOR r IN
+    SELECT n.nspname AS schema, t.typname AS typ
+    FROM pg_type t
+    JOIN pg_enum e ON e.enumtypid = t.oid
+    JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE n.nspname = 'public'
+    GROUP BY 1,2
+  LOOP
+    EXECUTE format('DROP TYPE IF EXISTS %I.%I CASCADE;', r.schema, r.typ);
+  END LOOP;
+END$$;
+
+--------------------------------------

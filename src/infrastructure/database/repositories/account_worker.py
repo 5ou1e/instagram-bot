@@ -302,7 +302,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                 LEFT JOIN proxy p ON aw.proxy_id = p.id
                 LEFT JOIN LATERAL (
                     SELECT message
-                    FROM log l
+                    FROM account_worker_log l
                     WHERE l.account_id = a.id AND l.created_at IS NOT NULL
                     ORDER BY l.created_at DESC, l.seq DESC
                     LIMIT 1
