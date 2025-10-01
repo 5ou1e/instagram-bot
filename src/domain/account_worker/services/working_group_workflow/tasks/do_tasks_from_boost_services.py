@@ -66,6 +66,7 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         service_id = 1
 
         completed_count = 0
+        await self._worker_logger.error(f"{bot_id}")
 
         while completed_count <= 50:
             if stop_event.is_set():
