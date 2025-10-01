@@ -12,6 +12,7 @@ from src.api.schemas.requests.working_group_account_worker_task import (
 )
 from src.api.schemas.requests.working_group_config import WorkingGroupConfigPatch
 from src.api.schemas.response import ApiResponse
+from src.api.settings.config import config
 from src.application.common.dtos.pagination import Pagination
 from src.application.common.dtos.working_group import WorkingGroupDTO, WorkingGroupsDTO
 from src.application.common.types import AccountStringFormat
@@ -204,13 +205,12 @@ async def start_workers(
     wg_id: UUID,
     worker_ids: list[UUID] = Body(embed=True),
 ) -> ApiResponse:
-    SERVICE_URL = "http://localhost:8001/executions/start_workers"
 
     data = {"worker_ids": [str(w_id) for w_id in worker_ids]}
 
     async with aiohttp.ClientSession() as session:
         async with session.post(
-            url=SERVICE_URL,
+            url=config.execution_service_url + "/executions/start_workers",
             json=data,
         ) as response:
             text = await response.text()

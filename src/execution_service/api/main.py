@@ -19,7 +19,7 @@ from src.execution_service.handlers.stop_worker import (
 from src.execution_service.settings.di.setup import create_execution_service_container
 from src.execution_service.settings.logging import setup_logging
 
-router = APIRouter(prefix="/executions")
+router = APIRouter(prefix="/api/executions")
 
 
 @router.post("/start_workers", status_code=202)

@@ -50,6 +50,7 @@ class Config(BaseSettings):
     db: DatabaseConfig
     api: ApiConfig
     logs: LogsConfig
+    execution_service_url: str
 
 
 config: Config = Config()
