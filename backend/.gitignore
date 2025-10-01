@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pem
+.env
+.env.docker
+venv/
+.idea/
+*static/
+*.log
+**/logs/
+migrations
