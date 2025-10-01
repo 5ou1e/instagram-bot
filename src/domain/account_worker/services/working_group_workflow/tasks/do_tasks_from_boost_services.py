@@ -58,6 +58,10 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         venro_client = VenroClientImpl()
 
         api_key = "494dc3b6d5c6e371afc15ea93aca6ef3"
+
+        if not account.user_id:
+            raise ValueError(f"У аккаунта нету user-id")
+
         bot_id = account.user_id
         service_id = 1
 
@@ -67,15 +71,15 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
             if stop_event.is_set():
                 return
             try:
-                await self._worker_logger.error(f"Получаю задание с Venro...")
+                await self._worker_logger.info(f"Получаю задание с Venro...")
                 venro_task = await venro_client.get_task_follow(
                     api_key,
                     bot_id,
                     service_id,
                 )
-                await self._worker_logger.error(f"Получил задание")
+                await self._worker_logger.info(f"Получил задание")
             except VenroNoTasks as e:
-                await self._worker_logger.error(f"Нету заданий на Venro")
+                await self._worker_logger.info(f"Нету заданий на Venro")
                 await asyncio.sleep(10)
                 continue
             except Exception as e:
