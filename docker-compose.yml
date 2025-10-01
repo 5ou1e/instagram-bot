@@ -29,7 +29,7 @@ services:
 
   api:
     build:
-      context: .
+      context: ./backend
     container_name: api_insta
     env_file:
       - .env.docker
@@ -43,7 +43,7 @@ services:
 
   execution_service_api:
     build:
-      context: .
+      context: ./backend
     container_name: api_insta_execution_service
     env_file:
       - .env.docker

@@ -1,9 +1,7 @@
 # ----------------- Uvicorn -----------------
 
-uvicorn src.api.main:app --reload
-uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
-
-uvicorn src.execution_service.api.main:app --host 127.0.0.1 --port 8001 --reload
+uvicorn src.api.main:app --port 8000 --reload
+uvicorn src.execution_service.api.main:app --port 8001 --reload
 
 # ----------------- PIP -----------------
 
