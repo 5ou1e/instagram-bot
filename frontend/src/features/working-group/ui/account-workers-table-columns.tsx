@@ -17,6 +17,7 @@ import {
 import type { Worker } from "@/types/working-groups"
 
 const fmtDate = (iso?: string | null) => (iso ? new Date(iso).toLocaleString() : "—")
+const fmtProxy = (val?: string | null) => val && val.trim() ? val : "—"
 
 export const AccountWorkersTableColumns: ColumnDef<Worker>[] = [
   // ── PIN LEFT ──────────────────────────────────────────────────────────────
@@ -102,6 +103,12 @@ export const AccountWorkersTableColumns: ColumnDef<Worker>[] = [
         </div>
       )
     },
+  },
+  {
+    accessorKey: "proxy",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Прокси" />,
+    enableSorting: false,
+    cell: ({ getValue }) => <span>{fmtProxy(getValue() as string | null)}</span>,
   },
   {
     accessorKey: "last_action_time",

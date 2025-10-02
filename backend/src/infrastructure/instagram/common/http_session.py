@@ -17,10 +17,6 @@ class HttpSession:
         if proxy:
             self.set_proxy(proxy)
 
-    @property
-    def aiohttp_session(self):
-        return self._aiohttp_session
-
     async def close(self) -> None:
         await self._aiohttp_session.close()
 

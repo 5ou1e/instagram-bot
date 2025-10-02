@@ -66,13 +66,12 @@ class RequestHandler:
         response, raw_content, elapsed_ms = await self._execute_request(request)
 
         self._update_client_state_after_success_response(
-            response, raw_content, elapsed_ms
+            response,
+            raw_content,
+            elapsed_ms
         )
 
         await self.logger.info(request.url)
-        await self.logger.info(
-            f"Сессионные данные после запроса: {self._client_state.local_data}"
-        )
 
         if "zstd" in response.headers.get("Content-Encoding", ""):
             try:
@@ -102,6 +101,10 @@ class RequestHandler:
                 raise BadResponseError(message=f"Не удалось декодировать ответ в utf-8")
 
         await self._log_response(response, data)
+
+        await self.logger.debug(
+            f"Сессионные данные после запроса: {self._client_state.local_data}"
+        )
 
         if response.status != 200:
             self.parse_and_raise_error(request, response, data)

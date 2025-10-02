@@ -7,6 +7,7 @@ from src.domain.shared.exceptions import DomainError
 from src.domain.shared.interfaces.logger import AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
+from src.domain.working_group.entities.worker_task.base import AccountWorkerTaskType
 from src.domain.working_group.repositories.working_group import WorkingGroupRepository
 from src.domain.account_worker.services.working_group_workflow.tasks.executor_factory import (
     AccountWorkerTaskExecutorFactory,
@@ -58,6 +59,9 @@ class AccountWorkerWorkflowExecutor:
             await self._worker_logger.info("Начал работу")
 
             for task in tasks:
+                # if task.type == AccountWorkerTaskType.AUTHORIZE_ACCOUNT:
+                #     continue
+
                 task_executor = self._account_worker_task_executor_factory.create(task)
                 await task_executor.execute(
                     worker=worker,

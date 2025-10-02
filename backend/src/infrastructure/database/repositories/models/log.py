@@ -17,9 +17,11 @@ class AccountWorkerLogModel(Base, UUIDIDMixin, TimestampsMixin):
     __tablename__ = "account_worker_log"
 
     level: Mapped[LogLevel] = mapped_column(
-        SaEnum(LogLevel),
-        nullable=False,
-        name="log_level"
+        SaEnum(
+            LogLevel,
+            name="log_level",
+        ),
+        nullable=False
     )
     type: Mapped[str] = mapped_column(String(25), nullable=False)
     seq: Mapped[int] = mapped_column(Integer, nullable=False)

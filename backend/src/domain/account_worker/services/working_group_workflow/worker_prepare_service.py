@@ -34,7 +34,7 @@ class AccountWorkerPrepareBeforeWorkService:
 
     async def prepare(self, worker: AccountWorker):
         await self._ensure_android_device(worker)
-        await self._ensure_proxy(worker)
+        # await self._ensure_proxy(worker)
 
     async def _ensure_android_device(
         self,

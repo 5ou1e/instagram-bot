@@ -41,17 +41,13 @@ class FollowUserFlow(AuthorizedFlow[AuthorizedFlowContext, FollowUserFlowConfig]
     ) -> Any:
         user_id = args[0]
         async with self._build_instagram_client(worker) as client:
+            async with self._ctx.uow:
+                account = await self._ctx.account_repository.get_by_id(worker.account_id)
 
             try:
-                async with self._ctx.uow:
-                    worker.last_action_time = current_datetime()
-                    worker.status = f"Подписываюсь на пользователя"
-                    await self._ctx.account_repository.update(worker)
-
                 await self._ctx.logger.info(
                     f"Подписываюсь на пользователя {user_id} ..."
                 )
-
                 await self._ig_action_wrapper.execute(
                     lambda: client.user.follow_user(str(user_id)),
                     worker,
@@ -60,21 +56,19 @@ class FollowUserFlow(AuthorizedFlow[AuthorizedFlowContext, FollowUserFlowConfig]
                 await self._ctx.logger.info(f"Подписался на пользователя {user_id}")
 
                 async with self._ctx.uow:
-                    worker.action_statistics.follows += 1
-                    worker.last_action_time = current_datetime()
-                    await self._ctx.account_repository.update(worker)
+                    account.action_statistics.follows += 1
+                    await self._ctx.account_repository.update(account)
+
             except FeedbackRequiredError as e:
                 await self._ctx.logger.info(f"Действие заблокировано: {e}")
-                worker.action_statistics.follows_blocks += 1
                 async with self._ctx.uow:
-                    worker.last_action_time = current_datetime()
-                    await self._ctx.account_repository.update(worker)
+                    account.action_statistics.follows_blocks += 1
+                    await self._ctx.account_repository.update(account)
+
                 raise
+
             except Exception as e:
                 await self._ctx.logger.info(f"Не смог подписаться: {e}")
-                async with self._ctx.uow:
-                    worker.last_action_time = current_datetime()
-                    await self._ctx.account_repository.update(worker)
                 raise e
 
             finally:

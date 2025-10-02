@@ -3,6 +3,7 @@ import random
 from uuid import UUID
 
 from src.domain.account.repositories.account import AccountRepository
+from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
 from src.domain.account_worker.services.actions_old.instagram.authorized.follow_user import \
     FollowUserFlow, FollowUserFlowContext, FollowUserFlowConfig
 from src.domain.shared.interfaces.boost_services.exceptions import VenroNoTasks
@@ -34,6 +35,7 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         task_id: UUID,
         uow: Uow,
         account_repository: AccountRepository,
+        account_worker_repository: AccountWorkerRepository,
         proxy_provider: ProxyProvider,
         working_group_repository: WorkingGroupRepository,
         logger: Logger,
@@ -42,6 +44,7 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         self._task_id = task_id
         self._proxy_provider = proxy_provider
         self._account_repository = account_repository
+        self._account_worker_repository = account_worker_repository
         self._working_group_repository = working_group_repository
         self._worker_logger = logger
 
@@ -66,7 +69,6 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         service_id = 1
 
         completed_count = 0
-        await self._worker_logger.error(f"{bot_id}")
 
         while completed_count <= 50:
             if stop_event.is_set():
@@ -93,6 +95,7 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
                     account_repository=self._account_repository,
                     logger=self._worker_logger,
                     proxy_provider=self._proxy_provider,
+                    account_worker_repository=self._account_worker_repository,
                 ),
                 config=FollowUserFlowConfig(
                     instagram_network_config=working_group_config.instagram_network_config,

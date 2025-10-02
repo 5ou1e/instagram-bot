@@ -83,6 +83,7 @@ class AccountWorkerTaskExecutorFactory:
                 uow=self._uow,
                 working_group_repository=self._working_group_repository,
                 account_repository=self._account_repository,
+                account_worker_repository=self._account_worker_repository,
                 proxy_provider=self._proxy_provider,
                 logger=self._worker_logger,
             )

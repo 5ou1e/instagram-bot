@@ -59,6 +59,7 @@ class InstagramActionWrapper:
                 return result
 
             except NetworkError as e:
+                raise e
                 network_error_occurred = True
                 errors += 1
 
@@ -73,6 +74,7 @@ class InstagramActionWrapper:
                 )
 
                 await asyncio.sleep(self._delay_before_proxy_change)
+
                 await self._change_proxy(worker)
                 client.set_proxy(worker.proxy)
 

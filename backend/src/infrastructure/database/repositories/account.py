@@ -21,6 +21,7 @@ def convert_account_model_to_entity(model: AccountModel) -> Account:
         id=model.id,
         username=model.username,
         password=model.password,
+        user_id=model.user_id,
         email=Email(
             username=model.email_username,
             password=model.email_password,
@@ -37,6 +38,7 @@ def convert_account_entity_to_model(entity: Account) -> AccountModel:
         id=entity.id,
         username=entity.username,
         password=entity.password,
+        user_id=entity.user_id,
         email_username=entity.email.username if entity.email is not None else None,
         email_password=entity.email.password if entity.email is not None else None,
         action_statistics=entity.action_statistics.to_dict(),
