@@ -27,13 +27,10 @@ from src.application.features.working_group.account_worker.dto import (
     AccountWorkerCreateDTO,
     AccountWorkerCreateProxyDTO,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
-    AccountWorker,
-)
-from src.domain.aggregates.account_worker.entities.android_device import (
-    AndroidDevice,
-    AndroidDeviceInstagramAppData,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.aggregates.account_worker.entities.android_device import \
+    AndroidDeviceInstagramAppData, AndroidDevice
+
 from src.domain.shared.interfaces.instagram.version import InstagramAppVersion
 from src.domain.shared.utils import (
     generate_android_id_from_guid,

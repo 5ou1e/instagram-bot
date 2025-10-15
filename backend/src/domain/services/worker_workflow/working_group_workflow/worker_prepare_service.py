@@ -4,13 +4,13 @@ from src.application.features.working_group.account_worker.converters.iam_mob im
     extract_ig_app_version_from_ig_android_user_agent,
     extract_locale_from_ig_android_user_agent,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
     AccountWorker,
 )
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
-from src.domain.aggregates.account_worker.entities.android_device import (
+from src.domain.aggregates.account_worker.entities.account_worker_log.android_device import (
     AndroidDevice,
     AndroidDeviceInstagramAppData,
 )

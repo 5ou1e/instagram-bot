@@ -2,10 +2,8 @@ import logging
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.domain.aggregates.account_worker.entities.account_worker_log import (
-    AccountWorkerLog,
-    AccountWorkerLogType,
-)
+from src.domain.aggregates.account_worker.entities.account_worker_log import AccountWorkerLog, \
+    AccountWorkerLogType
 from src.domain.aggregates.account_worker.repositories.account_worker_log import (
     AccountWorkerLogRepository,
 )

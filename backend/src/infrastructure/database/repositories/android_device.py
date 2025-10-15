@@ -4,10 +4,8 @@ from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.aggregates.account_worker.entities.android_device import (
-    AndroidDevice,
-    AndroidDeviceInstagramAppData,
-)
+from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice, \
+    AndroidDeviceInstagramAppData
 from src.domain.aggregates.account_worker.repositories.android_device import (
     AndroidDeviceRepository,
 )

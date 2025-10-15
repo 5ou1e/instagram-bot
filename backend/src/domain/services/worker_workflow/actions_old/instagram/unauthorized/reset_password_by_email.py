@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from src.domain.aggregates.account.entities.account import Account
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
     AccountWorker,
 )
 from src.domain.aggregates.working_group.exceptions import AccountDoesNotHaveEmailError

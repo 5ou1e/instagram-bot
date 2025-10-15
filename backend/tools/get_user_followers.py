@@ -8,7 +8,7 @@ from src.domain.shared.interfaces.instagram.mobile_client import \
     MobileInstagramClientNetworkConfig
 from src.domain.shared.entities.account import AccountIgAppSessionData
 from src.domain.shared.entities.android_device import (AndroidDeviceProfile)
-from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice
+from src.domain.aggregates.account_worker.entities.account_worker_log.android_device import AndroidDevice
 from src.infrastructure.account_logger import PostgresAccountWorkerLoggerFactory
 from src.infrastructure.instagram.mobile_client.builder import \
     MobileInstagramClientBuilderImpl

@@ -1,10 +1,8 @@
 from typing import Optional, Protocol
 from uuid import UUID
 
-from src.domain.aggregates.account_worker.entities.account_worker_log import (
-    AccountWorkerLog,
-    AccountWorkerLogType,
-)
+from src.domain.aggregates.account_worker.entities.account_worker_log import AccountWorkerLog, \
+    AccountWorkerLogType
 
 
 class AccountWorkerLogRepository(Protocol):

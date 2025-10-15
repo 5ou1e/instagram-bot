@@ -6,11 +6,8 @@ from uuid import UUID
 
 from uuid6 import uuid7
 
-from src.domain.aggregates.account_worker.entities.account_worker_log import (
-    AccountWorkerLog,
-    AccountWorkerLogType,
-    LogLevel,
-)
+from src.domain.aggregates.account_worker.entities.account_worker_log import LogLevel, \
+    AccountWorkerLogType, AccountWorkerLog
 from src.domain.aggregates.account_worker.repositories.account_worker_log import (
     AccountWorkerLogRepository,
 )

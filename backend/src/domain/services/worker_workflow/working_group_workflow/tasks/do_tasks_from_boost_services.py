@@ -3,7 +3,7 @@ import random
 from uuid import UUID
 
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
     AccountWorker,
 )
 from src.domain.aggregates.account_worker.repositories.account_worker import (

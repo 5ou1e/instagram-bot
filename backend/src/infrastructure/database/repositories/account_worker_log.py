@@ -5,10 +5,8 @@ from sqlalchemy import asc, delete, desc, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.aggregates.account_worker.entities.account_worker_log import (
-    AccountWorkerLog,
-    AccountWorkerLogType,
-)
+from src.domain.aggregates.account_worker.entities.account_worker_log import AccountWorkerLog, \
+    AccountWorkerLogType
 from src.domain.aggregates.account_worker.repositories.account_worker_log import (
     AccountWorkerLogRepository,
 )

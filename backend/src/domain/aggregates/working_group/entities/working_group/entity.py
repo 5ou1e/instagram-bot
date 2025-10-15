@@ -5,12 +5,9 @@ from typing import List, Optional
 
 from transitions import MachineError
 
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
-    AccountWorker,
-)
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
-    AccountWorkerWorkState,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
+    AccountWorkerWorkState
 from src.domain.aggregates.working_group.entities.config.working_group_config import (
     WorkingGroupConfig,
 )

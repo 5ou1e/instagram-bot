@@ -7,9 +7,9 @@ from sqlalchemy.orm import selectinload
 
 from src.application.common.dtos.working_group import WorkingGroupDTO, WorkingGroupsDTO
 from src.application.common.interfaces.working_group_reader import WorkingGroupReader
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
-    AccountWorkerWorkState,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
+    AccountWorkerWorkState
+
 from src.domain.aggregates.working_group.entities.config.working_group_config import (
     WorkingGroupConfig,
 )

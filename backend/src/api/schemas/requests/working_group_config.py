@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from src.domain.aggregates.account_worker.entities import LogLevel
+from src.domain.aggregates.account_worker.entities.account_worker_log import LogLevel
 
 
 # === AccountOnStartWorkConfigPatch ===

@@ -1,12 +1,9 @@
 from typing import Protocol
 from uuid import UUID
 
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
-    AccountWorker,
-)
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
-    AccountWorkerWorkState,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
+    AccountWorkerWorkState
 
 
 class AccountWorkerRepository(Protocol):

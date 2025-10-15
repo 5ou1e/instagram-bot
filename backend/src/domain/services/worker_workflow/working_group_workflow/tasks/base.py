@@ -1,7 +1,7 @@
 import asyncio
 from abc import ABC, abstractmethod
 
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
     AccountWorker,
 )
 

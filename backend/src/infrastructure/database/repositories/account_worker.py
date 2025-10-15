@@ -15,18 +15,16 @@ from src.application.common.interfaces.account_worker_reader import AccountWorke
 from src.application.features.working_group.account_worker.dto import (
     WorkingGroupWorkersDTO,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
-    AccountWorker,
-)
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
-    AccountWorkerWorkState,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
+    AccountWorkerWorkState
+from src.domain.aggregates.account_worker.entities.android_device import \
+    AndroidDeviceInstagramAppData
+
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
-from src.domain.aggregates.account_worker.entities.android_device import (
-    AndroidDeviceInstagramAppData,
-)
+
 from src.infrastructure.database.repositories.android_device import (
     convert_android_device_entity_to_model,
     convert_android_device_model_to_entity,

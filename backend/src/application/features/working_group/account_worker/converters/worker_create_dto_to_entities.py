@@ -14,12 +14,9 @@ from src.domain.aggregates.account.entities.account import (
     AccountActionStatistics,
 )
 from src.domain.aggregates.account.value_objects import Email
-from src.domain.aggregates.account_worker.entities.account_worker.entity import (
-    AccountWorker,
-)
-from src.domain.aggregates.account_worker.entities.android_device import (
-    AndroidDevice,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice
+
 from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
     AndroidDeviceHardware,
 )
