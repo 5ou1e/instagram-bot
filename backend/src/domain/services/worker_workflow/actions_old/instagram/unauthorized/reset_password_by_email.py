@@ -2,9 +2,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from src.domain.aggregates.account.entities.account import Account
-from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
-    AccountWorker,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+
 from src.domain.aggregates.working_group.exceptions import AccountDoesNotHaveEmailError
 from src.domain.services.email_service import EmailService
 from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.base import (

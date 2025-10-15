@@ -2,9 +2,7 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
-    AccountWorker,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.services.worker_workflow.actions_old.instagram.base import (
     Flow,
     FlowConfig,

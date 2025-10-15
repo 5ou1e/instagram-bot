@@ -2,9 +2,8 @@ from dataclasses import dataclass, field
 from typing import Generic, Tuple, Type, TypeVar
 
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
-    AccountWorker,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
