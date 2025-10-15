@@ -1,4 +1,5 @@
 import json
+import ssl
 from json import JSONDecodeError
 
 import aiohttp
@@ -9,6 +10,9 @@ from src.domain.shared.interfaces.boost_services.venro_client import (
     VenroTaskData,
 )
 
+ssl_context = ssl.create_default_context()
+ssl_context.check_hostname = False
+ssl_context.verify_mode = ssl.CERT_NONE
 
 class VenroClientImpl(VenroClient):
 
@@ -90,7 +94,7 @@ class VenroClientImpl(VenroClient):
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
-                    url, headers=self.headers, params=params
+                    url, headers=self.headers, params=params, ssl=ssl_context
                 ) as resp:
                     data = await resp.text()
             resp.raise_for_status()
