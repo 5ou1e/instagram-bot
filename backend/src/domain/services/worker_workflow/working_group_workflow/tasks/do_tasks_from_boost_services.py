@@ -85,7 +85,7 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
             if stop_event.is_set():
                 return
 
-            if completed_count >= 50:
+            if completed_count % 50 == 0:
                 await self._send_extra_requests(worker, working_group_config)
 
             try:
