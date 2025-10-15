@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from uuid import UUID
 
-from src.domain.working_group.entities.working_group.work_state import (
+from src.domain.aggregates.working_group.entities.working_group.work_state import (
     WorkingGroupWorkState,
 )
 

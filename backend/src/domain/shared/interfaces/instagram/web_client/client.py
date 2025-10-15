@@ -1,6 +1,6 @@
 from typing import Protocol, runtime_checkable
 
-from src.domain.proxy.entities import Proxy
+from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.user_agent.entities import UserAgent
 
 

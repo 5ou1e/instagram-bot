@@ -4,11 +4,17 @@ from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.android_device_hardware.entities.android_device import AndroidDevice, \
-    AndroidDeviceInstagramAppData
-from src.domain.android_device_hardware.repositories.android_device import AndroidDeviceRepository
-from src.infrastructure.database.repositories.android_device_hardware import \
-    convert_android_device_hardware_model_to_entity, convert_android_device_hardware_entity_to_model
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDevice,
+    AndroidDeviceInstagramAppData,
+)
+from src.domain.aggregates.account_worker.repositories.android_device import (
+    AndroidDeviceRepository,
+)
+from src.infrastructure.database.repositories.android_device_hardware import (
+    convert_android_device_hardware_entity_to_model,
+    convert_android_device_hardware_model_to_entity,
+)
 from src.infrastructure.database.repositories.models.android_device import (
     AndroidDeviceModel,
 )
@@ -125,5 +131,3 @@ class PostgresAndroidDeviceRepository(AndroidDeviceRepository):
         stmt = delete(AndroidDeviceModel).where(AndroidDeviceModel.id.in_(ids))
         result = await self._session.execute(stmt)
         return result.rowcount  # noqa
-
-

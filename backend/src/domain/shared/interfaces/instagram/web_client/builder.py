@@ -1,6 +1,6 @@
 from typing import Protocol, runtime_checkable
 
-from src.domain.account.entities.account import Account
+from src.domain.aggregates.account.entities.account import Account
 from src.domain.shared.interfaces.instagram.instagram_network_config import (
     InstagramNetworkConfig,
 )

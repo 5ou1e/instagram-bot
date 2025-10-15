@@ -5,7 +5,7 @@ from sqlalchemy import Enum as SaEnum
 from sqlalchemy import ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.domain.account_worker.entities.account_worker_log import LogLevel
+from src.domain.aggregates.account_worker.entities.account_worker_log import LogLevel
 from src.infrastructure.database.repositories.models.common import (
     Base,
     TimestampsMixin,
@@ -21,7 +21,7 @@ class AccountWorkerLogModel(Base, UUIDIDMixin, TimestampsMixin):
             LogLevel,
             name="log_level",
         ),
-        nullable=False
+        nullable=False,
     )
     type: Mapped[str] = mapped_column(String(25), nullable=False)
     seq: Mapped[int] = mapped_column(Integer, nullable=False)

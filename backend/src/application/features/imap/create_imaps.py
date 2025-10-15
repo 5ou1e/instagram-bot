@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from uuid import UUID
 
 from src.application.common.converters.imap import convert_imap_line_to_entity
-from src.domain.imap.repository import IMAPRepository
+from src.domain.aggregates.imap.repository import IMAPRepository
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

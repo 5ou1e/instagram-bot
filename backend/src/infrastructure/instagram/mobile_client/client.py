@@ -1,7 +1,7 @@
 import aiohttp
 from aiohttp import ClientSession, ClientTimeout
 
-from src.domain.proxy.entities import Proxy
+from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.shared.interfaces.instagram.mobile_client.client import (
     MobileInstagramClient,
 )

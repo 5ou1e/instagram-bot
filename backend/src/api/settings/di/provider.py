@@ -33,6 +33,15 @@ from src.application.features.log.get_logs import GetLogsQueryHandler
 from src.application.features.proxy.create_proxies import CreateProxiesCommandHandler
 from src.application.features.proxy.delete_proxies import DeleteProxiesCommandHandler
 from src.application.features.proxy.get_proxies import GetProxiesQueryHandler
+from src.application.features.working_group.account_worker.create_workers import (
+    CreateWorkingGroupWorkersCommandHandler,
+)
+from src.application.features.working_group.account_worker.delete_workers import (
+    DeleteWorkingGroupWorkersCommandHandler,
+)
+from src.application.features.working_group.account_worker.get_workers import (
+    GetWorkingGroupWorkersQueryHandler,
+)
 from src.application.features.working_group.create_working_group import (
     CreateWorkingGroupCommandHandler,
 )
@@ -51,15 +60,6 @@ from src.application.features.working_group.set_working_group_name import (
 from src.application.features.working_group.update_working_group_config import (
     UpdateWorkingGroupConfigCommandHandler,
 )
-from src.application.features.working_group.worker.create_workers import (
-    CreateWorkingGroupWorkersCommandHandler,
-)
-from src.application.features.working_group.worker.delete_workers import (
-    DeleteWorkingGroupWorkersCommandHandler,
-)
-from src.application.features.working_group.worker.get_workers import (
-    GetWorkingGroupWorkersQueryHandler,
-)
 from src.application.features.working_group.worker_task.create_worker_task import (
     CreateWorkerTaskCommandHandler,
 )
@@ -71,23 +71,25 @@ from src.application.features.working_group.worker_task.update_worker_task impor
 )
 from src.domain.shared.interfaces.uow import Uow
 from src.infrastructure.database.repositories.account import PostgresAccountRepository
+from src.infrastructure.database.repositories.account_worker import (
+    PostgresAccountWorkerReader,
+    PostgresAccountWorkerRepository,
+)
+from src.infrastructure.database.repositories.account_worker_log import (
+    PostgresAccountWorkerLogRepository,
+)
 from src.infrastructure.database.repositories.android_device import (
     PostgresAndroidDeviceRepository,
 )
-from src.infrastructure.database.repositories.android_device_hardware import \
-    PostgresAndroidDeviceHardwareRepository
+from src.infrastructure.database.repositories.android_device_hardware import (
+    PostgresAndroidDeviceHardwareRepository,
+)
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
-from src.infrastructure.database.repositories.account_worker_log import PostgresAccountWorkerLogRepository
 from src.infrastructure.database.repositories.proxy import PostgresProxyRepository
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,
 )
-from src.infrastructure.database.repositories.account_worker import (
-    PostgresAccountWorkerReader,
-    PostgresAccountWorkerRepository,
-)
-
 from src.infrastructure.database.uow import SQLAlchemyUoW
 
 
@@ -140,7 +142,6 @@ class AppProvider(Provider):
         WithParents[PostgresAccountWorkerRepository],
         WithParents[PostgresAccountWorkerReader],
         WithParents[PostgresWorkingGroupReader],
-
         scope=Scope.REQUEST,
     )
 

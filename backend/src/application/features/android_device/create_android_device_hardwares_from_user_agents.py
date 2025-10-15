@@ -6,7 +6,9 @@ from src.application.common.converters.android_device_hardware import (
     android_device_hardware_from_user_agent_string,
 )
 from src.application.common.exceptions import IncorrectAndroidUserAgentString
-from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
+from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
+    AndroidDeviceHardwareRepository,
+)
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)
@@ -41,9 +43,7 @@ class CreateAndroidDeviceHardwaresFromUserAgentsCommandHandler:
                 spec = android_device_hardware_from_user_agent_string(ua_string)
                 specs.append(spec)
             except IncorrectAndroidUserAgentString as e:
-                logger.warning(
-                    f"Failed to parse user-agent: {ua_string}. Error: {e}"
-                )
+                logger.warning(f"Failed to parse user-agent: {ua_string}. Error: {e}")
                 parse_errors += 1
                 continue
 

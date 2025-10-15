@@ -2,10 +2,7 @@ import logging
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.application.common.converters.account.converter import (
-    convert_account_string_to_entity,
-)
-from src.domain.account.repositories.account import AccountRepository
+from src.domain.aggregates.account.repository import AccountRepository
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)
@@ -30,17 +27,4 @@ class CreateAccountsCommandHandler:
         self,
         data: list[str],
     ) -> CreateAccountsCommandResult:
-        """Добавляем аккаунты в БД"""
-
-        accounts = [convert_account_string_to_entity(line) for line in data]
-
-        async with self._uow:
-            created = await self._account_repository.bulk_create(
-                accounts,
-                on_conflict_do_nothing=True,
-                return_inserted_ids=True,
-            )
-
-            return CreateAccountsCommandResult(
-                ids=[acc.id for acc in created],
-            )
+        raise NotImplementedError

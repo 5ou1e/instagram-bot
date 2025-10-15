@@ -1,8 +1,12 @@
 import logging
 from dataclasses import dataclass
 
-from src.domain.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
-from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
+from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
+    AndroidDeviceHardware,
+)
+from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
+    AndroidDeviceHardwareRepository,
+)
 
 logger = logging.getLogger(__name__)
 

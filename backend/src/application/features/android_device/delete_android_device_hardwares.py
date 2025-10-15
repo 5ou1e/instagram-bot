@@ -1,7 +1,9 @@
 import logging
 from uuid import UUID
 
-from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
+from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
+    AndroidDeviceHardwareRepository,
+)
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

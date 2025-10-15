@@ -16,6 +16,17 @@ from src.api.settings.config import config
 from src.application.common.dtos.pagination import Pagination
 from src.application.common.dtos.working_group import WorkingGroupDTO, WorkingGroupsDTO
 from src.application.common.types import AccountStringFormat
+from src.application.features.working_group.account_worker import (
+    CreateWorkingGroupWorkersCommandCommandResult,
+    CreateWorkingGroupWorkersCommandHandler,
+    GetWorkingGroupWorkersQuery,
+    GetWorkingGroupWorkersQueryHandler,
+    WorkingGroupWorkersDTO,
+)
+from src.application.features.working_group.account_worker.delete_workers import (
+    DeleteWorkingGroupWorkersCommandHandler,
+    DeleteWorkingGroupWorkersCommandResult,
+)
 from src.application.features.working_group.create_working_group import (
     CreateWorkingGroupCommandHandler,
     CreateWorkingGroupCommandResult,
@@ -38,19 +49,6 @@ from src.application.features.working_group.update_working_group_config import (
     UpdateWorkingGroupConfigCommand,
     UpdateWorkingGroupConfigCommandHandler,
     UpdateWorkingGroupConfigCommandResult,
-)
-from src.application.features.working_group.worker.create_workers import (
-    CreateWorkingGroupWorkersCommandCommandResult,
-    CreateWorkingGroupWorkersCommandHandler,
-)
-from src.application.features.working_group.worker.delete_workers import (
-    DeleteWorkingGroupWorkersCommandHandler,
-    DeleteWorkingGroupWorkersCommandResult,
-)
-from src.application.features.working_group.worker.dto import WorkingGroupWorkersDTO
-from src.application.features.working_group.worker.get_workers import (
-    GetWorkingGroupWorkersQuery,
-    GetWorkingGroupWorkersQueryHandler,
 )
 from src.application.features.working_group.worker_task.create_worker_task import (
     CreateWorkerTaskCommand,

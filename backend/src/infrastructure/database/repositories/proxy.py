@@ -6,8 +6,8 @@ from sqlalchemy import delete, func, select, tuple_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.proxy.entities import Proxy, ProxyProtocol
-from src.domain.proxy.repository import ProxyRepository
+from src.domain.aggregates.proxy.entities import Proxy, ProxyProtocol
+from src.domain.aggregates.proxy.repository import ProxyRepository
 from src.infrastructure.database.repositories.models.common import model_to_dict
 from src.infrastructure.database.repositories.models.proxy import ProxyModel
 

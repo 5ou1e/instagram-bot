@@ -2,12 +2,11 @@ from copy import deepcopy
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.domain.shared.interfaces.uow import Uow
-from src.domain.working_group.entities.config.working_group_config import (
+from src.domain.aggregates.working_group.entities.config.working_group_config import (
     WorkingGroupConfig,
 )
-from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
+from src.domain.shared.interfaces.uow import Uow
 
 
 @dataclass

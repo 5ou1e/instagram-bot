@@ -8,7 +8,7 @@ from aiohttp import ClientResponse
 from instagrapi.utils import gen_token
 from yarl import URL
 
-from src.domain.proxy.entities import Proxy
+from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.shared.exceptions23 import (
     BadRequestError,
     BadResponseError,

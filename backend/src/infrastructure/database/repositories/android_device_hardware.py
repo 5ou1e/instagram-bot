@@ -1,17 +1,21 @@
 from uuid import UUID
 
-from sqlalchemy import select, delete, tuple_
+from sqlalchemy import delete, select, tuple_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
-from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
+from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
+    AndroidDeviceHardware,
+)
+from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
+    AndroidDeviceHardwareRepository,
+)
 from src.infrastructure.database.repositories.models import AndroidDeviceHardwareModel
 from src.infrastructure.database.repositories.models.common import model_to_dict
 
 
 def convert_android_device_hardware_model_to_entity(
-        model: AndroidDeviceHardwareModel,
+    model: AndroidDeviceHardwareModel,
 ) -> AndroidDeviceHardware:
     return AndroidDeviceHardware(
         id=model.id,
@@ -31,7 +35,7 @@ def convert_android_device_hardware_model_to_entity(
 
 
 def convert_android_device_hardware_entity_to_model(
-        entity: AndroidDeviceHardware,
+    entity: AndroidDeviceHardware,
 ) -> AndroidDeviceHardwareModel:
     return AndroidDeviceHardwareModel(
         id=entity.id,
@@ -150,4 +154,3 @@ class PostgresAndroidDeviceHardwareRepository(AndroidDeviceHardwareRepository):
             convert_android_device_hardware_model_to_entity(m)
             for m in result.scalars().all()
         ]
-

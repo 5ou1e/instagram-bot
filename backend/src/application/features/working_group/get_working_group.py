@@ -3,7 +3,6 @@ from uuid import UUID
 
 from src.application.common.dtos.working_group import WorkingGroupDTO
 from src.application.common.interfaces.working_group_reader import WorkingGroupReader
-from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
 
 logger = logging.getLogger(__name__)
 
@@ -21,4 +20,3 @@ class GetWorkingGroupQueryHandler:
         working_group_id: UUID,
     ) -> WorkingGroupDTO:
         return await self._reader.get_working_group_by_id(working_group_id)
-

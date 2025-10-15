@@ -1,6 +1,6 @@
 from typing import Protocol, runtime_checkable
 
-from src.domain.proxy.entities import Proxy
+from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.shared.interfaces.instagram.mobile_client.entities.local_data import (
     MobileInstagramClientLocalData,
 )

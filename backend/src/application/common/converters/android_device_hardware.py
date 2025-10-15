@@ -1,7 +1,9 @@
 from uuid6 import uuid7
 
 from src.application.common.exceptions import IncorrectAndroidUserAgentString
-from src.domain.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
+from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
+    AndroidDeviceHardware,
+)
 from src.domain.shared.utils import current_datetime
 
 

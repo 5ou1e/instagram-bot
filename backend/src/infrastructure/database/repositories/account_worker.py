@@ -12,11 +12,21 @@ from src.application.common.dtos.account_worker import (
 )
 from src.application.common.dtos.pagination import Pagination, PaginationResult
 from src.application.common.interfaces.account_worker_reader import AccountWorkerReader
-from src.application.features.working_group.worker.dto import WorkingGroupWorkersDTO
-from src.domain.android_device_hardware.entities.android_device import AndroidDeviceInstagramAppData
-from src.domain.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
-from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
+from src.application.features.working_group.account_worker.dto import (
+    WorkingGroupWorkersDTO,
+)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
+from src.domain.aggregates.account_worker.repositories.account_worker import (
+    AccountWorkerRepository,
+)
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDeviceInstagramAppData,
+)
 from src.infrastructure.database.repositories.android_device import (
     convert_android_device_entity_to_model,
     convert_android_device_model_to_entity,
@@ -166,17 +176,6 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         # Добавляем или обновляем (upsert-подобное поведение)
         await self._session.merge(model)
 
-    async def get_accounts_by_status(
-        self,
-        working_group_id: UUID,
-        status: AccountWorkerWorkState,
-    ) -> list[UUID]:
-        stmt = select(AccountWorkerModel.account_id).where(
-            AccountWorkerModel.working_group_id == working_group_id,
-            AccountWorkerModel.work_state == status,
-        )
-        result = await self._session.execute(stmt)
-        return [row[0] for row in result.fetchall()]
 
     async def bulk_create(
         self,

@@ -3,9 +3,8 @@ from typing import Union
 from uuid import UUID
 
 from src.application.common.types import UNSET, UnsetType
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
 from src.domain.shared.interfaces.uow import Uow
-from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
 
 
 @dataclass

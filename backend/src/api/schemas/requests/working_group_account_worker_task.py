@@ -2,7 +2,9 @@ from typing import Any, Literal, Optional, Union
 
 from pydantic import BaseModel, Field
 
-from src.domain.working_group.entities.worker_task.base import AccountWorkerTaskType
+from src.domain.aggregates.working_group.entities.worker_task.base import (
+    AccountWorkerTaskType,
+)
 
 
 class UpdateWorkingGroupAccountWorkerTaskData(BaseModel):

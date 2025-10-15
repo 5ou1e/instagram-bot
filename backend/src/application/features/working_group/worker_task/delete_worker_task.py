@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 from uuid import UUID
 
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
 from src.domain.shared.interfaces.uow import Uow
-
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
 
 
 @dataclass
@@ -33,4 +32,3 @@ class DeleteWorkingGroupWorkerTaskCommandHandler:
             )
             working_group.delete_worker_task(command.task_id)
             await self._working_group_repository.update(working_group)
-

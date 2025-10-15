@@ -1,8 +1,8 @@
 import logging
 from dataclasses import dataclass
 
-from src.domain.imap.entities import IMAP
-from src.domain.imap.repository import IMAPRepository
+from src.domain.aggregates.imap.entities import IMAP
+from src.domain.aggregates.imap.repository import IMAPRepository
 
 logger = logging.getLogger(__name__)
 

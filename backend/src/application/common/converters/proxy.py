@@ -3,7 +3,7 @@ import re
 from uuid6 import uuid7
 
 from src.application.common.exceptions import IncorrectProxyStringFormatError
-from src.domain.proxy.entities import Proxy, ProxyProtocol
+from src.domain.aggregates.proxy.entities import Proxy, ProxyProtocol
 
 PROXY_PATTERN = re.compile(
     r"""

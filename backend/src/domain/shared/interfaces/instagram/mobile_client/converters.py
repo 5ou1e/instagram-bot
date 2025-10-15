@@ -1,5 +1,7 @@
-from src.domain.android_device_hardware.entities.android_device import AndroidDevice, \
-    AndroidDeviceInstagramAppData
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDevice,
+    AndroidDeviceInstagramAppData,
+)
 from src.domain.shared.interfaces.instagram.mobile_client.entities.android_device_info import (
     MobileClientAndroidDeviceInfo,
 )

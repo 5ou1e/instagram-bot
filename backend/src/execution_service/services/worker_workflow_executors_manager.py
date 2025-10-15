@@ -5,14 +5,22 @@ from functools import partial
 from typing import Any
 from uuid import UUID
 
-from src.domain.account_worker.entities.account_worker.entity import AccountWorkerID
-from src.domain.shared.interfaces.uow import Uow
-from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
-from src.domain.working_group.exceptions import AccountWorkerIdDoesNotExistError
-from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
-from src.domain.account_worker.services.working_group_workflow.worker_workflow_executor import (
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorkerID,
+)
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
+from src.domain.aggregates.account_worker.repositories.account_worker import (
+    AccountWorkerRepository,
+)
+from src.domain.aggregates.working_group.exceptions import (
+    AccountWorkerIdDoesNotExistError,
+)
+from src.domain.services.worker_workflow.working_group_workflow.worker_workflow_executor import (
     AccountWorkerWorkflowExecutor,
 )
+from src.domain.shared.interfaces.uow import Uow
 from src.infrastructure.account_worker_logger import PostgresLogsWriter
 
 logger = logging.getLogger(__name__)
@@ -44,7 +52,9 @@ class WorkerWorkflowExecutorsManager:
         pause_event = asyncio.Event()
 
         async def _wrapper():
-            async with self.container(context={AccountWorkerID: account_worker_id},) as request_container:
+            async with self.container(
+                context={AccountWorkerID: account_worker_id},
+            ) as request_container:
                 executor: AccountWorkerWorkflowExecutor = await request_container.get(
                     AccountWorkerWorkflowExecutor,
                 )
@@ -177,4 +187,3 @@ class WorkerWorkflowExecutorsManager:
                     pass
 
                 await account_worker_repository.update(account_worker)
-

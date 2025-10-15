@@ -1,7 +1,7 @@
 import uuid
 
 from src.application.common.exceptions import IncorrectIMAPStringFormatError
-from src.domain.imap.entities import IMAP
+from src.domain.aggregates.imap.entities import IMAP
 
 
 def convert_imap_line_to_entity(line: str) -> IMAP:

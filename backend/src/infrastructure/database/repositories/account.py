@@ -3,12 +3,15 @@ from typing import Optional
 from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
-from uuid6 import UUID
 from sqlalchemy.orm import aliased
+from uuid6 import UUID
 
-from src.domain.account.entities.account import Account, AccountActionStatistics
-from src.domain.account.repositories.account import AccountRepository
-from src.domain.account.vallue_objects import Email
+from src.domain.aggregates.account.entities.account import (
+    Account,
+    AccountActionStatistics,
+)
+from src.domain.aggregates.account.repository import AccountRepository
+from src.domain.aggregates.account.value_objects import Email
 from src.infrastructure.database.repositories.models import AccountWorkerModel
 from src.infrastructure.database.repositories.models.account import (
     AccountModel as AccountModel,

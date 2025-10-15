@@ -1,7 +1,7 @@
 import logging
 from uuid import UUID
 
-from src.domain.imap.repository import IMAPRepository
+from src.domain.aggregates.imap.repository import IMAPRepository
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

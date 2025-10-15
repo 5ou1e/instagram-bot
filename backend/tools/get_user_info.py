@@ -6,7 +6,7 @@ from src.application.common.converters.android_device_hardware import \
     android_device_hardware_from_user_agent_string
 
 
-from src.domain.android_device_hardware.entities.android_device import AndroidDevice
+from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice
 
 
 from src.domain.shared.interfaces.instagram.mobile_client.config import \

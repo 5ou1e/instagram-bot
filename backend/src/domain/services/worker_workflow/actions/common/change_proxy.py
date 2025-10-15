@@ -1,0 +1,2 @@
+class ChangeProxyActionExecutor:
+    pass

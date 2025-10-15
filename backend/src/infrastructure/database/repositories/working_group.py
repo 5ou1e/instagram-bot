@@ -7,30 +7,40 @@ from sqlalchemy.orm import selectinload
 
 from src.application.common.dtos.working_group import WorkingGroupDTO, WorkingGroupsDTO
 from src.application.common.interfaces.working_group_reader import WorkingGroupReader
-from src.domain.working_group.entities.config.working_group_config import (
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
+from src.domain.aggregates.working_group.entities.config.working_group_config import (
     WorkingGroupConfig,
 )
-from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
-from src.domain.working_group.entities.worker_task.base import AccountWorkerTask
-from src.domain.working_group.entities.working_group.entity import WorkingGroup
-from src.domain.working_group.entities.working_group.work_state import (
+from src.domain.aggregates.working_group.entities.worker_task.base import (
+    AccountWorkerTask,
+)
+from src.domain.aggregates.working_group.entities.working_group.entity import (
+    WorkingGroup,
+)
+from src.domain.aggregates.working_group.entities.working_group.work_state import (
     WorkingGroupWorkState,
 )
-from src.domain.working_group.exceptions import WorkingGroupIdDoesNotExistError
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.infrastructure.database.repositories.models import AccountWorkerModel, \
-    AccountWorkerTaskModel
-from src.infrastructure.database.repositories.models.working_group import (
-    WorkingGroupModel,
+from src.domain.aggregates.working_group.exceptions import (
+    WorkingGroupIdDoesNotExistError,
 )
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
 from src.infrastructure.database.repositories.account_worker import (
     convert_account_worker_entity_to_model,
     convert_account_worker_model_to_entity,
 )
+from src.infrastructure.database.repositories.models import (
+    AccountWorkerModel,
+    AccountWorkerTaskModel,
+)
+from src.infrastructure.database.repositories.models.working_group import (
+    WorkingGroupModel,
+)
 
 
 def convert_worker_task_entity_to_model(
-        entity: AccountWorkerTask,
+    entity: AccountWorkerTask,
 ) -> AccountWorkerTaskModel:
     return AccountWorkerTaskModel(
         id=entity.id,
@@ -46,7 +56,7 @@ def convert_worker_task_entity_to_model(
 
 
 def convert_worker_task_model_to_entity(
-        model: AccountWorkerTaskModel,
+    model: AccountWorkerTaskModel,
 ) -> AccountWorkerTask:
     return AccountWorkerTask(
         id=model.id,
@@ -129,9 +139,7 @@ class PostgresWorkingGroupRepository(WorkingGroupRepository):
         model = result.unique().scalar_one_or_none()
 
         if not model:
-            raise WorkingGroupIdDoesNotExistError(
-                working_group_id=working_group_id
-            )
+            raise WorkingGroupIdDoesNotExistError(working_group_id=working_group_id)
 
         return convert_working_group_model_to_entity(model)
 
@@ -166,9 +174,7 @@ class PostgresWorkingGroupRepository(WorkingGroupRepository):
         model = result.scalars().unique().one_or_none()
 
         if not model:
-            raise WorkingGroupIdDoesNotExistError(
-                working_group_id=working_group_id
-            )
+            raise WorkingGroupIdDoesNotExistError(working_group_id=working_group_id)
 
         return convert_working_group_model_to_entity(model)
 
@@ -205,9 +211,7 @@ class PostgresWorkingGroupReader(WorkingGroupReader):
         model = result.scalars().unique().one_or_none()
 
         if not model:
-            raise WorkingGroupIdDoesNotExistError(
-                working_group_id=working_group_id
-            )
+            raise WorkingGroupIdDoesNotExistError(working_group_id=working_group_id)
 
         # Группировка по состояниям воркеров
         count_stmt = select(

@@ -5,11 +5,13 @@ from sqlalchemy import asc, delete, desc, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.account_worker.entities.account_worker_log import (
+from src.domain.aggregates.account_worker.entities.account_worker_log import (
     AccountWorkerLog,
     AccountWorkerLogType,
 )
-from src.domain.account_worker.repositories.account_worker_log import AccountWorkerLogRepository
+from src.domain.aggregates.account_worker.repositories.account_worker_log import (
+    AccountWorkerLogRepository,
+)
 from src.infrastructure.database.repositories.models.common import model_to_dict
 from src.infrastructure.database.repositories.models.log import AccountWorkerLogModel
 
@@ -89,15 +91,21 @@ class PostgresAccountWorkerLogRepository(AccountWorkerLogRepository):
             query = query.where(AccountWorkerLogModel.account_id.in_(account_ids))
 
         if types:
-            query = query.where(AccountWorkerLogModel.type.in_([t.value for t in types]))
+            query = query.where(
+                AccountWorkerLogModel.type.in_([t.value for t in types])
+            )
 
         if sorting:
             for sort_field in sorting:
                 if sort_field.startswith("-"):
                     field_name = sort_field[1:]
-                    query = query.order_by(desc(getattr(AccountWorkerLogModel, field_name)))
+                    query = query.order_by(
+                        desc(getattr(AccountWorkerLogModel, field_name))
+                    )
                 else:
-                    query = query.order_by(asc(getattr(AccountWorkerLogModel, sort_field)))
+                    query = query.order_by(
+                        asc(getattr(AccountWorkerLogModel, sort_field))
+                    )
 
         result = await self._session.execute(query)
         rows = result.scalars().all()

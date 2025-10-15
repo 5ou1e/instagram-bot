@@ -16,6 +16,7 @@ class DomainError(Exception):
 class InvalidStateTransitionError(DomainError):
     action: str
     state: str
+    state: str
 
     @property
     def title(self) -> str:

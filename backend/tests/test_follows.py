@@ -18,7 +18,7 @@ from src.domain.shared.interfaces.instagram.mobile_client import \
 from src.domain.shared.interfaces.instagram.exceptions import UserIdNotFound
 from src.domain.shared.interfaces.instagram.mobile_client import \
     MobileInstagramClientNetworkConfig
-from src.domain.android_device_hardware.entities.android_device import AndroidDevice, \
+from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice, \
     AndroidDeviceInstagramAppData
 
 from src.infrastructure.account_logger import PostgresAccountWorkerLoggerFactory

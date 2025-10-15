@@ -4,17 +4,16 @@ from typing import Any
 
 from uuid6 import UUID, uuid7
 
-from src.domain.shared.interfaces.uow import Uow
-from src.domain.shared.utils import current_datetime
-from src.domain.working_group.entities.worker_task.base import (
+from src.domain.aggregates.working_group.entities.worker_task.base import (
     AccountWorkerTask,
     AccountWorkerTaskType,
 )
-from src.domain.working_group.exceptions import (
+from src.domain.aggregates.working_group.exceptions import (
     WorkerTaskNameAlreadyExistsError,
-    WorkingGroupIdDoesNotExistError,
 )
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
+from src.domain.shared.interfaces.uow import Uow
+from src.domain.shared.utils import current_datetime
 
 logger = logging.getLogger(__name__)
 

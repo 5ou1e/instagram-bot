@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from uuid import UUID
 
 from src.application.common.converters.proxy import convert_proxy_line_to_entity
-from src.domain.proxy.repository import ProxyRepository
+from src.domain.aggregates.proxy.repository import ProxyRepository
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

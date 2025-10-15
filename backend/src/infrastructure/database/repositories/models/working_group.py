@@ -3,7 +3,7 @@ from sqlalchemy import Enum as SaEnum
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.domain.working_group.entities.working_group.work_state import (
+from src.domain.aggregates.working_group.entities.working_group.work_state import (
     WorkingGroupWorkState,
 )
 from src.infrastructure.database.repositories.models.common import (

@@ -1,7 +1,7 @@
 import logging
 from uuid import UUID
 
-from src.domain.proxy.repository import ProxyRepository
+from src.domain.aggregates.proxy.repository import ProxyRepository
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

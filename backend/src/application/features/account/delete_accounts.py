@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from src.domain.account.repositories.account import AccountRepository
+from src.domain.aggregates.account.repository import AccountRepository
 from src.domain.shared.interfaces.uow import Uow
 
 DeleteAccountsCommandResult = type(None)
@@ -35,4 +35,3 @@ class DeleteAccountsCommandHandler:
 
         async with self._uow:
             await self._repository.bulk_delete(to_delete_ids)
-

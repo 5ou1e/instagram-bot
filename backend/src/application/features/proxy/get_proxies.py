@@ -1,8 +1,8 @@
 import logging
 from dataclasses import dataclass
 
-from src.domain.proxy.entities import Proxy
-from src.domain.proxy.repository import ProxyRepository
+from src.domain.aggregates.proxy.entities import Proxy
+from src.domain.aggregates.proxy.repository import ProxyRepository
 
 logger = logging.getLogger(__name__)
 

@@ -2,7 +2,9 @@ from typing import Protocol
 from uuid import UUID
 
 from src.application.common.dtos.pagination import Pagination
-from src.application.features.working_group.worker.dto import WorkingGroupWorkersDTO
+from src.application.features.working_group.account_worker.dto import (
+    WorkingGroupWorkersDTO,
+)
 
 
 class AccountWorkerReader(Protocol):

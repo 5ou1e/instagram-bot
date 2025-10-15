@@ -5,8 +5,8 @@ from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.imap.entities import IMAP
-from src.domain.imap.repository import IMAPRepository
+from src.domain.aggregates.imap.entities import IMAP
+from src.domain.aggregates.imap.repository import IMAPRepository
 from src.infrastructure.database.repositories.models.common import model_to_dict
 from src.infrastructure.database.repositories.models.imap import IMAPModel
 

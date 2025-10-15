@@ -6,9 +6,13 @@ from uuid import UUID
 
 from mashumaro import DataClassDictMixin
 
-from src.domain.android_device_hardware.entities.android_device import AndroidDeviceInstagramAppData
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDeviceInstagramAppData,
+)
 from src.domain.shared.interfaces.instagram.version import InstagramAppVersion
-from src.domain.account_worker.entities.account_worker.work_state import AccountWorkerWorkState
 
 
 @dataclass(kw_only=True, slots=True)

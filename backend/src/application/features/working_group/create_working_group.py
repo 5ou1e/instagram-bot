@@ -2,14 +2,18 @@ import logging
 
 from uuid6 import uuid7
 
-from src.domain.shared.interfaces.uow import Uow
-from src.domain.working_group.entities.worker_task.base import (
+from src.domain.aggregates.working_group.entities.worker_task.base import (
     AccountWorkerTask,
     AccountWorkerTaskType,
 )
-from src.domain.working_group.entities.working_group.entity import WorkingGroup
-from src.domain.working_group.exceptions import WorkingGroupNameAlreadyExistsError
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
+from src.domain.aggregates.working_group.entities.working_group.entity import (
+    WorkingGroup,
+)
+from src.domain.aggregates.working_group.exceptions import (
+    WorkingGroupNameAlreadyExistsError,
+)
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
+from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)
 

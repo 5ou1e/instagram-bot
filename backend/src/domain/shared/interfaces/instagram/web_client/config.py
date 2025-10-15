@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.domain.proxy.entities import Proxy
+from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.user_agent.entities import UserAgent
 
 

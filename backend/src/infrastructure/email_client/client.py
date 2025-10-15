@@ -3,7 +3,7 @@ from datetime import datetime
 from imap_tools import AND, MailBox
 from imap_tools import errors as imap_errors
 
-from src.domain.imap.entities import IMAP
+from src.domain.aggregates.imap.entities import IMAP
 from src.domain.shared.interfaces.email_client.client import EmailClient
 from src.domain.shared.interfaces.email_client.exceptions import (
     EmailAuthenticationFailed,

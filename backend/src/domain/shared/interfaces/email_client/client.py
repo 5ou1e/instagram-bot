@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.domain.imap.entities import IMAP
+from src.domain.aggregates.imap.entities import IMAP
 
 
 class EmailClient:

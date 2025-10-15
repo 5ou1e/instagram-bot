@@ -3,7 +3,7 @@ from typing import AsyncGenerator
 
 import aiohttp
 
-from src.domain.proxy.entities import Proxy
+from src.domain.aggregates.proxy.entities import Proxy
 
 
 class HttpSession:

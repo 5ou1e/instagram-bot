@@ -9,51 +9,56 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from src.domain.account_worker.entities.account_worker.entity import AccountWorkerID
-from src.execution_service.settings.config import Config, config
-from src.domain.account.repositories.account import AccountRepository
-from src.domain.android_device_hardware.repositories.android_device_hardware import AndroidDeviceHardwareRepository
-from src.domain.shared.interfaces.logger import AccountWorkerLoggerFactory, AccountWorkerLogger
-from src.domain.shared.interfaces.uow import Uow
-from src.domain.shared.services.email_service import EmailServiceFactory
-from src.domain.account_worker.repositories.account_worker import AccountWorkerRepository
-
-from src.domain.working_group.repositories.working_group import WorkingGroupRepository
-from src.domain.account_worker.services.providers.proxy_provider import ProxyProvider
-from src.domain.account_worker.services.working_group_workflow.tasks.executor_factory import (
+from src.domain.aggregates.account.repository import AccountRepository
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorkerID,
+)
+from src.domain.aggregates.account_worker.repositories.account_worker import (
+    AccountWorkerRepository,
+)
+from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
+    AndroidDeviceHardwareRepository,
+)
+from src.domain.aggregates.working_group.repository import WorkingGroupRepository
+from src.domain.services.email_service import EmailServiceFactory
+from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
+from src.domain.services.worker_workflow.working_group_workflow.tasks.executor_factory import (
     AccountWorkerTaskExecutorFactory,
 )
-from src.domain.account_worker.services.working_group_workflow.worker_prepare_service import (
+from src.domain.services.worker_workflow.working_group_workflow.worker_prepare_service import (
     AccountWorkerPrepareBeforeWorkService,
 )
-from src.domain.account_worker.services.working_group_workflow.worker_workflow_executor import (
+from src.domain.services.worker_workflow.working_group_workflow.worker_workflow_executor import (
     AccountWorkerWorkflowExecutor,
 )
+from src.domain.shared.interfaces.logger import (
+    AccountWorkerLogger,
+    AccountWorkerLoggerFactory,
+)
+from src.domain.shared.interfaces.uow import Uow
+from src.execution_service.settings.config import Config, config
 from src.infrastructure.account_worker_logger import (
     PostgresAccountWorkerLoggerFactory,
     PostgresLogsWriter,
 )
 from src.infrastructure.database.repositories.account import PostgresAccountRepository
-from src.infrastructure.database.repositories.android_device_hardware import \
-    PostgresAndroidDeviceHardwareRepository
+from src.infrastructure.database.repositories.account_worker import (
+    PostgresAccountWorkerReader,
+    PostgresAccountWorkerRepository,
+)
+from src.infrastructure.database.repositories.account_worker_log import (
+    PostgresAccountWorkerLogRepository,
+)
+from src.infrastructure.database.repositories.android_device_hardware import (
+    PostgresAndroidDeviceHardwareRepository,
+)
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
-from src.infrastructure.database.repositories.account_worker_log import PostgresAccountWorkerLogRepository
 from src.infrastructure.database.repositories.proxy import PostgresProxyRepository
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,
 )
-from src.infrastructure.database.repositories.account_worker import (
-    PostgresAccountWorkerReader,
-    PostgresAccountWorkerRepository,
-)
-
 from src.infrastructure.database.uow import SQLAlchemyUoW
-from src.infrastructure.files.file import File
-from src.infrastructure.files.file_writer import (
-    AccountResetPassFailedResultFileWriter,
-    AccountResetPassSuccessResultFileWriter,
-)
 
 
 class AccountWorkerWorkflowExecutorProvider(Provider):
@@ -107,24 +112,12 @@ class AccountWorkerWorkflowExecutorProvider(Provider):
         scope=Scope.REQUEST,
     )
 
-    @provide(scope=Scope.APP)
-    async def success_writer(self) -> AccountResetPassSuccessResultFileWriter:
-        return AccountResetPassSuccessResultFileWriter(
-            File(config.files.accounts_reset_pass_success_filepath)
-        )
-
-    @provide(scope=Scope.APP)
-    async def failed_writer(self) -> AccountResetPassFailedResultFileWriter:
-        return AccountResetPassFailedResultFileWriter(
-            File(config.files.accounts_reset_pass_failed_filepath)
-        )
-
     email_service_factory = provide(EmailServiceFactory, scope=Scope.REQUEST)
 
     @provide(scope=Scope.APP)
     def proxy_provider(
-            self,
-            sessionmaker: async_sessionmaker[AsyncSession],
+        self,
+        sessionmaker: async_sessionmaker[AsyncSession],
     ) -> ProxyProvider:
         return ProxyProvider(
             session_factory=sessionmaker,
@@ -163,7 +156,7 @@ class AccountWorkerWorkflowExecutorProvider(Provider):
         account_worker_logger_factory: AccountWorkerLoggerFactory,
         account_worker_id: AccountWorkerID,
     ) -> AccountWorkerLogger:
-        # TODO сделать чтобы логгеру можно было установить worker-id
+        # TODO сделать чтобы логгеру можно было установить account_worker-id
         return account_worker_logger_factory.create()
 
     @provide(scope=Scope.REQUEST)
@@ -176,8 +169,6 @@ class AccountWorkerWorkflowExecutorProvider(Provider):
         android_device_hardware_repository: AndroidDeviceHardwareRepository,
         email_service_factory: EmailServiceFactory,
         proxy_provider: ProxyProvider,
-        account_reset_password_success_writer: AccountResetPassSuccessResultFileWriter,
-        account_reset_password_failed_writer: AccountResetPassFailedResultFileWriter,
         worker_logger: AccountWorkerLogger,
     ) -> AccountWorkerWorkflowExecutor:
 
@@ -195,8 +186,6 @@ class AccountWorkerWorkflowExecutorProvider(Provider):
             working_group_repository=working_group_repository,
             email_service_factory=email_service_factory,
             proxy_provider=proxy_provider,
-            account_reset_password_success_writer=account_reset_password_success_writer,
-            account_reset_password_failed_writer=account_reset_password_failed_writer,
             account_worker_repository=account_worker_repository,
             worker_logger=worker_logger,
         )

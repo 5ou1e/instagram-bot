@@ -5,7 +5,9 @@ from sqlalchemy import Enum as SaEnum
 from sqlalchemy import ForeignKey, Integer, String, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.domain.working_group.entities.worker_task.base import AccountWorkerTaskType
+from src.domain.aggregates.working_group.entities.worker_task.base import (
+    AccountWorkerTaskType,
+)
 from src.infrastructure.database.repositories.models.common import (
     Base,
     TimestampsMixin,

@@ -1,7 +1,9 @@
 import logging
 from uuid import UUID
 
-from src.domain.account_worker.repositories.account_worker_log import AccountWorkerLogRepository
+from src.domain.aggregates.account_worker.repositories.account_worker_log import (
+    AccountWorkerLogRepository,
+)
 from src.domain.shared.interfaces.uow import Uow
 
 logger = logging.getLogger(__name__)

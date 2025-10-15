@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from src.domain.account.entities.account import Account
-from src.domain.account.repositories.account import AccountRepository
+from src.domain.aggregates.account.entities.account import Account
+from src.domain.aggregates.account.repository import AccountRepository
 
 
 @dataclass(kw_only=True, slots=True)
