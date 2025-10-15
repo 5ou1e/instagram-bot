@@ -28,7 +28,7 @@ class AccountModel(Base, UUIDIDMixin, TimestampsMixin):
         JSON, nullable=False, server_default=text("'{}'::jsonb")
     )
 
-    worker = relationship(
+    account_worker = relationship(
         "AccountWorkerModel",
         back_populates="account",
         uselist=False,  # один аккаунт = одна рабочая группа
