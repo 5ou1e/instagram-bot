@@ -37,7 +37,8 @@ class InstagramActionWrapper:
         self._account_worker_repository = account_worker_repository
         self._proxy_provider = proxy_provider
         self._logger = logger
-        self._max_proxy_changes = max_proxy_changes
+        # TODO  fix
+        self._max_proxy_changes = 5
         self._delay_before_proxy_change = delay_before_proxy_change
 
     async def execute(
@@ -61,7 +62,7 @@ class InstagramActionWrapper:
                 return result
 
             except NetworkError as e:
-                raise e
+                # raise e
                 network_error_occurred = True
                 errors += 1
 
