@@ -20,20 +20,20 @@ export function AppSidebar(props: AppSidebarProps) {
       <SidebarContent>
         <HomeSection />
         <WorkingGroupsSection {...props} />
+
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={!!proxiesMatch}>
+              <Link to={ROUTES.PROXIES}>
+                <ProxiesIcon className="mr-2 h-4 w-4" />
+                Прокси
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
       </SidebarContent>
 
-      <SidebarContent>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild isActive={!!proxiesMatch}>
-            <Link to={ROUTES.PROXIES}>
-              <ProxiesIcon className="mr-2 h-4 w-4" />
-              Прокси
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-      </SidebarContent>
 
       <SidebarFooter>
         <div className="px-2 py-2 text-xs text-muted-foreground">© {new Date().getFullYear()} — Instagram-bot</div>
