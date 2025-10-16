@@ -37,6 +37,8 @@ class Account(DataClassDictMixin):
     last_action_time: datetime | None = None
     password_changed_datetime: datetime | None = None
 
+    comment: str | None = None
+
     created_at: datetime | None = field(default_factory=current_datetime)
     updated_at: datetime | None = field(default_factory=current_datetime)
 
@@ -53,3 +55,7 @@ class Account(DataClassDictMixin):
         if self.worker.work_state != AccountWorkerWorkState.IDLE:
             return False
         return True
+
+    def set_comment(self, comment: str | None) -> bool:
+        self.comment = comment
+

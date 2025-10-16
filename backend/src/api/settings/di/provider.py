@@ -16,6 +16,7 @@ from src.application.features.account.delete_accounts import (
     DeleteAccountsCommandHandler,
 )
 from src.application.features.account.get_accounts import GetAccountsQueryHandler
+from src.application.features.account.set_accounts_comment import SetAccountsCommentCommandHandler
 from src.application.features.android_device.create_android_device_hardwares_from_user_agents import (
     CreateAndroidDeviceHardwaresFromUserAgentsCommandHandler,
 )
@@ -150,6 +151,7 @@ class AppProvider(Provider):
         GetAccountsQueryHandler,
         CreateAccountsCommandHandler,
         DeleteAccountsCommandHandler,
+        SetAccountsCommentCommandHandler,
         # Proxies
         GetProxiesQueryHandler,
         CreateProxiesCommandHandler,

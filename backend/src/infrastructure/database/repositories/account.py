@@ -25,6 +25,7 @@ def convert_account_model_to_entity(model: AccountModel) -> Account:
         username=model.username,
         password=model.password,
         user_id=model.user_id,
+        comment=model.comment,
         email=Email(
             username=model.email_username,
             password=model.email_password,
@@ -42,6 +43,7 @@ def convert_account_entity_to_model(entity: Account) -> AccountModel:
         username=entity.username,
         password=entity.password,
         user_id=entity.user_id,
+        comment=entity.comment,
         email_username=entity.email.username if entity.email is not None else None,
         email_password=entity.email.password if entity.email is not None else None,
         action_statistics=entity.action_statistics.to_dict(),
@@ -84,6 +86,28 @@ class PostgresAccountRepository(AccountRepository):
             of=AccountModel,
             skip_locked=skip_locked,
         )
+        result = await self._session.execute(stmt)
+        models = result.unique().scalars().all()
+
+        return [convert_account_model_to_entity(m) for m in models]
+
+    async def acquire_by_ids(
+        self,
+        ids: list[UUID],
+        skip_locked: bool = False
+    ) -> list[Account]:
+        if not ids:
+            return []
+
+        stmt = (
+            select(AccountModel)
+            .where(AccountModel.id.in_(ids))
+            .with_for_update(
+                of=AccountModel,
+                skip_locked=skip_locked,
+            )
+        )
+
         result = await self._session.execute(stmt)
         models = result.unique().scalars().all()
 

@@ -59,6 +59,7 @@ class AccountWorkerDTO:
     working_group_id: UUID
     username: str
     password: str | None = None
+    comment: str | None = None
     email_username: str | None = None
     email_password: str | None = None
     proxy: str | None = None

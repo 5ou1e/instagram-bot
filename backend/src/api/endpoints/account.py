@@ -5,6 +5,7 @@ from dishka import FromDishka
 from dishka.integrations.fastapi import inject
 from fastapi import APIRouter, Body
 
+from src.api.schemas.requests.account import SetAccountsCommentRequest
 from src.api.schemas.response import ApiResponse
 from src.application.features.account.create_accounts import (
     CreateAccountsCommandHandler,
@@ -18,6 +19,8 @@ from src.application.features.account.get_accounts import (
     GetAccountsQueryHandler,
     GetAccountsQueryResult,
 )
+from src.application.features.account.set_accounts_comment import SetAccountsCommentCommandHandler, \
+    SetAccountsCommentCommand
 
 logger = logging.getLogger(__name__)
 
@@ -67,4 +70,23 @@ async def delete_accounts(
     ids: list[UUID] | None = Body(default=None),
 ) -> ApiResponse[DeleteAccountsCommandResult]:
     result = await handler(ids)
+    return ApiResponse(result=result)
+
+
+@router.put(
+    "/accounts/comment",
+    description="Обновить комментарий аккаунтам",
+    summary="Обновить комментарий аккаунтам",
+)
+@inject
+async def update_accounts_comment(
+    handler: FromDishka[SetAccountsCommentCommandHandler],
+    body: SetAccountsCommentRequest,
+) -> ApiResponse:
+    result = await handler(
+        SetAccountsCommentCommand(
+            account_ids=body.account_ids,
+            comment=body.comment,
+        )
+    )
     return ApiResponse(result=result)

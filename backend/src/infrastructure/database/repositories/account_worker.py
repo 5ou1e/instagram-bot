@@ -263,8 +263,11 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                     a.password,
                     a.email_username,
                     a.email_password,
+                    a.comment,
+                    a.action_statistics as action_statistics,
                     a.password_changed_datetime,
                     a.created_at AS account_created_at,
+                    
                     p.protocol AS proxy_protocol,
                     p.host AS proxy_host,
                     p.port AS proxy_port,
@@ -292,8 +295,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                     adh.resolution AS android_hardware_resolution,
                     adh.os_version AS android_hardware_os_version,
                     adh.os_api_level AS android_hardware_os_api_level,
-                    
-                    a.action_statistics as action_statistics
+    
                 FROM account_worker aw
                 JOIN account a ON aw.account_id = a.id
                 LEFT JOIN proxy p ON aw.proxy_id = p.id
@@ -373,6 +375,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
             working_group_id=row.working_group_id,
             username=row.username,
             password=row.password,
+            comment=row.comment,
             email_username=row.email_username,
             email_password=row.email_password,
             android_device=android_device_dto,

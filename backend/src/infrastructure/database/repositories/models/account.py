@@ -18,7 +18,7 @@ class AccountModel(Base, UUIDIDMixin, TimestampsMixin):
     email_username: Mapped[str] = mapped_column(String(255), nullable=True)
     email_password: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[int] = mapped_column(BigInteger, nullable=True)
-
+    comment: Mapped[str] = mapped_column(String, nullable=True)
     password_changed_datetime: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=True,
