@@ -86,7 +86,8 @@ from src.infrastructure.database.repositories.android_device_hardware import (
     PostgresAndroidDeviceHardwareRepository,
 )
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
-from src.infrastructure.database.repositories.proxy import PostgresProxyRepository
+from src.infrastructure.database.repositories.proxy import PostgresProxyRepository, \
+    PostgresProxiesReader
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,
@@ -143,6 +144,7 @@ class AppProvider(Provider):
         WithParents[PostgresAccountWorkerRepository],
         WithParents[PostgresAccountWorkerReader],
         WithParents[PostgresWorkingGroupReader],
+        WithParents[PostgresProxiesReader],
         scope=Scope.REQUEST,
     )
 

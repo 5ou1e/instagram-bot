@@ -1,29 +1,31 @@
 import logging
 from dataclasses import dataclass
 
+from src.application.common.dtos.pagination import Pagination
+from src.application.common.interfaces.proxies_reader import ProxiesReader
+from src.application.features.proxy.dto import ProxiesDTO
 from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.aggregates.proxy.repository import ProxyRepository
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass(kw_only=True, slots=True)
-class GetProxiesQueryResult:
-    proxies: list[Proxy]
+@dataclass
+class GetProxiesQuery:
+    pagination: Pagination
 
 
 class GetProxiesQueryHandler:
 
     def __init__(
         self,
-        repository: ProxyRepository,
+        reader: ProxiesReader,
     ):
-        self._repository = repository
+        self._reader = reader
 
     async def __call__(
         self,
-    ) -> GetProxiesQueryResult:
-        proxies = await self._repository.get_all()
-        return GetProxiesQueryResult(
-            proxies=proxies,
-        )
+        query: GetProxiesQuery,
+    ) -> ProxiesDTO:
+        return await self._reader.get_proxies(query.pagination)
+

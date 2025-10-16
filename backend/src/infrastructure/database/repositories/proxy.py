@@ -2,10 +2,13 @@ import random
 from typing import Optional
 from uuid import UUID
 
-from sqlalchemy import delete, func, select, tuple_
+from sqlalchemy import delete, func, select, tuple_, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.application.common.dtos.pagination import Pagination, PaginationResult
+from src.application.common.interfaces.proxies_reader import ProxiesReader
+from src.application.features.proxy.dto import ProxiesDTO, ProxyDTO
 from src.domain.aggregates.proxy.entities import Proxy, ProxyProtocol
 from src.domain.aggregates.proxy.repository import ProxyRepository
 from src.infrastructure.database.repositories.models.common import model_to_dict
@@ -147,3 +150,67 @@ class PostgresProxyRepository(ProxyRepository):
 
         result = await self._session.execute(stmt)
         return [convert_proxy_model_to_entity(m) for m in result.scalars().all()]
+
+
+class PostgresProxiesReader(ProxiesReader):
+    """Читает прокси из таблицы proxy и возвращает DTO."""
+
+    def __init__(self, session: AsyncSession):
+        self._session = session
+
+    async def get_proxies(
+        self,
+        pagination: Pagination,
+    ) -> ProxiesDTO:
+        limit, offset = pagination.limit_offset
+
+        # 1) Общее количество
+        count_stmt = text("SELECT COUNT(*) FROM proxy")
+        total_count_result = await self._session.execute(count_stmt)
+        total_count = int(total_count_result.scalar_one())
+
+        select_stmt = text(
+            """
+            SELECT
+                p.id,
+                p.protocol,
+                p.host,
+                p.port,
+                p.username,
+                p.password,
+                p.created_at
+            FROM proxy p
+            ORDER BY p.created_at DESC, p.id DESC
+            LIMIT :limit OFFSET :offset
+            """
+        )
+
+        result = await self._session.execute(
+            select_stmt,
+            {"limit": limit, "offset": offset},
+        )
+        rows = result.all()
+
+        proxies = [self._to_proxy_dto(r) for r in rows]
+
+        return ProxiesDTO(
+            proxies=proxies,
+            pagination=PaginationResult.from_pagination(
+                pagination=pagination,
+                count=len(proxies),
+                total_count=total_count,
+            ),
+        )
+
+    @staticmethod
+    def _to_proxy_dto(row) -> ProxyDTO:
+        return ProxyDTO(
+            id=row.id,
+            protocol=row.protocol,
+            host=row.host,
+            port=int(row.port),
+            username=row.username or "",
+            password=row.password or "",
+            created_at=row.created_at,
+        )
+

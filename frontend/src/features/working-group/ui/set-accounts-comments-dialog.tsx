@@ -29,10 +29,7 @@ export function SetAccountsCommentDialog({ open, onOpenChange, accountIds, onSuc
 
   async function handleSubmit() {
     if (!accountIds?.length) return;
-    if (!comment.trim()) {
-      toast.error("Введите комментарий");
-      return;
-    }
+
     setLoading(true);
     try {
       await toast.promise(
@@ -73,7 +70,7 @@ export function SetAccountsCommentDialog({ open, onOpenChange, accountIds, onSuc
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             Отмена
           </Button>
-          <Button onClick={handleSubmit} disabled={loading || !comment.trim()}>
+          <Button onClick={handleSubmit} disabled={loading}>
             Установить
           </Button>
         </DialogFooter>

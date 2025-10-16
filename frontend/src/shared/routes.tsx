@@ -3,6 +3,7 @@ import { generatePath } from "react-router-dom";
 export const ROUTES = {
   HOME: "/",
   WORKING_GROUP: "/working-groups/:wgId",
+  PROXIES: "/proxies"
 } as const;
 
 export const linkToWorkingGroup = (wgId: string) =>

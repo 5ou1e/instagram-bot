@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { MoreHorizontal, Trash2, Copy, Rows3, X, Download, Play, Rocket } from "lucide-react";
+import { MoreHorizontal, Trash2, Copy, MessageSquareText, Rows3, X, Download, Play, Rocket } from "lucide-react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -228,7 +228,7 @@ export default function AccountWorkersTable({ wgId, initialPageSize = 50 }: Prop
                     </DropdownMenuItem>
 
                     <DropdownMenuItem disabled={!hasSelection} onClick={openCommentDialogForSelected}>
-                      <Trash2 className="mr-2 h-4 w-4" />
+                      <MessageSquareText className="mr-2 h-4 w-4" />
                       Установить комментарий аккаунтам
                     </DropdownMenuItem>
 
