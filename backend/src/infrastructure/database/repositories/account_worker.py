@@ -174,7 +174,6 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         # Добавляем или обновляем (upsert-подобное поведение)
         await self._session.merge(model)
 
-
     async def bulk_create(
         self,
         entities: list[AccountWorker],
@@ -294,7 +293,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                     adh.dpi AS android_hardware_dpi,
                     adh.resolution AS android_hardware_resolution,
                     adh.os_version AS android_hardware_os_version,
-                    adh.os_api_level AS android_hardware_os_api_level,
+                    adh.os_api_level AS android_hardware_os_api_level
     
                 FROM account_worker aw
                 JOIN account a ON aw.account_id = a.id

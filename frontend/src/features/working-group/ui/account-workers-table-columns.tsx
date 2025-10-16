@@ -111,6 +111,12 @@ export const AccountWorkersTableColumns: ColumnDef<Worker>[] = [
     cell: ({ getValue }) => <span>{fmtProxy(getValue() as string | null)}</span>,
   },
   {
+    accessorKey: "comment",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Комментарий" />,
+    enableSorting: false,
+    cell: ({ getValue }) => <span>{fmtProxy(getValue() as string | null)}</span>,
+  },
+  {
     accessorKey: "last_action_time",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Last action" />,
     enableSorting: false,

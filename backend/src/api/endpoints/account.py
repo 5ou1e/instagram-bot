@@ -74,7 +74,7 @@ async def delete_accounts(
 
 
 @router.put(
-    "/accounts/comment",
+    "/comment",
     description="Обновить комментарий аккаунтам",
     summary="Обновить комментарий аккаунтам",
 )

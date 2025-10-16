@@ -35,7 +35,7 @@ import { AddAccountWorkersDialog } from "@/features/working-group/ui/add-account
 import { fetchWorkingGroupWorkers , createWorkingGroupWorkers, deleteWorkingGroupWorkers, startWorkingGroupWorkers } from "@/shared/api/working-groups";
 import type { Worker } from "@/types/working-groups";
 import { AccountWorkersTableColumns } from "./account-workers-table-columns";
-
+import { SetAccountsCommentDialog } from "@/features/working-group/ui/set-accounts-comments-dialog";
 
 import { WorkerRowContextMenu } from "./account-workers-table-row-context-menu";
 
@@ -110,6 +110,7 @@ export default function AccountWorkersTable({ wgId, initialPageSize = 50 }: Prop
   // === АКШЕНЫ ===
   const selected = table.getSelectedRowModel().rows.map((r) => r.original);
   const selectedIds = selected.map((w) => w.id);
+  const selectedAccountsIds = selected.map((w) => w.account_id);
   const hasSelection = selectedIds.length > 0;
 
   function copySelectedIds() {
@@ -156,6 +157,17 @@ export default function AccountWorkersTable({ wgId, initialPageSize = 50 }: Prop
     if (!confirm(`Запустить выбранные (${selectedIds.length})?`)) return;
     await startWorkingGroupWorkers(wgId, selectedIds)
     await refetch();
+  }
+
+  // состояние модалки комментария
+  const [commentDialog, setCommentDialog] = React.useState<{
+    open: boolean;
+    accountIds: string[];
+  }>({ open: false, accountIds: [] });
+
+  function openCommentDialogForSelected() {
+    if (!hasSelection) return;
+    setCommentDialog({ open: true, accountIds: selectedAccountsIds });
   }
 
   return (
@@ -215,6 +227,12 @@ export default function AccountWorkersTable({ wgId, initialPageSize = 50 }: Prop
                       Удалить выбранные
                     </DropdownMenuItem>
 
+                    <DropdownMenuItem disabled={!hasSelection} onClick={openCommentDialogForSelected}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Установить комментарий аккаунтам
+                    </DropdownMenuItem>
+
+
                     <DropdownMenuItem disabled={!hasSelection} onClick={copySelectedIds}>
                       <Copy className="mr-2 h-4 w-4" />
                       Копировать ID выбранных
@@ -230,6 +248,19 @@ export default function AccountWorkersTable({ wgId, initialPageSize = 50 }: Prop
           accountId={logDialog.accountId}
           username={logDialog.username}
       />
+
+      <SetAccountsCommentDialog
+        open={commentDialog.open}
+        onOpenChange={(v) => setCommentDialog((s) => ({ ...s, open: v }))}
+        accountIds={commentDialog.accountIds}
+        onSuccess={async () => {
+          // очистим выбор и обновим таблицу
+          table.resetRowSelection();
+          await qc.invalidateQueries({ queryKey: ["wg_workers"] });
+          await refetch();
+        }}
+      />
+
       </div>
     </div>
   );
