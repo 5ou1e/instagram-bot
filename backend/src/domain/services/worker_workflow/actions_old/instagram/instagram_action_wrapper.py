@@ -10,7 +10,7 @@ from src.domain.services.worker_workflow.actions_old.change_proxy import (
     ChangeProxyActionContext,
 )
 from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
-from src.domain.shared.interfaces.instagram.exceptions import NetworkError
+from src.domain.shared.interfaces.instagram.exceptions import NetworkError, TooManyRequestsError
 from src.domain.shared.interfaces.instagram.mobile_client.client import (
     MobileInstagramClient,
 )
@@ -73,6 +73,22 @@ class InstagramActionWrapper:
                     "Ошибка соединения, меняем прокси %s/%s: %s",
                     errors,
                     self._max_proxy_changes,
+                    e,
+                )
+
+                await asyncio.sleep(self._delay_before_proxy_change)
+                await self._change_proxy(worker)
+                client.set_proxy(worker.proxy)
+            except TooManyRequestsError as e:
+                # TODO вынести это в слои выше
+
+                errors += 1
+
+                if not self._max_proxy_changes or errors > self._max_proxy_changes:
+                    raise
+
+                await self._logger.info(
+                    "TooManyRequestsError (429), меняем прокси | Ответ инстаграм: %s",
                     e,
                 )
 

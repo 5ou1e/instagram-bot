@@ -266,6 +266,8 @@ class RequestHandler:
 
             if status == 404:
                 raise NotFoundError(message=short_body)
+            if status == 429:
+                raise TooManyRequestsError(message=short_body)
 
             raise InstagramError(
                 message=f"Status: {status} | "
