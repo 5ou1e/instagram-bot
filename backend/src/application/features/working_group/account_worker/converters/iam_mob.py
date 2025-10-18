@@ -51,7 +51,8 @@ def extract_worker_create_dto_from_string_iam_mob(
     ig_auth = parts[0]
     if ":" not in ig_auth:
         raise IncorrectAccountStringError(string=string)
-    username, password = ig_auth.split(":", 1)
+    username = ig_auth.split(":")[0]
+    password = ig_auth.split(":")[1]
 
     email_username, email_password = None, None
     if len(parts) >= 6 and ":" in parts[5]:

@@ -21,6 +21,7 @@ class ChallengeRequiredLoginResult:
     challenge_data: ChallengeData
 
 
+@dataclass
 class TwoStepVerificationRequiredLoginResult:
     data: dict
 
@@ -32,7 +33,7 @@ class UnknownLoginResult:
 
 def parse_bloks_login_response(
     response: dict,
-) -> Union[SuccessLoginResult, ChallengeRequiredLoginResult, UnknownLoginResult]:
+) -> Union[SuccessLoginResult, ChallengeRequiredLoginResult, UnknownLoginResult, TwoStepVerificationRequiredLoginResult]:
     action_string = (
         response.get("layout", {}).get("bloks_payload", {}).get("action", "")
     )
@@ -63,9 +64,7 @@ def parse_bloks_login_response(
 
     if two_step_verification_action:
         data = extract_two_step_verification_action_data(two_step_verification_action)
-
-        # return TwoStepRequiredLoginResult(data=data)
-        raise BadResponseError(message="Необходимо пройти подтверждение по почте")
+        return TwoStepVerificationRequiredLoginResult(data=data)
 
     # Если нет успешного логина, ищем checkpoint
     checkpoint_action = find_action(action, "bk.action.caa.PresentCheckpointsFlow")

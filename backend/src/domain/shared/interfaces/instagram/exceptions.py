@@ -172,3 +172,11 @@ class NodeTaoSystemExceptionError(InstagramError):
     @property
     def title(self) -> str:
         return f"NodeTaoSystemException: {self.message}"
+
+
+@dataclass(kw_only=True, slots=True)
+class TwoStepVerificationRequiredError(InstagramError):
+
+    @property
+    def title(self) -> str:
+        return f"Необходимо пройти подтверждение по почте (TwoStepVerificationRequired): {self.message}"
