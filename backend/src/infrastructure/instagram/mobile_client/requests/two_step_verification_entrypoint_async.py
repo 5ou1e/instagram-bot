@@ -2,9 +2,7 @@ from dataclasses import dataclass
 
 from yarl import URL
 
-from src.domain.aggregates.account_worker.entities.account_worker_log.android_device import (
-    AndroidDevice,
-)
+from src.domain.aggregates.account_worker import AndroidDevice
 from src.domain.shared.entities.account import AccountIgAppSessionData
 from src.infrastructure.instagram.common import constants
 from src.infrastructure.instagram.common.utils import dumps_orjson

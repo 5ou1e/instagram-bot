@@ -25,12 +25,12 @@ class AccountWorkerPrepareBeforeWorkService:
     """Выполняет подготовку аккаунт-воркера перед работой - установку прокси/девайса"""
 
     def __init__(
-        self,
-        uow: Uow,
-        proxy_provider: ProxyProvider,
-        android_device_hardware_repository: AndroidDeviceHardwareRepository,
-        account_worker_repository: AccountWorkerRepository,
-        worker_logger: AccountWorkerLogger,
+            self,
+            uow: Uow,
+            proxy_provider: ProxyProvider,
+            android_device_hardware_repository: AndroidDeviceHardwareRepository,
+            account_worker_repository: AccountWorkerRepository,
+            worker_logger: AccountWorkerLogger,
     ):
         self._uow = uow
         self._proxy_provider = proxy_provider
@@ -40,15 +40,14 @@ class AccountWorkerPrepareBeforeWorkService:
 
     async def prepare(self, worker: AccountWorker):
         await self._ensure_android_device(worker)
-        # await self._ensure_proxy(account_worker)
+        await self._ensure_proxy(worker)
 
     async def _ensure_android_device(
-        self,
-        worker: AccountWorker,
+            self,
+            worker: AccountWorker,
     ):
         # TODO рефакторинг
         if not worker.android_device:
-
             hardwares = await self._android_device_hardware_repository.get_all()
             android_hardware = hardwares[0]
 
@@ -76,7 +75,7 @@ class AccountWorkerPrepareBeforeWorkService:
             async with self._uow:
                 await self._account_worker_repository.update(worker)
 
-        if not worker.android_device.hardware:
+        elif not worker.android_device.hardware:
 
             hardwares = await self._android_device_hardware_repository.get_all()
             android_hardware = hardwares[0]

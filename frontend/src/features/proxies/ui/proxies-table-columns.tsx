@@ -76,7 +76,7 @@ export const ProxiesTableColumns: ColumnDef<Proxy>[] = [
   },
   {
     accessorKey: "created_at",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Добвлен" />,
     enableSorting: false,
     cell: ({ getValue }) => <span>{fmtDate(getValue() as string | null)}</span>,
   },

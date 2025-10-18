@@ -16,12 +16,12 @@ from src.infrastructure.email_client.utils import (
 
 class DefaultEmailClient(EmailClient):
     async def get_reset_password_link(
-        self,
-        username: str,
-        password: str,
-        from_email: str,
-        imap: IMAP,
-        cutoff: datetime,
+            self,
+            username: str,
+            password: str,
+            from_email: str,
+            imap: IMAP,
+            cutoff: datetime,
     ) -> str | None:
 
         try:
@@ -37,12 +37,12 @@ class DefaultEmailClient(EmailClient):
         return None
 
     async def get_auth_platform_code(
-        self,
-        username: str,
-        password: str,
-        from_email: str,
-        imap: IMAP,
-        cutoff: datetime,
+            self,
+            username: str,
+            password: str,
+            from_email: str,
+            imap: IMAP,
+            cutoff: datetime,
     ) -> str | None:
         try:
             with MailBox(imap.host).login(username, password, "INBOX") as mailbox:

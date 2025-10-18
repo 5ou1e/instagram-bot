@@ -2,15 +2,12 @@ from dataclasses import dataclass
 from typing import Any
 
 from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.action_flows.utils import \
-    sync_android_device_instagram_app_data_from_client_local_data
+
 from src.domain.services.worker_workflow.actions_old.instagram.authorized.base import (
     AuthorizedFlow,
     AuthorizedFlowConfig,
     AuthorizedFlowContext,
 )
-from src.domain.shared.interfaces.instagram.exceptions import FeedbackRequiredError
-from src.domain.shared.utils import current_datetime
 
 
 @dataclass(kw_only=True)

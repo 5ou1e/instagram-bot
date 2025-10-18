@@ -79,15 +79,15 @@ from src.infrastructure.database.repositories.account_worker import (
 from src.infrastructure.database.repositories.account_worker_log import (
     PostgresAccountWorkerLogRepository,
 )
-from src.infrastructure.database.repositories.android_device import (
-    PostgresAndroidDeviceRepository,
-)
+from src.infrastructure.database.repositories.android_device import PostgresAndroidDeviceRepository
+
 from src.infrastructure.database.repositories.android_device_hardware import (
     PostgresAndroidDeviceHardwareRepository,
 )
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
 from src.infrastructure.database.repositories.proxy import PostgresProxyRepository, \
     PostgresProxiesReader
+
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,

@@ -3,7 +3,7 @@ from aiograpi import Client as AiograpiClient
 from aiograpi.utils import gen_token
 from yarl import URL
 
-from src.domain.aggregates.proxy.entities import Proxy
+from src.domain.proxy.entities import Proxy
 from src.domain.shared.exceptions23 import (
     AuthorizationError,
     BadPassword,

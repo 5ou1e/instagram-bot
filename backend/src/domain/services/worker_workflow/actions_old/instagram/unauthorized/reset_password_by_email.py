@@ -2,20 +2,21 @@ from dataclasses import dataclass
 from typing import Any
 
 from src.domain.aggregates.account.entities.account import Account
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-
 from src.domain.aggregates.working_group.exceptions import AccountDoesNotHaveEmailError
 from src.domain.services.email_service import EmailService
+from src.domain.shared.interfaces.instagram.exceptions import (
+    ChallengeRequired,
+    ChallengeType,
+)
+
+from src.domain.shared.utils import current_datetime
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+
 from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.base import (
     UnauthorizedFlow,
     UnauthorizedFlowConfig,
     UnauthorizedFlowContext,
 )
-from src.domain.shared.interfaces.instagram.exceptions import (
-    ChallengeRequired,
-    ChallengeType,
-)
-from src.domain.shared.utils import current_datetime
 
 
 @dataclass(kw_only=True)

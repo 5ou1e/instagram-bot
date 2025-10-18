@@ -1,12 +1,9 @@
-from src.domain.services.account_worker.actions.authorize_account import (
-    AuthorizeAccountActionExecutor,
-)
-from src.domain.services.account_worker.actions.common.change_proxy import (
-    ChangeProxyActionExecutor,
-)
-from src.domain.services.account_worker.actions.follow_user import (
-    FollowUserActionExecutor,
-)
+from src.domain.services.worker_workflow.actions_new.actions.authorize_account import \
+    AuthorizeAccountActionExecutor
+from src.domain.services.worker_workflow.actions_new.actions.common.change_proxy import \
+    ChangeProxyActionExecutor
+from src.domain.services.worker_workflow.actions_new.actions.follow_user import \
+    FollowUserActionExecutor
 
 
 class ActionExecutorFactory:

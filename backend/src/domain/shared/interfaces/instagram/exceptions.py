@@ -164,3 +164,11 @@ class FeedbackRequiredError(InstagramError):
     @property
     def title(self) -> str:
         return f"Feedback required: {self.message}"
+
+
+@dataclass(kw_only=True, slots=True)
+class NodeTaoSystemExceptionError(InstagramError):
+
+    @property
+    def title(self) -> str:
+        return f"NodeTaoSystemException: {self.message}"

@@ -100,7 +100,6 @@ def mobile_client_device_info_from_android_device(
 def build_instagram_client_for_worker(
     worker: AccountWorker,
     worker_logger: AccountWorkerLogger,
-    use_proxy: bool = False,
 ) -> MobileInstagramClient:
     local_data = mobile_client_local_data_from_android_device_app_data(
         worker.android_device.instagram_app_data

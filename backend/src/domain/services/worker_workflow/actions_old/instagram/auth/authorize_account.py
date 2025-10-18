@@ -2,15 +2,6 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.actions_old.instagram.base import (
-    Flow,
-    FlowConfig,
-    FlowContext,
-)
-from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.reset_password_by_email import (
-    ResetPasswordByEmailFlow,
-)
 from src.domain.shared.interfaces.instagram.exceptions import (
     BadPassword,
     ChallengeRequired,
@@ -19,6 +10,12 @@ from src.domain.shared.interfaces.instagram.mobile_client.converters import (
     sync_android_device_instagram_app_data_from_client_local_data,
 )
 from src.domain.shared.utils import current_datetime, generate_random_password
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.services.worker_workflow.actions_old.instagram.base import Flow, FlowConfig, FlowContext
+from src.domain.services.worker_workflow.actions_old.instagram.challenge_resolver import ChallengeResolver
+from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.reset_password_by_email import (
+    ResetPasswordByEmailFlow,
+)
 
 
 @dataclass
@@ -45,11 +42,11 @@ class AuthorizationFlow(
         self,
         ctx: AuthorizationFlowContext,
         config: AuthorizationFlowConfig,
-        reset_password_flow: ResetPasswordByEmailFlow | None = None,
+        reset_password_flow: ResetPasswordByEmailFlow,
     ):
         super().__init__(ctx, config)
         self._reset_password_flow = reset_password_flow
-        # self._challenge_resolver = ChallengeResolver()
+        self._challenge_resolver = ChallengeResolver()
 
     async def _execute_action(
         self,
@@ -69,12 +66,15 @@ class AuthorizationFlow(
                     account = await self._ctx.account_repository.get_by_id(
                         worker.account_id
                     )
+                #
+                # auth_result = await self._ig_action_wrapper.execute(
+                #     lambda: client.auth.login(account.username, account.password),
+                #     worker,
+                #     client,
+                # )
+                #
+                auth_result = True
 
-                auth_result = await self._ig_action_wrapper.execute(
-                    lambda: client.auth.login(account.username, account.password),
-                    worker,
-                    client,
-                )
                 await self._ig_action_wrapper.execute(
                     lambda: client.test_auth.send_requests(),
                     worker,

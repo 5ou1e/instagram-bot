@@ -1,10 +1,11 @@
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
-    AccountWorker,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
+from src.domain.services.worker_workflow.actions_new.action_flows.utils import \
+    build_instagram_client_for_worker, sync_android_device_instagram_app_data_from_client_local_data
 from src.domain.shared.interfaces.logger import AccountWorkerLogger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.utils import current_datetime
@@ -27,6 +28,7 @@ class AuthorizeAccountActionExecutor:
     async def execute(self, worker: AccountWorker):
         # TODO тут подумать, как не ходить за аккаунтом каждый раз , если обработка ошибок прокси лежит не здесь.
         #  мб просто хранить снапшот аккаунта в сущности Worker-a
+        #  в целом  не критично
 
         async with build_instagram_client_for_worker(
             worker,

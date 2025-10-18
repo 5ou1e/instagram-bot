@@ -3,9 +3,8 @@ from dataclasses import dataclass
 from src.domain.aggregates.account.entities.account import Account
 from src.domain.aggregates.working_group.exceptions import AccountDoesNotHaveEmailError
 from src.domain.services.email_service import EmailService
-from src.domain.shared.exceptions23 import ChallengeRequired, ChallengeType
-from src.domain.shared.utils import current_datetime
 
+from src.domain.shared.utils import current_datetime
 
 @dataclass
 class ResetPasswordByEmailActionContext(AccountActionContext):

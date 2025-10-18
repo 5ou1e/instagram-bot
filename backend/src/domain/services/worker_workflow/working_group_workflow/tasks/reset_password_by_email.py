@@ -2,25 +2,25 @@ import asyncio
 from uuid import UUID
 
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.working_group.entities.config.working_group_config import (
-    WorkingGroupConfig,
-)
-from src.domain.aggregates.working_group.entities.working_group.entity import (
-    WorkingGroup,
-)
+from src.domain.aggregates.working_group.entities.config.working_group_config import \
+    WorkingGroupConfig
+from src.domain.aggregates.working_group.entities.working_group.entity import WorkingGroup
 from src.domain.aggregates.working_group.repository import WorkingGroupRepository
-from src.domain.services.account_worker.working_group_workflow.tasks.base import (
-    AccountWorkerTaskExecutor,
-)
 from src.domain.services.email_service import EmailService
+from src.domain.shared.interfaces.logger import Logger
+from src.domain.shared.interfaces.uow import Uow
+
+from src.domain.shared.utils import generate_random_password
+
+
 from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.reset_password_by_email import (
     ResetPasswordByEmailFlow,
     ResetPasswordByEmailFlowConfig,
     ResetPasswordByEmailFlowContext,
 )
-from src.domain.shared.interfaces.logger import Logger
-from src.domain.shared.interfaces.uow import Uow
-from src.domain.shared.utils import generate_random_password
+from src.domain.services.worker_workflow.working_group_workflow.tasks.base import (
+    AccountWorkerTaskExecutor,
+)
 
 
 class AccountWorkerResetPasswordByEmailTaskExecutor(AccountWorkerTaskExecutor):
@@ -33,6 +33,7 @@ class AccountWorkerResetPasswordByEmailTaskExecutor(AccountWorkerTaskExecutor):
         account_repository: AccountRepository,
         email_service: EmailService,
         logger: Logger,
+
     ):
         self._task_id = task_id
         self._uow = uow
@@ -40,6 +41,7 @@ class AccountWorkerResetPasswordByEmailTaskExecutor(AccountWorkerTaskExecutor):
         self._account_repository = account_repository
         self._email_service = email_service
         self._worker_logger = logger
+
 
     async def execute(self, account_id: UUID, stop_event: asyncio.Event):
         """Запускаем лоигику задачи"""

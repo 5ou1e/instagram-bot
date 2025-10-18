@@ -66,7 +66,9 @@ class RequestHandler:
         response, raw_content, elapsed_ms = await self._execute_request(request)
 
         self._update_client_state_after_success_response(
-            response, raw_content, elapsed_ms
+            response,
+            raw_content,
+            elapsed_ms
         )
 
         await self.logger.info(request.url)

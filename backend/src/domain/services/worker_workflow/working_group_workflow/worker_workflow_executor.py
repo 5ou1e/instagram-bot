@@ -78,6 +78,7 @@ class AccountWorkerWorkflowExecutor:
                 tb = "".join(traceback.format_exception(type(e), e, e.__traceback__))
                 await self._worker_logger.error(tb)
             raise e
+
         finally:
             async with self._uow:
                 worker = await self._account_worker_repository.acquire_by_id(worker_id)

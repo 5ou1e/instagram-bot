@@ -40,7 +40,7 @@ from src.infrastructure.database.repositories.models.working_group import (
 
 
 def convert_worker_task_entity_to_model(
-    entity: AccountWorkerTask,
+        entity: AccountWorkerTask,
 ) -> AccountWorkerTaskModel:
     return AccountWorkerTaskModel(
         id=entity.id,
@@ -56,7 +56,7 @@ def convert_worker_task_entity_to_model(
 
 
 def convert_worker_task_model_to_entity(
-    model: AccountWorkerTaskModel,
+        model: AccountWorkerTaskModel,
 ) -> AccountWorkerTask:
     return AccountWorkerTask(
         id=model.id,
@@ -113,9 +113,9 @@ class PostgresWorkingGroupRepository(WorkingGroupRepository):
         self._session = session
 
     async def acquire_by_id(
-        self,
-        working_group_id: UUID,
-        skip_locked=False,
+            self,
+            working_group_id: UUID,
+            skip_locked=False,
     ) -> WorkingGroup | None:
 
         stmt = (
@@ -199,9 +199,9 @@ class PostgresWorkingGroupReader(WorkingGroupReader):
         self._session = session
 
     async def get_working_group_by_id(
-        self,
-        working_group_id: UUID,
-        include_worker_tasks: bool = False,
+            self,
+            working_group_id: UUID,
+            include_worker_tasks: bool = False,
     ) -> WorkingGroupDTO:
         stmt = select(WorkingGroupModel).where(WorkingGroupModel.id == working_group_id)
         if include_worker_tasks:
@@ -265,7 +265,7 @@ class PostgresWorkingGroupReader(WorkingGroupReader):
         )
 
     async def get_working_groups(
-        self, include_worker_tasks: bool = True
+            self, include_worker_tasks: bool = True
     ) -> WorkingGroupsDTO:
 
         stmt = select(WorkingGroupModel)

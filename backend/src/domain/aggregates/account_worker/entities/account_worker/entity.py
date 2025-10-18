@@ -35,7 +35,7 @@ class AccountWorker:
         self.android_device = android_device
 
     def set_android_device_hardware(
-        self, android_device_hardware: AndroidDeviceHardware
+            self, android_device_hardware: AndroidDeviceHardware
     ):
         self.android_device.set_hardware(android_device_hardware)
 

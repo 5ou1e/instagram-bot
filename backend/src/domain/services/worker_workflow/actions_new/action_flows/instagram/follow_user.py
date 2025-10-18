@@ -1,15 +1,10 @@
-from src.domain.aggregates.account_worker.entities.account_worker_log.account_worker.entity import (
-    AccountWorker,
-)
-from src.domain.services.account_worker.action_flows.instagram.authorize_account import (
-    AuthorizeAccountFlowExecutor,
-)
-from src.domain.services.account_worker.actions.common.change_proxy import (
-    ChangeProxyActionExecutor,
-)
-from src.domain.services.account_worker.actions.follow_user import (
-    FollowUserActionExecutor,
-)
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.services.worker_workflow.actions_new.action_flows.instagram.authorize_account import \
+    AuthorizeAccountFlowExecutor
+from src.domain.services.worker_workflow.actions_new.actions.common.change_proxy import \
+    ChangeProxyActionExecutor
+from src.domain.services.worker_workflow.actions_new.actions.follow_user import \
+    FollowUserActionExecutor
 from src.domain.shared.interfaces.instagram.exceptions import UnauthorizedError
 from src.domain.shared.interfaces.logger import AccountWorkerLogger
 
@@ -20,12 +15,12 @@ class FollowUserFlowExecutor:
         self,
         follow_action_executor: FollowUserActionExecutor,
         change_proxy_action_executor: ChangeProxyActionExecutor,
-        authorize_account_flow_executor: AuthorizeAccountFlowExecutor,
+        authorize_account_action_executor: AuthorizeAccountFlowExecutor,
         worker_logger: AccountWorkerLogger,
     ):
         self.follow_action_executor = follow_action_executor
         self.change_proxy_action_executor = change_proxy_action_executor
-        self.authorize_account_flow_executor = authorize_account_flow_executor
+        self.authorize_account_action_executor = authorize_account_action_executor
         self.worker_logger = worker_logger
 
     async def execute(

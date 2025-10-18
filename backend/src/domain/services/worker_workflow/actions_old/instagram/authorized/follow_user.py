@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 from typing import Any
 
+from src.domain.shared.interfaces.instagram.exceptions import FeedbackRequiredError
 from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.services.worker_workflow.actions_old.instagram.authorized.base import (
     AuthorizedFlow,
     AuthorizedFlowConfig,
     AuthorizedFlowContext,
 )
-from src.domain.shared.interfaces.instagram.exceptions import FeedbackRequiredError
 
 
 @dataclass(kw_only=True)
@@ -41,9 +41,7 @@ class FollowUserFlow(AuthorizedFlow[AuthorizedFlowContext, FollowUserFlowConfig]
         user_id = args[0]
         async with self._build_instagram_client(worker) as client:
             async with self._ctx.uow:
-                account = await self._ctx.account_repository.get_by_id(
-                    worker.account_id
-                )
+                account = await self._ctx.account_repository.get_by_id(worker.account_id)
 
             try:
                 await self._ctx.logger.info(

@@ -27,6 +27,8 @@ class AccountWorkerModel(Base, UUIDIDMixin, TimestampsMixin):
     proxy_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("proxy.id", ondelete="SET NULL"), nullable=True
     )
+
+    # TODO поменять  направление FK - , чтобы можно было настроить удаление девайса с воркером на уровне бд
     android_device_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("android_device.id", ondelete="SET NULL"),

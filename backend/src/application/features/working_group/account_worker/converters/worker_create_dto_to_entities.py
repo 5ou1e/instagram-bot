@@ -11,9 +11,8 @@ from src.application.features.working_group.account_worker.dto import (
 )
 from src.domain.aggregates.account.entities.account import (
     Account,
-    AccountActionStatistics,
+    AccountActionStatistics, Email,
 )
-from src.domain.aggregates.account.value_objects import Email
 from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice
 

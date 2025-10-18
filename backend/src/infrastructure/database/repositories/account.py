@@ -8,10 +8,10 @@ from uuid6 import UUID
 
 from src.domain.aggregates.account.entities.account import (
     Account,
-    AccountActionStatistics,
+    AccountActionStatistics, Email,
 )
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.account.value_objects import Email
+
 from src.infrastructure.database.repositories.models import AccountWorkerModel
 from src.infrastructure.database.repositories.models.account import (
     AccountModel as AccountModel,
@@ -92,9 +92,9 @@ class PostgresAccountRepository(AccountRepository):
         return [convert_account_model_to_entity(m) for m in models]
 
     async def acquire_by_ids(
-        self,
-        ids: list[UUID],
-        skip_locked: bool = False
+            self,
+            ids: list[UUID],
+            skip_locked: bool = False
     ) -> list[Account]:
         if not ids:
             return []
@@ -154,8 +154,8 @@ class PostgresAccountRepository(AccountRepository):
         await self._session.merge(model)
 
     async def bulk_delete(
-        self,
-        ids: Optional[list[UUID]],
+            self,
+            ids: Optional[list[UUID]],
     ) -> int:
         stmt = delete(AccountModel)  # Удалить все записи
         if ids is not None:
@@ -165,10 +165,10 @@ class PostgresAccountRepository(AccountRepository):
         return result.rowcount
 
     async def bulk_create(
-        self,
-        entities: list[Account],
-        on_conflict_do_nothing: bool = False,
-        return_inserted_ids: bool = False,
+            self,
+            entities: list[Account],
+            on_conflict_do_nothing: bool = False,
+            return_inserted_ids: bool = False,
     ) -> list[Account] | None:
         """Create workers and return them with DB-generated ids"""
         if not entities:

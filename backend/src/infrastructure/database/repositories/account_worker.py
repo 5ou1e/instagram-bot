@@ -24,11 +24,9 @@ from src.domain.aggregates.account_worker.entities.android_device import \
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
+from src.infrastructure.database.repositories.android_device import \
+    convert_android_device_model_to_entity, convert_android_device_entity_to_model
 
-from src.infrastructure.database.repositories.android_device import (
-    convert_android_device_entity_to_model,
-    convert_android_device_model_to_entity,
-)
 from src.infrastructure.database.repositories.models import AccountWorkerModel
 from src.infrastructure.database.repositories.models.common import model_to_dict
 from src.infrastructure.database.repositories.proxy import (
@@ -96,9 +94,9 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return convert_account_worker_model_to_entity(model) if model else None
 
     async def acquire_all_by_working_group(
-        self,
-        working_group_id,
-        skip_locked=False,
+            self,
+            working_group_id,
+            skip_locked=False,
     ) -> list[AccountWorker]:
         stmt = (
             select(AccountWorkerModel)
@@ -111,10 +109,10 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return [convert_account_worker_model_to_entity(m) for m in models]
 
     async def acquire_by_working_group_id_and_worker_id(
-        self,
-        working_group_id,
-        worker_id: UUID,
-        skip_locked=False,
+            self,
+            working_group_id,
+            worker_id: UUID,
+            skip_locked=False,
     ) -> AccountWorker | None:
         stmt = (
             select(AccountWorkerModel)
@@ -136,9 +134,9 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return convert_account_worker_model_to_entity(model) if model else None
 
     async def update_work_state(
-        self,
-        entity: AccountWorker,
-        status: AccountWorkerWorkState,
+            self,
+            entity: AccountWorker,
+            status: AccountWorkerWorkState,
     ) -> None:
         model = convert_account_worker_entity_to_model(entity)
         stmt = (
@@ -149,7 +147,7 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         await self._session.execute(stmt)
 
     async def get_all_by_working_group_id(
-        self, working_group_id: UUID
+            self, working_group_id: UUID
     ) -> list[AccountWorker]:
         stmt = select(AccountWorkerModel).where(
             AccountWorkerModel.working_group_id == working_group_id
@@ -159,7 +157,7 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return [convert_account_worker_model_to_entity(m) for m in models]
 
     async def get_by_working_group_id_and_account_id(
-        self, working_group_id: UUID, account_id: UUID
+            self, working_group_id: UUID, account_id: UUID
     ) -> AccountWorker | None:
         stmt = select(AccountWorkerModel).where(
             AccountWorkerModel.working_group_id == working_group_id,
@@ -175,10 +173,10 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         await self._session.merge(model)
 
     async def bulk_create(
-        self,
-        entities: list[AccountWorker],
-        on_conflict_do_nothing: bool = False,
-        return_inserted_ids: bool = False,
+            self,
+            entities: list[AccountWorker],
+            on_conflict_do_nothing: bool = False,
+            return_inserted_ids: bool = False,
     ) -> list:
         if not entities:
             return []
@@ -207,9 +205,9 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
             return []
 
     async def bulk_delete_by_working_group_id(
-        self,
-        working_group_id: UUID,
-        worker_ids: list[UUID] | None,
+            self,
+            working_group_id: UUID,
+            worker_ids: list[UUID] | None,
     ) -> int:
 
         stmt = delete(AccountWorkerModel).where(
@@ -228,9 +226,9 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
         self._session = session
 
     async def get_workers_by_working_group(
-        self,
-        working_group_id: UUID,
-        pagination: Pagination,
+            self,
+            working_group_id: UUID,
+            pagination: Pagination,
     ) -> WorkingGroupWorkersDTO:
 
         limit, offset = pagination.limit_offset
@@ -266,14 +264,14 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                     a.action_statistics as action_statistics,
                     a.password_changed_datetime,
                     a.created_at AS account_created_at,
-                    
+
                     p.protocol AS proxy_protocol,
                     p.host AS proxy_host,
                     p.port AS proxy_port,
                     p.username AS proxy_username,
                     p.password AS proxy_password,
                     ll.message AS last_log_message,
-                
+
                     ad.id AS android_device_id,
                     ad.os_version AS android_device_os_version,
                     ad.os_api_level AS android_device_os_api_level,
@@ -282,7 +280,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                     ad.connection_type AS android_device_connection_type,
                     ad.instagram_app_data AS android_device_instagram_app_data,
                     ad.instagram_app_version AS android_device_instagram_app_version,
-                    
+
                     adh.id AS android_hardware_id,
                     adh.name AS android_hardware_name,
                     adh.manufacturer AS android_hardware_manufacturer,
@@ -294,7 +292,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                     adh.resolution AS android_hardware_resolution,
                     adh.os_version AS android_hardware_os_version,
                     adh.os_api_level AS android_hardware_os_api_level
-    
+
                 FROM account_worker aw
                 JOIN account a ON aw.account_id = a.id
                 LEFT JOIN proxy p ON aw.proxy_id = p.id
@@ -308,6 +306,7 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
                 LEFT JOIN android_device ad ON aw.android_device_id = ad.id
                 LEFT JOIN android_device_hardware adh ON ad.hardware_id = adh.id
                 WHERE aw.working_group_id = :working_group_id
+                ORDER BY aw.created_at
                 LIMIT :limit OFFSET :offset
             """
         )

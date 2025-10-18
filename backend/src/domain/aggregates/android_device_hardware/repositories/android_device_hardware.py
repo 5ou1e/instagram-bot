@@ -1,9 +1,7 @@
 from typing import Protocol
 from uuid import UUID
 
-from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
-    AndroidDeviceHardware,
-)
+from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
 
 
 class AndroidDeviceHardwareRepository(Protocol):

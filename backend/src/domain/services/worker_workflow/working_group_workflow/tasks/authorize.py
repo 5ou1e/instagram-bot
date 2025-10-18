@@ -2,19 +2,20 @@ import asyncio
 from uuid import UUID
 
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-
-from src.domain.aggregates.account_worker.repositories.account_worker import (
-    AccountWorkerRepository,
-)
-from src.domain.aggregates.working_group.entities.config.working_group_config import (
-    WorkingGroupConfig,
-)
-from src.domain.aggregates.working_group.entities.working_group.entity import (
-    WorkingGroup,
-)
+from src.domain.aggregates.working_group.entities.config.working_group_config import \
+    WorkingGroupConfig
+from src.domain.aggregates.working_group.entities.working_group.entity import WorkingGroup
 from src.domain.aggregates.working_group.repository import WorkingGroupRepository
 from src.domain.services.email_service import EmailService
+from src.domain.shared.interfaces.logger import Logger, AccountWorkerLogger
+from src.domain.shared.interfaces.uow import Uow
+
+
+from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+
+from src.domain.aggregates.account_worker.repositories.account_worker import AccountWorkerRepository
+
+
 from src.domain.services.worker_workflow.actions_old.instagram.auth.authorize_account import (
     AuthorizationFlow,
     AuthorizationFlowConfig,
@@ -29,8 +30,6 @@ from src.domain.services.worker_workflow.providers.proxy_provider import ProxyPr
 from src.domain.services.worker_workflow.working_group_workflow.tasks.base import (
     AccountWorkerTaskExecutor,
 )
-from src.domain.shared.interfaces.logger import AccountWorkerLogger
-from src.domain.shared.interfaces.uow import Uow
 
 
 class AccountWorkerAuthorizeAccountTaskExecutor(AccountWorkerTaskExecutor):
@@ -59,8 +58,8 @@ class AccountWorkerAuthorizeAccountTaskExecutor(AccountWorkerTaskExecutor):
         # TODO реворк, тут нужен синглтон с кешом провайдящий обьект задачи
 
         async with self._uow:
-            working_group: WorkingGroup = (
-                await self._working_group_repository.get_by_id(worker.working_group_id)
+            working_group: WorkingGroup = await self._working_group_repository.get_by_id(
+                worker.working_group_id
             )
 
         working_group_config: WorkingGroupConfig = working_group.config

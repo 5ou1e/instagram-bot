@@ -6,7 +6,7 @@ class ProxyProvider:
     # TODO рефакторинг
     def __init__(self, session_factory, max_usage_per_proxy: int = 500):
         self._session_factory = session_factory
-        self._max_usage = max_usage_per_proxy
+        self._max_usage = 1
 
     async def _can_acquire_proxy(self, proxy: Proxy) -> bool:
         return proxy.usage < self._max_usage

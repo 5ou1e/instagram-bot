@@ -68,7 +68,7 @@ class PostgresLogsWriter:
             return
 
         while (
-            self._batch_size is None or len(batch) < self._batch_size
+                self._batch_size is None or len(batch) < self._batch_size
         ) and not self._queue.empty():
             entry = self._queue.get_nowait()
             if entry.level.order >= self._level.order:

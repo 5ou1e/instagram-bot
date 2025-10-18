@@ -4,12 +4,8 @@ from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
 from src.domain.aggregates.account.entities.account import Account
-from src.domain.services.worker_workflow.actions_old.instagram.base import (
-    Flow,
-    FlowConfig,
-    FlowContext,
-)
 from src.domain.shared.interfaces.instagram.exceptions import ChallengeRequired
+from src.domain.services.worker_workflow.actions_old.instagram.base import Flow, FlowConfig, FlowContext
 
 
 @dataclass

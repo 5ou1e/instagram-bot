@@ -15,7 +15,7 @@ from src.infrastructure.database.repositories.models.common import model_to_dict
 
 
 def convert_android_device_hardware_model_to_entity(
-    model: AndroidDeviceHardwareModel,
+        model: AndroidDeviceHardwareModel,
 ) -> AndroidDeviceHardware:
     return AndroidDeviceHardware(
         id=model.id,
@@ -35,7 +35,7 @@ def convert_android_device_hardware_model_to_entity(
 
 
 def convert_android_device_hardware_entity_to_model(
-    entity: AndroidDeviceHardware,
+        entity: AndroidDeviceHardware,
 ) -> AndroidDeviceHardwareModel:
     return AndroidDeviceHardwareModel(
         id=entity.id,
@@ -89,9 +89,9 @@ class PostgresAndroidDeviceHardwareRepository(AndroidDeviceHardwareRepository):
         ]
 
     async def bulk_create(
-        self,
-        entities: list[AndroidDeviceHardware],
-        on_conflict_do_nothing: bool = False,
+            self,
+            entities: list[AndroidDeviceHardware],
+            on_conflict_do_nothing: bool = False,
     ) -> list[AndroidDeviceHardware] | None:
         if not entities:
             return []
@@ -133,7 +133,7 @@ class PostgresAndroidDeviceHardwareRepository(AndroidDeviceHardwareRepository):
         return result.rowcount  # noqa
 
     async def get_by_unique_keys(
-        self, unique_keys: list[tuple]
+            self, unique_keys: list[tuple]
     ) -> list[AndroidDeviceHardware]:
         """Получить specs по уникальным ключам"""
         if not unique_keys:

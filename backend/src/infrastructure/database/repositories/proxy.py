@@ -68,9 +68,9 @@ class PostgresProxyRepository(ProxyRepository):
         return entity
 
     async def bulk_create(
-        self,
-        entities: list[Proxy],
-        on_conflict_do_nothing: bool = False,
+            self,
+            entities: list[Proxy],
+            on_conflict_do_nothing: bool = False,
     ) -> list[Proxy] | None:
         if not entities:
             return []
@@ -94,8 +94,8 @@ class PostgresProxyRepository(ProxyRepository):
         return entities
 
     async def bulk_delete(
-        self,
-        ids: Optional[list[UUID]],
+            self,
+            ids: Optional[list[UUID]],
     ) -> int:
 
         stmt = delete(ProxyModel)  # Удалить все записи
@@ -159,8 +159,8 @@ class PostgresProxiesReader(ProxiesReader):
         self._session = session
 
     async def get_proxies(
-        self,
-        pagination: Pagination,
+            self,
+            pagination: Pagination,
     ) -> ProxiesDTO:
         limit, offset = pagination.limit_offset
 
