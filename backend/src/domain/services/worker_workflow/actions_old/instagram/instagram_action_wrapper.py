@@ -43,7 +43,7 @@ class InstagramActionWrapper:
         self._proxy_provider = proxy_provider
         self._logger = logger
         # TODO  fix
-        self._max_proxy_changes = 5
+        self._max_proxy_changes = 10  # max_proxy_changes
         self._delay_before_proxy_change = delay_before_proxy_change
 
     async def execute(

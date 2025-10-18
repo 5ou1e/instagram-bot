@@ -10,9 +10,7 @@ from src.domain.services.worker_workflow.actions_old.instagram.base import (
     FlowConfig,
     FlowContext,
 )
-from src.domain.services.worker_workflow.actions_old.instagram.challenge_resolver import (
-    ChallengeResolver,
-)
+
 from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.reset_password_by_email import (
     ResetPasswordByEmailFlow,
 )
@@ -54,7 +52,7 @@ class AuthorizationFlow(
     ):
         super().__init__(ctx, config)
         self._reset_password_flow = reset_password_flow
-        self._challenge_resolver = ChallengeResolver()
+        self._challenge_resolver = None
 
     async def _execute_action(
         self,
