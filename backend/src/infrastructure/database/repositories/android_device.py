@@ -4,8 +4,10 @@ from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice, \
-    AndroidDeviceInstagramAppData
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDevice,
+    AndroidDeviceInstagramAppData,
+)
 from src.domain.aggregates.account_worker.repositories.android_device import (
     AndroidDeviceRepository,
 )
@@ -83,8 +85,8 @@ class PostgresAndroidDeviceRepository(AndroidDeviceRepository):
         return [convert_android_device_model_to_entity(model) for model in models]
 
     async def get(
-            self,
-            device_ids: list[UUID] | None = None,
+        self,
+        device_ids: list[UUID] | None = None,
     ) -> list[AndroidDevice]:
         stmt = select(AndroidDeviceModel)
         if device_ids:
@@ -95,9 +97,9 @@ class PostgresAndroidDeviceRepository(AndroidDeviceRepository):
         return [convert_android_device_model_to_entity(model) for model in models]
 
     async def bulk_create(
-            self,
-            entities: list[AndroidDevice],
-            on_conflict_do_nothing: bool = False,
+        self,
+        entities: list[AndroidDevice],
+        on_conflict_do_nothing: bool = False,
     ) -> list[AndroidDevice]:
         if not entities:
             return []

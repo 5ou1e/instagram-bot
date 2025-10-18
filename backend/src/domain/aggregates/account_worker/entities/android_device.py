@@ -7,10 +7,16 @@ from typing import Literal
 from mashumaro import DataClassDictMixin
 from orjson import orjson
 
-from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import AndroidDeviceHardware
+from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
+    AndroidDeviceHardware,
+)
 from src.domain.shared.interfaces.instagram.version import InstagramAppVersion
-from src.domain.shared.utils import current_datetime, generate_waterfall_id, is_valid_uuid, \
-    generate_android_id_from_guid
+from src.domain.shared.utils import (
+    current_datetime,
+    generate_android_id_from_guid,
+    generate_waterfall_id,
+    is_valid_uuid,
+)
 
 
 @dataclass(kw_only=True, slots=True)

@@ -16,16 +16,21 @@ from src.api.settings.config import config
 from src.application.common.dtos.pagination import Pagination
 from src.application.common.dtos.working_group import WorkingGroupDTO, WorkingGroupsDTO
 from src.application.common.types import AccountStringFormat
-from src.application.features.working_group.account_worker.create_workers import \
-    CreateWorkingGroupWorkersCommandHandler, CreateWorkingGroupWorkersCommandCommandResult
-
+from src.application.features.working_group.account_worker.create_workers import (
+    CreateWorkingGroupWorkersCommandCommandResult,
+    CreateWorkingGroupWorkersCommandHandler,
+)
 from src.application.features.working_group.account_worker.delete_workers import (
     DeleteWorkingGroupWorkersCommandHandler,
     DeleteWorkingGroupWorkersCommandResult,
 )
-from src.application.features.working_group.account_worker.dto import WorkingGroupWorkersDTO
-from src.application.features.working_group.account_worker.get_workers import \
-    GetWorkingGroupWorkersQuery, GetWorkingGroupWorkersQueryHandler
+from src.application.features.working_group.account_worker.dto import (
+    WorkingGroupWorkersDTO,
+)
+from src.application.features.working_group.account_worker.get_workers import (
+    GetWorkingGroupWorkersQuery,
+    GetWorkingGroupWorkersQueryHandler,
+)
 from src.application.features.working_group.create_working_group import (
     CreateWorkingGroupCommandHandler,
     CreateWorkingGroupCommandResult,

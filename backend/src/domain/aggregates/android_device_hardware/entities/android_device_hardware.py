@@ -2,9 +2,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from src.domain.shared.utils import (
-    current_datetime,
-)
+from src.domain.shared.utils import current_datetime
 
 
 @dataclass(kw_only=True, slots=True)
@@ -34,5 +32,3 @@ class AndroidDeviceHardware:
             self.device,
             self.resolution,
         )
-
-

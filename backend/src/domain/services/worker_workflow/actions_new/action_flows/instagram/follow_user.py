@@ -1,10 +1,15 @@
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.actions_new.action_flows.instagram.authorize_account import \
-    AuthorizeAccountFlowExecutor
-from src.domain.services.worker_workflow.actions_new.actions.common.change_proxy import \
-    ChangeProxyActionExecutor
-from src.domain.services.worker_workflow.actions_new.actions.follow_user import \
-    FollowUserActionExecutor
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.services.worker_workflow.actions_new.action_flows.instagram.authorize_account import (
+    AuthorizeAccountFlowExecutor,
+)
+from src.domain.services.worker_workflow.actions_new.actions.common.change_proxy import (
+    ChangeProxyActionExecutor,
+)
+from src.domain.services.worker_workflow.actions_new.actions.follow_user import (
+    FollowUserActionExecutor,
+)
 from src.domain.shared.interfaces.instagram.exceptions import UnauthorizedError
 from src.domain.shared.interfaces.logger import AccountWorkerLogger
 

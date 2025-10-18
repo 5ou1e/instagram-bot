@@ -11,11 +11,13 @@ from src.application.features.working_group.account_worker.dto import (
 )
 from src.domain.aggregates.account.entities.account import (
     Account,
-    AccountActionStatistics, Email,
+    AccountActionStatistics,
+    Email,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
 from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice
-
 from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
     AndroidDeviceHardware,
 )

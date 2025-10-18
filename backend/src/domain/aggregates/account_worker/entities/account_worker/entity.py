@@ -4,8 +4,10 @@ from datetime import datetime
 
 from transitions import MachineError
 
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
-    AccountWorkerWorkState, account_work_state_machine
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+    account_work_state_machine,
+)
 from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice
 from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
     AndroidDeviceHardware,
@@ -35,7 +37,7 @@ class AccountWorker:
         self.android_device = android_device
 
     def set_android_device_hardware(
-            self, android_device_hardware: AndroidDeviceHardware
+        self, android_device_hardware: AndroidDeviceHardware
     ):
         self.android_device.set_hardware(android_device_hardware)
 

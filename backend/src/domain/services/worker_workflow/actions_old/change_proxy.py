@@ -1,13 +1,17 @@
 from dataclasses import dataclass
 
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.aggregates.account_worker.repositories.account_worker import (
+    AccountWorkerRepository,
+)
 from src.domain.aggregates.proxy.entities import Proxy
 from src.domain.aggregates.proxy.exceptions import NoAvailableProxyError
+from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
 from src.domain.shared.interfaces.logger import Logger
 from src.domain.shared.interfaces.uow import Uow
 from src.domain.shared.utils import current_datetime
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.aggregates.account_worker.repositories.account_worker import AccountWorkerRepository
-from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
 
 
 @dataclass

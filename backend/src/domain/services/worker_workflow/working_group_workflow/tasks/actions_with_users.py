@@ -4,21 +4,24 @@ from uuid import UUID
 
 from src.api.settings import config
 from src.domain.aggregates.account.repository import AccountRepository
-from src.domain.aggregates.working_group.entities.config.working_group_config import \
-    WorkingGroupConfig
-from src.domain.aggregates.working_group.entities.working_group.entity import WorkingGroup
+from src.domain.aggregates.working_group.entities.config.working_group_config import (
+    WorkingGroupConfig,
+)
+from src.domain.aggregates.working_group.entities.working_group.entity import (
+    WorkingGroup,
+)
 from src.domain.aggregates.working_group.repository import WorkingGroupRepository
-
-from src.domain.services.worker_workflow.actions_old.instagram.authorized.follow_user import \
-    FollowUserFlow, FollowUserFlowContext, FollowUserFlowConfig
-from src.domain.shared.interfaces.logger import AccountWorkerLogger
-from src.domain.shared.interfaces.uow import Uow
-
-
+from src.domain.services.worker_workflow.actions_old.instagram.authorized.follow_user import (
+    FollowUserFlow,
+    FollowUserFlowConfig,
+    FollowUserFlowContext,
+)
 from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
 from src.domain.services.worker_workflow.working_group_workflow.tasks.base import (
     AccountWorkerTaskExecutor,
 )
+from src.domain.shared.interfaces.logger import AccountWorkerLogger
+from src.domain.shared.interfaces.uow import Uow
 
 
 class AccountWorkerActionsWithUsersTaskExecutor(AccountWorkerTaskExecutor):

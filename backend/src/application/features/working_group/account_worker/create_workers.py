@@ -13,11 +13,11 @@ from src.domain.aggregates.account.repository import AccountRepository
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
-from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
-    AndroidDeviceHardware,
-)
 from src.domain.aggregates.account_worker.repositories.android_device import (
     AndroidDeviceRepository,
+)
+from src.domain.aggregates.android_device_hardware.entities.android_device_hardware import (
+    AndroidDeviceHardware,
 )
 from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
     AndroidDeviceHardwareRepository,

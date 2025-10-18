@@ -1,6 +1,9 @@
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.actions_new.action_flows.utils import \
-    build_instagram_client_for_worker
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.services.worker_workflow.actions_new.action_flows.utils import (
+    build_instagram_client_for_worker,
+)
 from src.domain.shared.interfaces.instagram.mobile_client.converters import (
     sync_android_device_instagram_app_data_from_client_local_data,
 )

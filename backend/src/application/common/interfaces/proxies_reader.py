@@ -1,5 +1,4 @@
 from typing import Protocol
-from uuid import UUID
 
 from src.application.common.dtos.pagination import Pagination
 from src.application.features.proxy.dto import ProxiesDTO

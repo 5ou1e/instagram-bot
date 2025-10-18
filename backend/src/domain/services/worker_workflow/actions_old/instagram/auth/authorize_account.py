@@ -2,6 +2,20 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.services.worker_workflow.actions_old.instagram.base import (
+    Flow,
+    FlowConfig,
+    FlowContext,
+)
+from src.domain.services.worker_workflow.actions_old.instagram.challenge_resolver import (
+    ChallengeResolver,
+)
+from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.reset_password_by_email import (
+    ResetPasswordByEmailFlow,
+)
 from src.domain.shared.interfaces.instagram.exceptions import (
     BadPassword,
     ChallengeRequired,
@@ -10,12 +24,6 @@ from src.domain.shared.interfaces.instagram.mobile_client.converters import (
     sync_android_device_instagram_app_data_from_client_local_data,
 )
 from src.domain.shared.utils import current_datetime, generate_random_password
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.actions_old.instagram.base import Flow, FlowConfig, FlowContext
-from src.domain.services.worker_workflow.actions_old.instagram.challenge_resolver import ChallengeResolver
-from src.domain.services.worker_workflow.actions_old.instagram.unauthorized.reset_password_by_email import (
-    ResetPasswordByEmailFlow,
-)
 
 
 @dataclass

@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import Any
 
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
 from src.domain.services.worker_workflow.actions_old.instagram.authorized.base import (
     AuthorizedFlow,
     AuthorizedFlowConfig,
@@ -20,7 +21,9 @@ class SendExtraRequestsFlowConfig(AuthorizedFlowConfig):
     pass
 
 
-class SendExtraRequestsFlow(AuthorizedFlow[AuthorizedFlowContext, SendExtraRequestsFlowConfig]):
+class SendExtraRequestsFlow(
+    AuthorizedFlow[AuthorizedFlowContext, SendExtraRequestsFlowConfig]
+):
     """
     Флоу для подписки на пользователя.
     """
@@ -46,5 +49,7 @@ class SendExtraRequestsFlow(AuthorizedFlow[AuthorizedFlowContext, SendExtraReque
                     client,
                 )
             except Exception as e:
-                await self._ctx.logger.warning("Не удалось отправить доп.запросы: %s", e)
+                await self._ctx.logger.warning(
+                    "Не удалось отправить доп.запросы: %s", e
+                )
                 raise

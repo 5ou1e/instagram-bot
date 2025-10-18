@@ -16,8 +16,9 @@ from src.application.features.proxy.delete_proxies import (
     DeleteProxiesCommandResult,
 )
 from src.application.features.proxy.get_proxies import (
+    GetProxiesQuery,
     GetProxiesQueryHandler,
-    ProxiesDTO, GetProxiesQuery,
+    ProxiesDTO,
 )
 
 logger = logging.getLogger(__name__)

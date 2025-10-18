@@ -5,9 +5,9 @@ from uuid import UUID
 
 from mashumaro import DataClassDictMixin
 
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
-    AccountWorkerWorkState
-
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
 from src.domain.shared.utils import current_datetime
 
 AccountID = NewType("AccountID", UUID)
@@ -63,4 +63,3 @@ class Account(DataClassDictMixin):
 
     def set_comment(self, comment: str | None) -> bool:
         self.comment = comment
-

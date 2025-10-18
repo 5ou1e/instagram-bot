@@ -5,7 +5,9 @@ from aiograpi import Client as AiograpiClient
 from aiohttp import ClientSession, ClientTimeout
 
 from src.domain.aggregates.account.entities.account import Account
-from src.domain.aggregates.account_worker.entities.account_worker_log import AccountWorkerLogType
+from src.domain.aggregates.account_worker.entities.account_worker_log import (
+    AccountWorkerLogType,
+)
 from src.domain.shared.interfaces.instagram import InstagramNetworkConfig
 from src.domain.shared.interfaces.instagram.web_client.builder import (
     WebInstagramClientBuilder,

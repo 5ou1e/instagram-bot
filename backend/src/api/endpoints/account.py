@@ -19,8 +19,10 @@ from src.application.features.account.get_accounts import (
     GetAccountsQueryHandler,
     GetAccountsQueryResult,
 )
-from src.application.features.account.set_accounts_comment import SetAccountsCommentCommandHandler, \
-    SetAccountsCommentCommand
+from src.application.features.account.set_accounts_comment import (
+    SetAccountsCommentCommand,
+    SetAccountsCommentCommandHandler,
+)
 
 logger = logging.getLogger(__name__)
 

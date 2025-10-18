@@ -1,4 +1,4 @@
-from typing import Protocol, Optional
+from typing import Optional, Protocol
 from uuid import UUID
 
 from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice

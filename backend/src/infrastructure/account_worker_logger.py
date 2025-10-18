@@ -6,8 +6,11 @@ from uuid import UUID
 
 from uuid6 import uuid7
 
-from src.domain.aggregates.account_worker.entities.account_worker_log import LogLevel, \
-    AccountWorkerLogType, AccountWorkerLog
+from src.domain.aggregates.account_worker.entities.account_worker_log import (
+    AccountWorkerLog,
+    AccountWorkerLogType,
+    LogLevel,
+)
 from src.domain.aggregates.account_worker.repositories.account_worker_log import (
     AccountWorkerLogRepository,
 )
@@ -68,7 +71,7 @@ class PostgresLogsWriter:
             return
 
         while (
-                self._batch_size is None or len(batch) < self._batch_size
+            self._batch_size is None or len(batch) < self._batch_size
         ) and not self._queue.empty():
             entry = self._queue.get_nowait()
             if entry.level.order >= self._level.order:

@@ -26,14 +26,14 @@ class AccountWorkerTaskExecutorFactory:
     """Создает AccountWorkerTaskExecutor для переданной задачи"""
 
     def __init__(
-            self,
-            uow: Uow,
-            account_repository: AccountRepository,
-            account_worker_repository: AccountWorkerRepository,
-            email_service_factory: EmailServiceFactory,
-            proxy_provider: ProxyProvider,
-            working_group_repository: WorkingGroupRepository,
-            worker_logger: AccountWorkerLogger,
+        self,
+        uow: Uow,
+        account_repository: AccountRepository,
+        account_worker_repository: AccountWorkerRepository,
+        email_service_factory: EmailServiceFactory,
+        proxy_provider: ProxyProvider,
+        working_group_repository: WorkingGroupRepository,
+        worker_logger: AccountWorkerLogger,
     ):
         self._uow = uow
         self._proxy_provider = proxy_provider
@@ -44,8 +44,8 @@ class AccountWorkerTaskExecutorFactory:
         self._worker_logger = worker_logger
 
     def create(
-            self,
-            task: AccountWorkerTask,
+        self,
+        task: AccountWorkerTask,
     ) -> AccountWorkerTaskExecutor:
         """Возвращает обработчик задачи аккаунт-воркера"""
 

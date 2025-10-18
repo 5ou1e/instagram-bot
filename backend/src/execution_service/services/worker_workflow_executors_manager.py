@@ -5,9 +5,12 @@ from functools import partial
 from typing import Any
 from uuid import UUID
 
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorkerID
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
-    AccountWorkerWorkState
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorkerID,
+)
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )

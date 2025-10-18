@@ -5,8 +5,10 @@ from sqlalchemy import asc, delete, desc, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.aggregates.account_worker.entities.account_worker_log import AccountWorkerLog, \
-    AccountWorkerLogType
+from src.domain.aggregates.account_worker.entities.account_worker_log import (
+    AccountWorkerLog,
+    AccountWorkerLogType,
+)
 from src.domain.aggregates.account_worker.repositories.account_worker_log import (
     AccountWorkerLogRepository,
 )
@@ -47,10 +49,10 @@ class PostgresAccountWorkerLogRepository(AccountWorkerLogRepository):
         self._session.add(log)
 
     async def bulk_create(
-            self,
-            entities: list[AccountWorkerLog],
-            on_conflict_do_nothing: bool = False,
-            return_inserted_ids: bool = False,
+        self,
+        entities: list[AccountWorkerLog],
+        on_conflict_do_nothing: bool = False,
+        return_inserted_ids: bool = False,
     ) -> list[UUID] | None:
         if not entities:
             return []
@@ -78,10 +80,10 @@ class PostgresAccountWorkerLogRepository(AccountWorkerLogRepository):
             return inserted_ids
 
     async def get_all(
-            self,
-            account_ids: list[UUID] | None = None,
-            types: list[AccountWorkerLogType] | None = None,
-            sorting: list[str] | None = None,
+        self,
+        account_ids: list[UUID] | None = None,
+        types: list[AccountWorkerLogType] | None = None,
+        sorting: list[str] | None = None,
     ) -> list[AccountWorkerLog]:
         query = select(AccountWorkerLogModel)
 
@@ -111,8 +113,8 @@ class PostgresAccountWorkerLogRepository(AccountWorkerLogRepository):
         return [convert_model_to_entity(row) for row in rows]
 
     async def bulk_delete(
-            self,
-            account_ids: Optional[list[UUID]],
+        self,
+        account_ids: Optional[list[UUID]],
     ) -> int:
         stmt = delete(AccountWorkerLogModel)
         if account_ids is not None:

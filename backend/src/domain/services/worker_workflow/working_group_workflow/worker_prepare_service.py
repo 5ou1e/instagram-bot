@@ -4,14 +4,16 @@ from src.application.features.working_group.account_worker.converters.iam_mob im
     extract_ig_app_version_from_ig_android_user_agent,
     extract_locale_from_ig_android_user_agent,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.aggregates.account_worker.entities.android_device import AndroidDevice, \
-    AndroidDeviceInstagramAppData
-
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDevice,
+    AndroidDeviceInstagramAppData,
+)
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
-
 from src.domain.aggregates.android_device_hardware.repositories.android_device_hardware import (
     AndroidDeviceHardwareRepository,
 )
@@ -25,12 +27,12 @@ class AccountWorkerPrepareBeforeWorkService:
     """Выполняет подготовку аккаунт-воркера перед работой - установку прокси/девайса"""
 
     def __init__(
-            self,
-            uow: Uow,
-            proxy_provider: ProxyProvider,
-            android_device_hardware_repository: AndroidDeviceHardwareRepository,
-            account_worker_repository: AccountWorkerRepository,
-            worker_logger: AccountWorkerLogger,
+        self,
+        uow: Uow,
+        proxy_provider: ProxyProvider,
+        android_device_hardware_repository: AndroidDeviceHardwareRepository,
+        account_worker_repository: AccountWorkerRepository,
+        worker_logger: AccountWorkerLogger,
     ):
         self._uow = uow
         self._proxy_provider = proxy_provider
@@ -43,8 +45,8 @@ class AccountWorkerPrepareBeforeWorkService:
         await self._ensure_proxy(worker)
 
     async def _ensure_android_device(
-            self,
-            worker: AccountWorker,
+        self,
+        worker: AccountWorker,
     ):
         # TODO рефакторинг
         if not worker.android_device:

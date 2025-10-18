@@ -15,18 +15,22 @@ from src.application.common.interfaces.account_worker_reader import AccountWorke
 from src.application.features.working_group.account_worker.dto import (
     WorkingGroupWorkersDTO,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.aggregates.account_worker.entities.account_worker.work_state import \
-    AccountWorkerWorkState
-from src.domain.aggregates.account_worker.entities.android_device import \
-    AndroidDeviceInstagramAppData
-
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.aggregates.account_worker.entities.account_worker.work_state import (
+    AccountWorkerWorkState,
+)
+from src.domain.aggregates.account_worker.entities.android_device import (
+    AndroidDeviceInstagramAppData,
+)
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
-from src.infrastructure.database.repositories.android_device import \
-    convert_android_device_model_to_entity, convert_android_device_entity_to_model
-
+from src.infrastructure.database.repositories.android_device import (
+    convert_android_device_entity_to_model,
+    convert_android_device_model_to_entity,
+)
 from src.infrastructure.database.repositories.models import AccountWorkerModel
 from src.infrastructure.database.repositories.models.common import model_to_dict
 from src.infrastructure.database.repositories.proxy import (
@@ -94,9 +98,9 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return convert_account_worker_model_to_entity(model) if model else None
 
     async def acquire_all_by_working_group(
-            self,
-            working_group_id,
-            skip_locked=False,
+        self,
+        working_group_id,
+        skip_locked=False,
     ) -> list[AccountWorker]:
         stmt = (
             select(AccountWorkerModel)
@@ -109,10 +113,10 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return [convert_account_worker_model_to_entity(m) for m in models]
 
     async def acquire_by_working_group_id_and_worker_id(
-            self,
-            working_group_id,
-            worker_id: UUID,
-            skip_locked=False,
+        self,
+        working_group_id,
+        worker_id: UUID,
+        skip_locked=False,
     ) -> AccountWorker | None:
         stmt = (
             select(AccountWorkerModel)
@@ -134,9 +138,9 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return convert_account_worker_model_to_entity(model) if model else None
 
     async def update_work_state(
-            self,
-            entity: AccountWorker,
-            status: AccountWorkerWorkState,
+        self,
+        entity: AccountWorker,
+        status: AccountWorkerWorkState,
     ) -> None:
         model = convert_account_worker_entity_to_model(entity)
         stmt = (
@@ -147,7 +151,7 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         await self._session.execute(stmt)
 
     async def get_all_by_working_group_id(
-            self, working_group_id: UUID
+        self, working_group_id: UUID
     ) -> list[AccountWorker]:
         stmt = select(AccountWorkerModel).where(
             AccountWorkerModel.working_group_id == working_group_id
@@ -157,7 +161,7 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         return [convert_account_worker_model_to_entity(m) for m in models]
 
     async def get_by_working_group_id_and_account_id(
-            self, working_group_id: UUID, account_id: UUID
+        self, working_group_id: UUID, account_id: UUID
     ) -> AccountWorker | None:
         stmt = select(AccountWorkerModel).where(
             AccountWorkerModel.working_group_id == working_group_id,
@@ -173,10 +177,10 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
         await self._session.merge(model)
 
     async def bulk_create(
-            self,
-            entities: list[AccountWorker],
-            on_conflict_do_nothing: bool = False,
-            return_inserted_ids: bool = False,
+        self,
+        entities: list[AccountWorker],
+        on_conflict_do_nothing: bool = False,
+        return_inserted_ids: bool = False,
     ) -> list:
         if not entities:
             return []
@@ -205,9 +209,9 @@ class PostgresAccountWorkerRepository(AccountWorkerRepository):
             return []
 
     async def bulk_delete_by_working_group_id(
-            self,
-            working_group_id: UUID,
-            worker_ids: list[UUID] | None,
+        self,
+        working_group_id: UUID,
+        worker_ids: list[UUID] | None,
     ) -> int:
 
         stmt = delete(AccountWorkerModel).where(
@@ -226,9 +230,9 @@ class PostgresAccountWorkerReader(AccountWorkerReader):
         self._session = session
 
     async def get_workers_by_working_group(
-            self,
-            working_group_id: UUID,
-            pagination: Pagination,
+        self,
+        working_group_id: UUID,
+        pagination: Pagination,
     ) -> WorkingGroupWorkersDTO:
 
         limit, offset = pagination.limit_offset

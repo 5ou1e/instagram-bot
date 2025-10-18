@@ -2,6 +2,16 @@ from dataclasses import dataclass, field
 from typing import Generic, Tuple, Type, TypeVar
 
 from src.domain.aggregates.account.repository import AccountRepository
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.aggregates.account_worker.repositories.account_worker import (
+    AccountWorkerRepository,
+)
+from src.domain.services.worker_workflow.actions_old.instagram.instagram_action_wrapper import (
+    InstagramActionWrapper,
+)
+from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
 from src.domain.shared.exceptions import DomainError
 from src.domain.shared.interfaces.instagram.exceptions import NetworkError
 from src.domain.shared.interfaces.instagram.instagram_network_config import (
@@ -19,12 +29,6 @@ from src.domain.shared.interfaces.instagram.mobile_client.converters import (
 )
 from src.domain.shared.interfaces.logger import Logger
 from src.domain.shared.interfaces.uow import Uow
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.aggregates.account_worker.repositories.account_worker import AccountWorkerRepository
-from src.domain.services.worker_workflow.actions_old.instagram.instagram_action_wrapper import (
-    InstagramActionWrapper,
-)
-from src.domain.services.worker_workflow.providers.proxy_provider import ProxyProvider
 from src.infrastructure.instagram import MobileInstagramClientBuilderImpl
 
 

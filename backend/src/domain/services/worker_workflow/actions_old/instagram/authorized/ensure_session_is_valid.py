@@ -1,16 +1,18 @@
 from dataclasses import dataclass
 from typing import Any
 
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
 from src.domain.services.worker_workflow.actions_old.instagram.authorized.base import (
     AuthorizedFlow,
     AuthorizedFlowConfig,
     AuthorizedFlowContext,
 )
-
-from src.domain.shared.interfaces.instagram.mobile_client.converters import \
-    sync_android_device_instagram_app_data_from_client_local_data
+from src.domain.shared.interfaces.instagram.mobile_client.converters import (
+    sync_android_device_instagram_app_data_from_client_local_data,
+)
 from src.domain.shared.utils import current_datetime
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
 from src.domain.working_group.exceptions import AccountDoesNotHaveSessionIdError
 
 

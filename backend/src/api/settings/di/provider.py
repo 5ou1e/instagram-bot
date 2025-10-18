@@ -16,7 +16,9 @@ from src.application.features.account.delete_accounts import (
     DeleteAccountsCommandHandler,
 )
 from src.application.features.account.get_accounts import GetAccountsQueryHandler
-from src.application.features.account.set_accounts_comment import SetAccountsCommentCommandHandler
+from src.application.features.account.set_accounts_comment import (
+    SetAccountsCommentCommandHandler,
+)
 from src.application.features.android_device.create_android_device_hardwares_from_user_agents import (
     CreateAndroidDeviceHardwaresFromUserAgentsCommandHandler,
 )
@@ -79,15 +81,17 @@ from src.infrastructure.database.repositories.account_worker import (
 from src.infrastructure.database.repositories.account_worker_log import (
     PostgresAccountWorkerLogRepository,
 )
-from src.infrastructure.database.repositories.android_device import PostgresAndroidDeviceRepository
-
+from src.infrastructure.database.repositories.android_device import (
+    PostgresAndroidDeviceRepository,
+)
 from src.infrastructure.database.repositories.android_device_hardware import (
     PostgresAndroidDeviceHardwareRepository,
 )
 from src.infrastructure.database.repositories.imap import PostgresIMAPRepository
-from src.infrastructure.database.repositories.proxy import PostgresProxyRepository, \
-    PostgresProxiesReader
-
+from src.infrastructure.database.repositories.proxy import (
+    PostgresProxiesReader,
+    PostgresProxyRepository,
+)
 from src.infrastructure.database.repositories.working_group import (
     PostgresWorkingGroupReader,
     PostgresWorkingGroupRepository,

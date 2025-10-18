@@ -1,8 +1,12 @@
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.actions_new.actions.authorize_account import \
-    AuthorizeAccountActionExecutor
-from src.domain.services.worker_workflow.actions_new.actions.common.change_proxy import \
-    ChangeProxyActionExecutor
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.services.worker_workflow.actions_new.actions.authorize_account import (
+    AuthorizeAccountActionExecutor,
+)
+from src.domain.services.worker_workflow.actions_new.actions.common.change_proxy import (
+    ChangeProxyActionExecutor,
+)
 
 
 class AuthorizeAccountFlowExecutor:

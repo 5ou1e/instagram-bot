@@ -95,7 +95,7 @@ class VenroClientImpl(VenroClient):
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
-                        url, headers=self.headers, params=params, ssl=ssl_context
+                    url, headers=self.headers, params=params, ssl=ssl_context
                 ) as resp:
                     data = await resp.text()
             resp.raise_for_status()

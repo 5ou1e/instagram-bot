@@ -4,8 +4,6 @@ from dataclasses import dataclass
 from src.application.common.dtos.pagination import Pagination
 from src.application.common.interfaces.proxies_reader import ProxiesReader
 from src.application.features.proxy.dto import ProxiesDTO
-from src.domain.aggregates.proxy.entities import Proxy
-from src.domain.aggregates.proxy.repository import ProxyRepository
 
 logger = logging.getLogger(__name__)
 
@@ -28,4 +26,3 @@ class GetProxiesQueryHandler:
         query: GetProxiesQuery,
     ) -> ProxiesDTO:
         return await self._reader.get_proxies(query.pagination)
-

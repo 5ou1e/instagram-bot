@@ -3,15 +3,21 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
+from src.domain.aggregates.account_worker.entities.account_worker.entity import (
+    AccountWorker,
+)
+from src.domain.services.worker_workflow.actions_old.instagram.auth.authorize_account import (
+    AuthorizationFlow,
+)
+from src.domain.services.worker_workflow.actions_old.instagram.base import (
+    Flow,
+    FlowConfig,
+    FlowContext,
+)
 from src.domain.shared.interfaces.instagram.exceptions import (
     ChallengeRequired,
     UnauthorizedError,
 )
-from src.domain.aggregates.account_worker.entities.account_worker.entity import AccountWorker
-from src.domain.services.worker_workflow.actions_old.instagram.auth.authorize_account import (
-    AuthorizationFlow,
-)
-from src.domain.services.worker_workflow.actions_old.instagram.base import Flow, FlowConfig, FlowContext
 
 
 @dataclass
