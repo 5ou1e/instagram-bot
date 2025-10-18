@@ -206,7 +206,7 @@ class AuthSection:
         elif isinstance(login_result, TwoStepVerificationRequiredLoginResult):
             raise InstagramError(message=f"Инстаграм требует принять код с почты")
         elif isinstance(login_result, UnknownLoginResult):
-            raise InstagramError(message=f"Неизвестная ошибка авторизации")
+            raise InstagramError(message=f"Неизвестная ошибка авторизации:  {login_result.response}")
 
     async def _zr_dual_tokens(self):
         uri = constants.ZR_DUAL_TOKENS_URI
