@@ -72,14 +72,12 @@ class AuthorizationFlow(
                     account = await self._ctx.account_repository.get_by_id(
                         worker.account_id
                     )
-                #
-                # auth_result = await self._ig_action_wrapper.execute(
-                #     lambda: client.auth.login(account.username, account.password),
-                #     worker,
-                #     client,
-                # )
-                #
-                auth_result = True
+
+                auth_result = await self._ig_action_wrapper.execute(
+                    lambda: client.auth.login(account.username, account.password),
+                    worker,
+                    client,
+                )
 
                 await self._ig_action_wrapper.execute(
                     lambda: client.test_auth.send_requests(),
