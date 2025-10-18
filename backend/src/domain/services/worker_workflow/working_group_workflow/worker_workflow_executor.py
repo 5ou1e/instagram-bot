@@ -6,6 +6,7 @@ from uuid import UUID
 from src.domain.aggregates.account_worker.repositories.account_worker import (
     AccountWorkerRepository,
 )
+from src.domain.aggregates.working_group.entities.worker_task.base import AccountWorkerTaskType
 from src.domain.aggregates.working_group.repository import WorkingGroupRepository
 from src.domain.services.worker_workflow.working_group_workflow.tasks.executor_factory import (
     AccountWorkerTaskExecutorFactory,
@@ -62,8 +63,8 @@ class AccountWorkerWorkflowExecutor:
             await self._worker_logger.info("Начал работу")
 
             for task in tasks:
-                # if task.type == AccountWorkerTaskType.AUTHORIZE_ACCOUNT:
-                #     continue
+                if task.type == AccountWorkerTaskType.AUTHORIZE_ACCOUNT:
+                    continue
 
                 task_executor = self._account_worker_task_executor_factory.create(task)
                 await task_executor.execute(
@@ -73,7 +74,7 @@ class AccountWorkerWorkflowExecutor:
 
         except Exception as e:
             if isinstance(e, DomainError):
-                pass
+                await self._worker_logger.error(e)
             else:
                 tb = "".join(traceback.format_exception(type(e), e, e.__traceback__))
                 await self._worker_logger.error(tb)
