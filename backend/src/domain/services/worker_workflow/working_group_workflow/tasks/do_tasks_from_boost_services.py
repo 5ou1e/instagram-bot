@@ -64,7 +64,7 @@ class AccountWorkerDoTasksFromBoostServicesTaskExecutor(AccountWorkerTaskExecuto
         self._worker_logger = logger
 
     async def execute(self, worker: AccountWorker, stop_event: asyncio.Event):
-
+        await self._worker_logger.info(f"Выполняю задачу - 'Задания с сервисов'")
         async with self._uow:
             account = await self._account_repository.get_by_id(worker.account_id)
             working_group: WorkingGroup = (
