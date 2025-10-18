@@ -31,9 +31,14 @@ class UnknownLoginResult:
     response: dict
 
 
+@dataclass
+class BadPasswordLoginResult:
+    response: dict
+
+
 def parse_bloks_login_response(
     response: dict,
-) -> Union[SuccessLoginResult, ChallengeRequiredLoginResult, UnknownLoginResult, TwoStepVerificationRequiredLoginResult]:
+) -> Union[SuccessLoginResult, ChallengeRequiredLoginResult, UnknownLoginResult, TwoStepVerificationRequiredLoginResult, BadPasswordLoginResult]:
     action_string = (
         response.get("layout", {}).get("bloks_payload", {}).get("action", "")
     )
@@ -71,6 +76,9 @@ def parse_bloks_login_response(
     if checkpoint_action:
         challenge_data = extract_challenge_data_from_action(checkpoint_action)
         return ChallengeRequiredLoginResult(challenge_data=challenge_data)
+
+    if "login_wrong_password_error_dialog_shown" in str(response):
+        return BadPasswordLoginResult(response=response)
 
     # Если ничего не нашли
     return UnknownLoginResult(response=response)

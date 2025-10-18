@@ -6,7 +6,7 @@ from src.domain.shared.interfaces.instagram.entities.challenge import ChallengeD
 from src.domain.shared.interfaces.instagram.exceptions import (
     AuthorizationError,
     ChallengeRequired,
-    InstagramError,
+    InstagramError, BadPasswordError,
 )
 from src.domain.shared.interfaces.logger import Logger
 from src.domain.shared.utils import generate_waterfall_id
@@ -15,7 +15,7 @@ from src.infrastructure.instagram.bloks_utils.response_parsers import (
     SuccessLoginResult,
     TwoStepVerificationRequiredLoginResult,
     UnknownLoginResult,
-    parse_bloks_login_response,
+    parse_bloks_login_response, BadPasswordLoginResult,
 )
 from src.infrastructure.instagram.common import constants
 from src.infrastructure.instagram.common.password_encrypter import PasswordEncrypter
@@ -205,6 +205,8 @@ class AuthSection:
             raise ChallengeRequired(challenge_data=login_result.challenge_data)
         elif isinstance(login_result, TwoStepVerificationRequiredLoginResult):
             raise InstagramError(message=f"Инстаграм требует принять код с почты")
+        elif isinstance(login_result, BadPasswordLoginResult):
+            raise BadPasswordError(message=str(response))
         elif isinstance(login_result, UnknownLoginResult):
             raise InstagramError(message=f"Неизвестная ошибка авторизации:  {login_result.response}")
 
